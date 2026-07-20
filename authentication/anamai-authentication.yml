@@ -1,0 +1,12 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/anamai-openapi-original.json
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/anamai-openapi-original.json
