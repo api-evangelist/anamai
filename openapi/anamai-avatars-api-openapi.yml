@@ -1,0 +1,501 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Avatars
+paths:
+  /v1/avatars:
+    get:
+      description: Returns a list of all avatars
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Number of avatars per page (max 100)
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search term to filter avatars by display name or generated description
+      - in: query
+        name: renderStyle
+        schema:
+          type: string
+          enum:
+          - all
+          - realistic
+          - animated_3d
+          - illustrated
+          - unknown
+          default: all
+        description: Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).
+      - in: query
+        name: tags
+        schema:
+          type: array
+          items:
+            type: string
+          style: form
+          explode: false
+        description: Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.
+      - in: query
+        name: onlyOneShot
+        schema:
+          type: boolean
+          default: false
+        description: Only return one-shot avatars
+      responses:
+        '200':
+          description: Successfully retrieved avatars
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Avatar'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/AvatarListResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - No avatars found
+        '500':
+          description: Server error
+      tags:
+      - Avatars
+      operationId: listAvatars
+      summary: list avatars
+      x-mint:
+        metadata:
+          title: list avatars
+        mcp:
+          enabled: true
+          name: list-avatars
+          description: Returns a list of all avatars
+    post:
+      description: Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL.
+      requestBody:
+        description: Source image and display name for the new one-shot avatar. Provide either an uploaded file (`multipart/form-data` with `imageFile`) or a URL (`application/json` with `imageUrl`) — not both.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - displayName
+              properties:
+                displayName:
+                  type: string
+                  description: Display name for the avatar (3-50 characters)
+                imageFile:
+                  type: string
+                  format: binary
+                  description: Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.
+                imageUrl:
+                  type: string
+                  format: uri
+                  description: URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.
+                avatarModel:
+                  type: string
+                  description: Avatar model to use (e.g. "cara-3", "cara-4", "cara-4-latest"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/AvatarCreate'
+            schema:
+              type: object
+              required:
+              - displayName
+              - imageUrl
+              properties:
+                displayName:
+                  type: string
+                  description: Display name for the avatar (1+ characters)
+                imageUrl:
+                  type: string
+                  format: uri
+                  description: URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). The image will be downloaded, processed, and stored permanently.
+                avatarModel:
+                  type: string
+                  description: Avatar model to use (e.g. "cara-3", "cara-4", "cara-4-latest"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.
+      responses:
+        '201':
+          description: Successfully created avatar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avatar'
+              examples:
+                default:
+                  $ref: '#/components/examples/AvatarResponse'
+        '400':
+          description: Bad request - Invalid avatar data, missing image file/URL, or both provided
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - Requires enterprise plan or API key lacks the required permission
+        '422':
+          description: Unprocessable Entity - Image could not be processed, or was rejected by content moderation (e.g. inappropriate content, celebrity likeness, or the subject's age could not be verified)
+        '429':
+          description: Too Many Requests - Content moderation rate limit reached; wait and retry
+        '500':
+          description: Server error
+      tags:
+      - Avatars
+      operationId: createAvatar
+      summary: create avatar
+      x-mint:
+        metadata:
+          title: create avatar
+        mcp:
+          enabled: true
+          name: create-avatar
+          description: Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL.
+  /v1/avatars/{id}:
+    get:
+      description: Returns an avatar by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Avatar ID
+      responses:
+        '200':
+          description: Successfully retrieved avatar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avatar'
+              examples:
+                default:
+                  $ref: '#/components/examples/AvatarResponse'
+        '400':
+          description: Bad request - Invalid avatar ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Avatar not found
+        '500':
+          description: Server error
+      tags:
+      - Avatars
+      operationId: getAvatar
+      summary: get avatar
+      x-mint:
+        metadata:
+          title: get avatar
+        mcp:
+          enabled: true
+          name: get-avatar
+          description: Returns an avatar by ID
+    put:
+      description: Update an avatar by ID (only display name can be updated)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Avatar ID
+      requestBody:
+        description: Fields to update on the avatar. Only `displayName` is editable.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/AvatarUpdate'
+            schema:
+              type: object
+              required:
+              - displayName
+              properties:
+                displayName:
+                  type: string
+                  description: New display name for the avatar
+      responses:
+        '200':
+          description: Successfully updated avatar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Avatar'
+              examples:
+                default:
+                  $ref: '#/components/examples/AvatarResponse'
+        '400':
+          description: Bad request - Invalid avatar data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Avatar not found
+        '500':
+          description: Server error
+      tags:
+      - Avatars
+      operationId: updateAvatar
+      summary: update avatar
+      x-mint:
+        metadata:
+          title: update avatar
+        mcp:
+          enabled: true
+          name: update-avatar
+          description: Update an avatar by ID (only display name can be updated)
+    delete:
+      description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Avatar ID
+      - in: query
+        name: hard
+        schema:
+          type: boolean
+        required: false
+        description: When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.
+      responses:
+        '200':
+          description: Successfully deleted avatar
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Avatar deleted successfully
+        '400':
+          description: Bad request - Invalid avatar ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Avatar not found
+        '500':
+          description: Server error
+      tags:
+      - Avatars
+      operationId: deleteAvatar
+      summary: delete avatar
+      x-mint:
+        metadata:
+          title: delete avatar
+        mcp:
+          enabled: true
+          name: delete-avatar
+          description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted.. Use with caution as this action cannot be undone.'
+components:
+  schemas:
+    Avatar:
+      type: object
+      description: A face preset that a persona can use as its visual representation.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the avatar.
+        displayName:
+          type: string
+          description: Human-readable name shown in the Lab and share links.
+        variantName:
+          type: string
+          description: Name of the specific variant (e.g. lighting or pose) within the avatar family.
+        imageUrl:
+          type: string
+          format: uri
+          description: URL of the still image used as a preview of the avatar.
+        landscapeImageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Preview image cropped exactly as the engine frames landscape (1152x768) output. Use this when displaying the avatar at a landscape aspect ratio. For avatars with legacy landscape source images this is the same as `imageUrl`.
+        portraitImageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Preview image cropped exactly as the engine frames portrait (768x1152) output. Use this when starting a session with portrait `videoWidth`/`videoHeight`. `null` when the avatar cannot render portrait output.
+        videoUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Signed URL for a muted MP4 preview of the avatar, if one exists. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when the preview is unavailable or still generating.
+        idleVideoUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Signed URL for a muted idling-loop MP4 of the avatar, if one exists. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when unavailable or still generating.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the avatar was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the avatar was last updated.
+        createdByOrganizationId:
+          type:
+          - string
+          - 'null'
+          description: ID of the organization that created the avatar, or `null` for stock avatars. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        availableVersions:
+          type: array
+          items:
+            type: string
+          description: Avatar models this avatar can be used with. Pass one of these values as `avatarModel` when creating a persona or starting a session.
+        activeVersion:
+          type:
+          - string
+          - 'null'
+          description: Avatar model used by default when no explicit `avatarModel` is requested.
+        description:
+          type:
+          - string
+          - 'null'
+          description: AI-generated description of the avatar's appearance, setting, and style. `null` if metadata generation has not completed.
+        displayTags:
+          type: array
+          items:
+            type: string
+          description: Curated tags describing the avatar. Empty array if metadata generation has not completed.
+        renderStyle:
+          type: string
+          enum:
+          - realistic
+          - animated_3d
+          - illustrated
+          - unknown
+          description: Render style of the avatar. `unknown` covers custom avatars and avatars whose metadata has not yet been generated.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+  examples:
+    AvatarCreate:
+      summary: Create a one-shot avatar from an image URL
+      value:
+        displayName: Alex
+        imageUrl: https://example.com/alex.jpg
+    AvatarResponse:
+      summary: A single avatar resource
+      value:
+        id: 071b0286-4cce-4808-bee2-e642f1062de3
+        displayName: Liv
+        variantName: home
+        imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
+        videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+        createdByOrganizationId: null
+        availableVersions:
+        - cara-3
+        activeVersion: cara-3
+        description: A friendly professional in a modern office setting, warm expression, business casual attire.
+        displayTags:
+        - professional
+        - friendly
+        - office
+        renderStyle: realistic
+    AvatarUpdate:
+      summary: Rename an avatar
+      value:
+        displayName: Updated avatar name
+    AvatarListResponse:
+      summary: A paginated list of avatars
+      value:
+        data:
+        - id: 071b0286-4cce-4808-bee2-e642f1062de3
+          displayName: Liv
+          variantName: home
+          imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
+          videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: '2026-04-20T10:00:00.000Z'
+          createdByOrganizationId: null
+          availableVersions:
+          - cara-3
+          activeVersion: cara-3
+          description: A friendly professional in a modern office setting, warm expression, business casual attire.
+          displayTags:
+          - professional
+          - friendly
+          - office
+          renderStyle: realistic
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

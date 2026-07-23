@@ -1,0 +1,546 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars Voices API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Voices
+paths:
+  /v1/voices:
+    get:
+      description: Returns a list of all voices
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Number of voices per page (max 100)
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search term to filter voices by display name
+      responses:
+        '200':
+          description: Successfully retrieved voices
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Voice'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/VoiceListResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - Account does not have access or API key lacks the required permission
+        '404':
+          description: Not Found - No voices found
+        '500':
+          description: Server error
+      tags:
+      - Voices
+      operationId: listVoices
+      summary: list voices
+      x-mint:
+        metadata:
+          title: list voices
+        mcp:
+          enabled: true
+          name: list-voices
+          description: Returns a list of all voices
+    post:
+      description: Create a new voice by cloning from an audio file. Send the audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or, for larger clips, first upload via `POST /v1/voices/presigned-upload` and send a JSON body referencing the returned `audioKey`.
+      requestBody:
+        description: Audio sample and metadata used to clone a new voice.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - name
+              - audioFile
+              properties:
+                name:
+                  type: string
+                  description: Display name for the cloned voice
+                audioFile:
+                  type: string
+                  format: binary
+                  description: Audio file to clone the voice from
+                description:
+                  type: string
+                  description: Optional description of the voice
+                language:
+                  type: string
+                  default: en
+                  description: Language code for the voice
+                enhance:
+                  type: boolean
+                  default: true
+                  description: Whether to enhance the voice quality
+          application/json:
+            schema:
+              type: object
+              required:
+              - name
+              - audioKey
+              properties:
+                name:
+                  type: string
+                  description: Display name for the cloned voice
+                audioKey:
+                  type: string
+                  description: Storage key returned by POST /v1/voices/presigned-upload, after the audio has been uploaded to the presigned URL. Use this for clips larger than ~4.5MB.
+                description:
+                  type: string
+                  description: Optional description of the voice
+                language:
+                  type: string
+                  default: en
+                  description: Language code for the voice
+                enhance:
+                  type: boolean
+                  default: true
+                  description: Whether to enhance the voice quality
+      responses:
+        '201':
+          description: Successfully created voice clone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+              examples:
+                default:
+                  $ref: '#/components/examples/VoiceResponse'
+        '400':
+          description: Bad request - Invalid voice data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - Requires enterprise plan or API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Voices
+      operationId: createVoice
+      summary: create voice
+      x-mint:
+        metadata:
+          title: create voice
+        mcp:
+          enabled: true
+          name: create-voice
+          description: Create a new voice by cloning from an audio file. Send the audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or, for larger clips, first upload via `POST /v1/voices/presigned-upload` and send a JSON body referencing the returned `audioKey`.
+  /v1/voices/presigned-upload:
+    post:
+      description: 'Request a presigned URL for uploading a voice-clone audio clip directly to storage. Use this for clips larger than the ~4.5MB request-body limit of the multipart `POST /v1/voices` endpoint. Flow: (1) call this endpoint to get an `uploadUrl` and `audioKey`; (2) `PUT` the raw audio bytes to `uploadUrl` with the same `Content-Type`; (3) call `POST /v1/voices` with a JSON body referencing the `audioKey` to perform the clone.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - filename
+              - contentType
+              - fileSize
+              properties:
+                filename:
+                  type: string
+                  description: Original filename of the audio clip (used to derive the storage key).
+                contentType:
+                  type: string
+                  description: Audio MIME type (must start with `audio/`, e.g. audio/wav). The subsequent PUT must use the same value.
+                fileSize:
+                  type: integer
+                  description: Size of the file in bytes. Required and must not exceed 50MB (52428800).
+      responses:
+        '200':
+          description: Presigned upload URL generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uploadUrl:
+                    type: string
+                    description: Presigned URL to PUT the audio bytes to (valid for 1 hour).
+                  audioKey:
+                    type: string
+                    description: Opaque storage key to pass back to POST /v1/voices.
+        '400':
+          description: Bad request - Invalid body or file too large
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - Voice cloning not available on the current plan, or API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Voices
+      operationId: createVoicePresignedUpload
+      summary: create voice presigned upload
+      x-mint:
+        metadata:
+          title: create voice presigned upload
+        mcp:
+          enabled: true
+          name: create-voice-presigned-upload
+          description: 'Request a presigned URL for uploading a voice-clone audio clip directly to storage. Use this for clips larger than the ~4.5MB request-body limit of the multipart `POST /v1/voices` endpoint. Flow: (1) call this endpoint to get an `uploadUrl` and `audioKey`; (2) `PUT` the raw audio bytes to `uploadUrl` with the same `Content-Type`; (3) call `POST /v1/voices` with a JSON body referencing the `audioKey` to perform the clone.'
+  /v1/voices/{id}:
+    get:
+      description: Returns a voice by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Voice ID
+      responses:
+        '200':
+          description: Successfully retrieved voice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+              examples:
+                default:
+                  $ref: '#/components/examples/VoiceResponse'
+        '400':
+          description: Bad request - Invalid voice ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Voice not found
+        '500':
+          description: Server error
+      tags:
+      - Voices
+      operationId: getVoice
+      summary: get voice
+      x-mint:
+        metadata:
+          title: get voice
+        mcp:
+          enabled: true
+          name: get-voice
+          description: Returns a voice by ID
+    put:
+      description: Update a voice by ID (display name and provider model ID can be updated)
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Voice ID
+      requestBody:
+        description: Fields to update on the voice. Only the listed fields can be changed; omit a field to leave it unchanged.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/VoiceUpdate'
+            schema:
+              type: object
+              required:
+              - displayName
+              properties:
+                displayName:
+                  type: string
+                  description: New display name for the voice
+                providerModelId:
+                  type: string
+                  description: New provider model ID for the voice (e.g. sonic-3.5 for Cartesia, eleven_flash_v2_5 for ElevenLabs)
+                  example: sonic-3.5
+                gender:
+                  type:
+                  - string
+                  - 'null'
+                  enum:
+                  - MALE
+                  - FEMALE
+                  - NEUTRAL
+                  - null
+                  description: Voice gender
+                country:
+                  type:
+                  - string
+                  - 'null'
+                  description: ISO 3166-1 alpha-2 country code
+                description:
+                  type:
+                  - string
+                  - 'null'
+                  description: Voice description
+      responses:
+        '200':
+          description: Successfully updated voice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+              examples:
+                default:
+                  $ref: '#/components/examples/VoiceResponse'
+        '400':
+          description: Bad request - Invalid voice data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Voice not found
+        '500':
+          description: Server error
+      tags:
+      - Voices
+      operationId: updateVoice
+      summary: update voice
+      x-mint:
+        metadata:
+          title: update voice
+        mcp:
+          enabled: true
+          name: update-voice
+          description: Update a voice by ID (display name and provider model ID can be updated)
+    delete:
+      description: Delete a voice by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Voice ID
+      responses:
+        '200':
+          description: Successfully deleted voice
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Voice deleted successfully
+        '400':
+          description: Bad request - Invalid voice ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Voice not found
+        '500':
+          description: Server error
+      tags:
+      - Voices
+      operationId: deleteVoice
+      summary: delete voice
+      x-mint:
+        metadata:
+          title: delete voice
+        mcp:
+          enabled: true
+          name: delete-voice
+          description: Delete a voice by ID. Use with caution as this action cannot be undone.
+components:
+  examples:
+    VoiceListResponse:
+      summary: A paginated list of voices
+      value:
+        data:
+        - id: de23e340-1416-4dd8-977d-065a7ca11697
+          displayName: Lucy - Fresh & Casual
+          provider: ELEVENLABS
+          providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
+          providerModelId: eleven_flash_v2_5
+          sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+          previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+          gender: FEMALE
+          country: GB
+          description: Energetic and youthful British voice, perfect for narrations and conversational agents.
+          displayTags:
+          - fast
+          isZdr: true
+          createdByOrganizationId: null
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: '2026-04-20T10:00:00.000Z'
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    VoiceResponse:
+      summary: A single voice resource
+      value:
+        id: de23e340-1416-4dd8-977d-065a7ca11697
+        displayName: Lucy - Fresh & Casual
+        provider: ELEVENLABS
+        providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
+        providerModelId: eleven_flash_v2_5
+        sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+        previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+        gender: FEMALE
+        country: GB
+        description: Energetic and youthful British voice, perfect for narrations and conversational agents.
+        displayTags:
+        - fast
+        isZdr: true
+        createdByOrganizationId: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    VoiceUpdate:
+      summary: Update a voice's display name and provider model
+      value:
+        displayName: My cloned voice
+        providerModelId: sonic-3.5
+  schemas:
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    Voice:
+      type: object
+      description: A voice preset a persona can use for text-to-speech.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the voice.
+        displayName:
+          type: string
+          description: Human-readable name shown in the Lab.
+        provider:
+          type: string
+          enum:
+          - CARTESIA
+          - ELEVENLABS
+          - OPENAI_ADVANCED_VOICE
+          - FISH_AUDIO
+          description: Upstream TTS provider for this voice.
+        providerVoiceId:
+          type:
+          - string
+          - 'null'
+          description: The upstream provider's identifier for the voice.
+        providerModelId:
+          type:
+          - string
+          - 'null'
+          description: The upstream provider's model identifier used to generate speech.
+        sampleUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of a short audio preview of the voice.
+        previewSampleUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Alias for `sampleUrl`, kept for backwards compatibility.
+        gender:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MALE
+          - FEMALE
+          - NEUTRAL
+          - null
+          description: Perceived gender of the voice, if categorised.
+        country:
+          type:
+          - string
+          - 'null'
+          description: ISO 3166-1 alpha-2 country code representing the voice's accent.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of the voice's character.
+        displayTags:
+          type: array
+          items:
+            type: string
+          description: Tags used to categorise the voice in the Lab UI.
+        isZdr:
+          type: boolean
+          description: Whether this voice meets the Zero Data Retention requirements.
+        createdByOrganizationId:
+          type:
+          - string
+          - 'null'
+          description: ID of the organization that created the voice, or `null` for stock voices. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the voice was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the voice was last updated.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

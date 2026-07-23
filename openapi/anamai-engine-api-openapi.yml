@@ -1,0 +1,96 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars Engine API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Engine
+paths:
+  /v1/engine/session:
+    post:
+      description: "Start a live persona session.\n\nTwo authentication modes are supported via the `Authorization: Bearer` header:\n\n- **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.\n  The session configuration was bound to the token when it was created, so the body only carries\n  optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don't call\n  this endpoint yourself.\n- **API key** (server-side SDKs): pass your API key directly and supply the session configuration\n  in the request body — the same shape as the `/v1/auth/session-token` body (`personaConfig`,\n  `environment`, `sessionOptions`, plus optional `clientLabel` and `clientMetadata`; `expiresIn`\n  and `widgetConfig` do not apply). This skips the session-token exchange. Only use this from a\n  secure server-side context — never expose an API key in a browser.\n"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clientLabel:
+                  type: string
+                  description: Label for the session, recorded for usage attribution. API-key auth only.
+                personaConfig:
+                  type: object
+                  description: 'Session persona configuration (API-key auth only). Same shape as the
+
+                    `/v1/auth/session-token` request: supply `personaId` for a persona you''ve already
+
+                    created, or `avatarId`/`voiceId`/`llmId`/`systemPrompt` for an ephemeral persona.
+
+                    Inline `tools` are supported; each client/webhook tool''s `parameters` (and webhook
+
+                    `queryParameters`) JSON Schema must serialize to 10,000 bytes or less (UTF-8).
+
+                    '
+                environment:
+                  type: object
+                  description: Optional environment configuration (e.g. LiveKit settings). API-key auth only.
+                sessionOptions:
+                  type: object
+                  description: Optional session options (session replay, video quality/dimensions, egress). API-key auth only.
+                clientMetadata:
+                  type: object
+                  description: Optional client metadata forwarded to the engine (e.g. supportsPubSubSignalling).
+      responses:
+        '200':
+          description: Session started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    format: uuid
+                  engineHost:
+                    type: string
+                    description: Host of the engine serving this session. Omitted for LiveKit/Agora integrations.
+                  engineProtocol:
+                    type: string
+                  signallingEndpoint:
+                    type: string
+                  clientConfig:
+                    type: object
+        '400':
+          description: Invalid request body or persona configuration
+        '401':
+          description: Unauthorized - invalid API key, or invalid/expired session token
+        '403':
+          description: Forbidden - the API key lacks the required permission, or the organization is not entitled to a requested feature (e.g. gated avatar model, devSettings)
+        '429':
+          description: Concurrent session limit or spend cap reached
+        '503':
+          description: No engines available
+      tags:
+      - Engine
+      operationId: createEngineSession
+      summary: create engine session
+      x-mint:
+        metadata:
+          title: create engine session
+        mcp:
+          enabled: true
+          name: create-engine-session
+          description: "Start a live persona session.\n\nTwo authentication modes are supported via the `Authorization: Bearer` header:\n\n- **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.\n  The session configuration was bound to the token when it was created, so the body only carries\n  optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don't call\n  this endpoint yourself.\n- **API key** (server-side SDKs): pass your API key directly and supply the session configuration\n  in the request body — the same shape as the `/v1/auth/session-token` body (`personaConfig`,\n  `environment`, `sessionOptions`, plus optional `clientLabel` and `clientMetadata`; `expiresIn`\n  and `widgetConfig` do not apply). This skips the session-token exchange. Only use this from a\n  secure server-side context — never expose an API key in a browser.\n"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

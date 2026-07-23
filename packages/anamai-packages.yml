@@ -1,0 +1,33 @@
+generated: '2026-07-17'
+method: searched
+source: https://github.com/anam-org
+packages:
+  - language: javascript
+    registry: npm
+    name: "@anam-ai/js-sdk"
+    url: https://www.npmjs.com/package/@anam-ai/js-sdk
+    install: npm install @anam-ai/js-sdk
+    repository: https://github.com/anam-org/javascript-sdk
+    description: Client-side JavaScript/TypeScript SDK for Anam AI; establishes WebRTC persona sessions and streams to a video element.
+    official: true
+  - language: python
+    registry: pypi
+    name: anam
+    url: https://pypi.org/project/anam/
+    install: pip install anam
+    repository: https://github.com/anam-org/python-sdk
+    description: Official Python SDK for Anam AI real-time AI avatar streaming.
+    official: true
+  - language: python
+    registry: pypi
+    name: anam-python-sdk
+    url: https://pypi.org/project/anam-python-sdk/
+    install: pip install anam-python-sdk
+    description: Community package to interact with Anam's Avatar engine (self-described as unofficial).
+    official: false
+  - language: kotlin
+    registry: source
+    name: kmp-sdk
+    url: https://github.com/anam-org/kmp-sdk
+    description: Kotlin Multiplatform SDK for Anam AI (source repository).
+    official: true

@@ -1,0 +1,182 @@
+generated: '2026-07-17'
+method: derived
+status: candidate
+source: openapi/anamai-openapi-original.json
+note: No official hosted MCP server found on the provider surface as of 2026-07-17; candidate tool list
+  derived one-per-operation from the OpenAPI. Anam also exposes a first-party Tools API (/v1/tools) for
+  persona function-calling, which is distinct from an MCP server.
+server:
+  name: anam
+  transport: http
+tools:
+- name: createSessionToken
+  description: create session token
+  source_operation: openapi/anamai-openapi-original.json#createSessionToken
+- name: listMeetingInvites
+  description: List meeting invites
+  source_operation: openapi/anamai-openapi-original.json#listMeetingInvites
+- name: createMeetingInvite
+  description: Create meeting invite
+  source_operation: openapi/anamai-openapi-original.json#createMeetingInvite
+- name: getMeetingInvite
+  description: Get meeting invite
+  source_operation: openapi/anamai-openapi-original.json#getMeetingInvite
+- name: cancelMeetingInvite
+  description: Cancel meeting invite
+  source_operation: openapi/anamai-openapi-original.json#cancelMeetingInvite
+- name: listVoices
+  description: list voices
+  source_operation: openapi/anamai-openapi-original.json#listVoices
+- name: createVoice
+  description: create voice
+  source_operation: openapi/anamai-openapi-original.json#createVoice
+- name: createVoicePresignedUpload
+  description: create voice presigned upload
+  source_operation: openapi/anamai-openapi-original.json#createVoicePresignedUpload
+- name: getVoice
+  description: get voice
+  source_operation: openapi/anamai-openapi-original.json#getVoice
+- name: updateVoice
+  description: update voice
+  source_operation: openapi/anamai-openapi-original.json#updateVoice
+- name: deleteVoice
+  description: delete voice
+  source_operation: openapi/anamai-openapi-original.json#deleteVoice
+- name: listTools
+  description: list tools
+  source_operation: openapi/anamai-openapi-original.json#listTools
+- name: createTool
+  description: create tool
+  source_operation: openapi/anamai-openapi-original.json#createTool
+- name: getTool
+  description: get tool
+  source_operation: openapi/anamai-openapi-original.json#getTool
+- name: updateTool
+  description: update tool
+  source_operation: openapi/anamai-openapi-original.json#updateTool
+- name: deleteTool
+  description: delete tool
+  source_operation: openapi/anamai-openapi-original.json#deleteTool
+- name: listShareLinks
+  description: list share links
+  source_operation: openapi/anamai-openapi-original.json#listShareLinks
+- name: createShareLink
+  description: create share link
+  source_operation: openapi/anamai-openapi-original.json#createShareLink
+- name: getShareLink
+  description: get share link
+  source_operation: openapi/anamai-openapi-original.json#getShareLink
+- name: updateShareLink
+  description: update share link
+  source_operation: openapi/anamai-openapi-original.json#updateShareLink
+- name: deleteShareLink
+  description: delete share link
+  source_operation: openapi/anamai-openapi-original.json#deleteShareLink
+- name: listSessions
+  description: list sessions
+  source_operation: openapi/anamai-openapi-original.json#listSessions
+- name: getSessionConcurrency
+  description: Get current concurrency status
+  source_operation: openapi/anamai-openapi-original.json#getSessionConcurrency
+- name: getAggregatedSessionAnalytics
+  description: get aggregated session analytics
+  source_operation: openapi/anamai-openapi-original.json#getAggregatedSessionAnalytics
+- name: getSession
+  description: get session
+  source_operation: openapi/anamai-openapi-original.json#getSession
+- name: getSessionTranscript
+  description: get session transcript
+  source_operation: openapi/anamai-openapi-original.json#getSessionTranscript
+- name: stopSession
+  description: stop session
+  source_operation: openapi/anamai-openapi-original.json#stopSession
+- name: getSessionRecording
+  description: get session recording
+  source_operation: openapi/anamai-openapi-original.json#getSessionRecording
+- name: getSessionAnalytics
+  description: get session analytics
+  source_operation: openapi/anamai-openapi-original.json#getSessionAnalytics
+- name: listPersonas
+  description: list personas
+  source_operation: openapi/anamai-openapi-original.json#listPersonas
+- name: createPersona
+  description: create persona
+  source_operation: openapi/anamai-openapi-original.json#createPersona
+- name: getPersona
+  description: get persona
+  source_operation: openapi/anamai-openapi-original.json#getPersona
+- name: updatePersona
+  description: update persona
+  source_operation: openapi/anamai-openapi-original.json#updatePersona
+- name: deletePersona
+  description: delete persona
+  source_operation: openapi/anamai-openapi-original.json#deletePersona
+- name: listLlms
+  description: list llms
+  source_operation: openapi/anamai-openapi-original.json#listLlms
+- name: createLlm
+  description: create llm
+  source_operation: openapi/anamai-openapi-original.json#createLlm
+- name: getLlm
+  description: get llm
+  source_operation: openapi/anamai-openapi-original.json#getLlm
+- name: updateLlm
+  description: update llm
+  source_operation: openapi/anamai-openapi-original.json#updateLlm
+- name: deleteLlm
+  description: delete llm
+  source_operation: openapi/anamai-openapi-original.json#deleteLlm
+- name: listKnowledgeGroups
+  description: list knowledge groups
+  source_operation: openapi/anamai-openapi-original.json#listKnowledgeGroups
+- name: createKnowledgeGroup
+  description: create knowledge group
+  source_operation: openapi/anamai-openapi-original.json#createKnowledgeGroup
+- name: getKnowledgeGroup
+  description: get knowledge group
+  source_operation: openapi/anamai-openapi-original.json#getKnowledgeGroup
+- name: updateKnowledgeGroup
+  description: update knowledge group
+  source_operation: openapi/anamai-openapi-original.json#updateKnowledgeGroup
+- name: deleteKnowledgeGroup
+  description: delete knowledge group
+  source_operation: openapi/anamai-openapi-original.json#deleteKnowledgeGroup
+- name: searchKnowledgeGroup
+  description: search knowledge group
+  source_operation: openapi/anamai-openapi-original.json#searchKnowledgeGroup
+- name: listKnowledgeGroupDocuments
+  description: list knowledge group documents
+  source_operation: openapi/anamai-openapi-original.json#listKnowledgeGroupDocuments
+- name: uploadKnowledgeGroupDocument
+  description: upload knowledge group document
+  source_operation: openapi/anamai-openapi-original.json#uploadKnowledgeGroupDocument
+- name: getKnowledgeDocument
+  description: get knowledge document
+  source_operation: openapi/anamai-openapi-original.json#getKnowledgeDocument
+- name: updateKnowledgeDocument
+  description: update knowledge document
+  source_operation: openapi/anamai-openapi-original.json#updateKnowledgeDocument
+- name: deleteKnowledgeDocument
+  description: delete knowledge document
+  source_operation: openapi/anamai-openapi-original.json#deleteKnowledgeDocument
+- name: getKnowledgeDocumentDownload
+  description: get knowledge document download
+  source_operation: openapi/anamai-openapi-original.json#getKnowledgeDocumentDownload
+- name: createEngineSession
+  description: create engine session
+  source_operation: openapi/anamai-openapi-original.json#createEngineSession
+- name: listAvatars
+  description: list avatars
+  source_operation: openapi/anamai-openapi-original.json#listAvatars
+- name: createAvatar
+  description: create avatar
+  source_operation: openapi/anamai-openapi-original.json#createAvatar
+- name: getAvatar
+  description: get avatar
+  source_operation: openapi/anamai-openapi-original.json#getAvatar
+- name: updateAvatar
+  description: update avatar
+  source_operation: openapi/anamai-openapi-original.json#updateAvatar
+- name: deleteAvatar
+  description: delete avatar
+  source_operation: openapi/anamai-openapi-original.json#deleteAvatar

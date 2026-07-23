@@ -1,0 +1,58 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+provider: Anam.ai
+providerId: anamai
+generated: '2026-07-17'
+method: searched
+created: '2026-07-17'
+modified: '2026-07-17'
+tags:
+  - Rate Limiting
+  - AI Avatars
+description: >-
+  Anam signals request rate limits via IETF RateLimit-* headers plus per-organization
+  hourly headers, and enforces concurrency (simultaneous live sessions) per plan.
+  Per-second request numbers are not published; concurrency limits are published on the
+  pricing page.
+sources:
+  - https://anam.ai/pricing
+  - openapi/anamai-openapi-original.json
+headers:
+  standard:
+    limit: RateLimit-Limit
+    remaining: RateLimit-Remaining
+    reset: RateLimit-Reset
+    retryAfter: Retry-After
+  organizationHourly:
+    limit: X-RateLimit-Org-Hour-Limit
+    remaining: X-RateLimit-Org-Hour-Remaining
+    reset: X-RateLimit-Org-Hour-Reset
+responseCodes:
+  throttled: 429
+limits:
+  - name: Simultaneous sessions (Free / Starter)
+    scope: organization
+    metric: concurrent_sessions
+    limit: 1
+    timeFrame: instant
+  - name: Simultaneous sessions (Explorer)
+    scope: organization
+    metric: concurrent_sessions
+    limit: 3
+    timeFrame: instant
+  - name: Simultaneous sessions (Growth)
+    scope: organization
+    metric: concurrent_sessions
+    limit: 5
+    timeFrame: instant
+  - name: Simultaneous sessions (Professional)
+    scope: organization
+    metric: concurrent_sessions
+    limit: 10
+    timeFrame: instant
+  - name: Simultaneous sessions (Enterprise)
+    scope: organization
+    metric: concurrent_sessions
+    limit: null
+    timeFrame: instant
+    notes: Custom / negotiated concurrency.

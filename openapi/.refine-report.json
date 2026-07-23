@@ -1,0 +1,32 @@
+{
+  "provider": "anamai",
+  "sources": [
+    "anamai-avatars-api-openapi.yml",
+    "anamai-engine-api-openapi.yml",
+    "anamai-knowledge-api-openapi.yml",
+    "anamai-llms-api-openapi.yml",
+    "anamai-meetings-api-openapi.yml",
+    "anamai-personas-api-openapi.yml",
+    "anamai-sessions-api-openapi.yml",
+    "anamai-share-links-api-openapi.yml",
+    "anamai-tools-api-openapi.yml",
+    "anamai-voices-api-openapi.yml"
+  ],
+  "outputs": [
+    "anamai-avatars-api-openapi.yml",
+    "anamai-engine-api-openapi.yml",
+    "anamai-knowledge-api-openapi.yml",
+    "anamai-llms-api-openapi.yml",
+    "anamai-meetings-api-openapi.yml",
+    "anamai-personas-api-openapi.yml",
+    "anamai-sessions-api-openapi.yml",
+    "anamai-share-links-api-openapi.yml",
+    "anamai-tools-api-openapi.yml",
+    "anamai-voices-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

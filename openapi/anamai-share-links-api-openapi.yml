@@ -1,0 +1,448 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars Share Links API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Share Links
+paths:
+  /v1/share-links:
+    get:
+      description: Returns a list of all share links for the organization
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        description: Number of items per page (max 100)
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search term to filter share links
+      - in: query
+        name: personaId
+        schema:
+          type: string
+          format: uuid
+        description: Filter share links by persona ID
+      responses:
+        '200':
+          description: Successfully retrieved share links
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PersonaShareLink'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/ShareLinkListResponse'
+        '400':
+          description: Bad request - Invalid query parameters
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Share Links
+      operationId: listShareLinks
+      summary: list share links
+      x-mint:
+        metadata:
+          title: list share links
+        mcp:
+          enabled: true
+          name: list-share-links
+          description: Returns a list of all share links for the organization
+    post:
+      description: Create a new share link
+      requestBody:
+        description: Persona to issue a share link for, plus optional lifetime and usage limits. A share link with no `expiresInHours` defaults to 168 (one week); with no `usageLimit` it defaults to 10.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/ShareLinkCreate'
+            schema:
+              type: object
+              required:
+              - personaId
+              properties:
+                personaId:
+                  type: string
+                  format: uuid
+                expiresInHours:
+                  type: number
+                  default: 168
+                usageLimit:
+                  type: number
+                  default: 10
+      responses:
+        '201':
+          description: Successfully created share link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareLink'
+              examples:
+                default:
+                  $ref: '#/components/examples/ShareLinkResponse'
+        '400':
+          description: Bad request - Invalid share link data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Persona not found
+        '500':
+          description: Server error
+      tags:
+      - Share Links
+      operationId: createShareLink
+      summary: create share link
+      x-mint:
+        metadata:
+          title: create share link
+        mcp:
+          enabled: true
+          name: create-share-link
+          description: Create a new share link
+  /v1/share-links/{id}:
+    get:
+      description: Returns a share link by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Share link ID
+      responses:
+        '200':
+          description: Successfully retrieved share link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonaShareLink'
+              examples:
+                default:
+                  $ref: '#/components/examples/PersonaShareLinkResponse'
+        '400':
+          description: Bad request - Invalid share link ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Share link not found
+        '500':
+          description: Server error
+      tags:
+      - Share Links
+      operationId: getShareLink
+      summary: get share link
+      x-mint:
+        metadata:
+          title: get share link
+        mcp:
+          enabled: true
+          name: get-share-link
+          description: Returns a share link by ID
+    put:
+      description: Update a share link by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Share link ID
+      requestBody:
+        description: Fields to update on the share link. Omit a field to leave it unchanged.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/ShareLinkUpdate'
+            schema:
+              type: object
+              properties:
+                expiresInHours:
+                  type: number
+                usageLimit:
+                  type: number
+      responses:
+        '200':
+          description: Successfully updated share link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShareLink'
+              examples:
+                default:
+                  $ref: '#/components/examples/ShareLinkResponse'
+        '400':
+          description: Bad request - Invalid share link data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Share link not found
+        '500':
+          description: Server error
+      tags:
+      - Share Links
+      operationId: updateShareLink
+      summary: update share link
+      x-mint:
+        metadata:
+          title: update share link
+        mcp:
+          enabled: true
+          name: update-share-link
+          description: Update a share link by ID
+    delete:
+      description: Delete a share link by ID
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Share link ID
+      responses:
+        '200':
+          description: Successfully deleted share link
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Share link deleted successfully
+        '400':
+          description: Bad request - Invalid share link ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Share link not found
+        '500':
+          description: Server error
+      tags:
+      - Share Links
+      operationId: deleteShareLink
+      summary: delete share link
+      x-mint:
+        metadata:
+          title: delete share link
+        mcp:
+          enabled: true
+          name: delete-share-link
+          description: Delete a share link by ID. Use with caution as this action cannot be undone.
+components:
+  schemas:
+    PersonaShareLink:
+      type: object
+      description: A share link as returned by list and get endpoints — includes persona details for the link's target.
+      allOf:
+      - $ref: '#/components/schemas/ShareLink'
+      - type: object
+        properties:
+          personaId:
+            type: string
+            format: uuid
+            description: ID of the persona this link points to.
+          personaName:
+            type: string
+            description: Name of the persona at the time the link was issued.
+          organizationId:
+            type: string
+            description: ID of the organization that owns the link. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    ShareLink:
+      type: object
+      description: A shareable link to a persona. Can be used as a direct URL or embedded via the widget.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the share link.
+        token:
+          type: string
+          description: Opaque token appended to the public URL.
+        type:
+          type: string
+          enum:
+          - LINK
+          - PLAYER_EMBED
+          - ORB_EMBED
+          description: Kind of share link — a direct URL, a player embed, or an orb embed.
+        expiresAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp after which the link no longer works, or `null` if the link does not expire.
+        usageLimit:
+          type:
+          - integer
+          - 'null'
+          description: Maximum number of times the link can be used, or `null` for unlimited.
+        usageCount:
+          type: integer
+          description: Number of times the link has been used.
+        allowedOrigins:
+          type: array
+          items:
+            type: string
+          description: Origins permitted to load the link when embedded. Ignored when `allowAllOrigins` is true.
+        allowAllOrigins:
+          type: boolean
+          description: Whether the link can be embedded on any origin.
+        removeWatermark:
+          type: boolean
+          description: Whether the persona renders without the Anam watermark. Requires a plan that permits watermark removal.
+        enabled:
+          type: boolean
+          description: Whether the link currently accepts connections.
+        isPrimary:
+          type: boolean
+          description: Whether this is the persona's primary share link (at most one per persona).
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the share link was created.
+  examples:
+    ShareLinkListResponse:
+      summary: A paginated list of share links
+      value:
+        data:
+        - id: 00000000-0000-0000-0000-000000000000
+          token: sh_2kL9pQxYzR4vN8mBwHfJc
+          type: LINK
+          expiresAt: '2026-04-27T10:00:00.000Z'
+          usageLimit: 10
+          usageCount: 3
+          allowedOrigins: []
+          allowAllOrigins: false
+          removeWatermark: false
+          enabled: true
+          isPrimary: false
+          createdAt: '2026-04-20T10:00:00.000Z'
+          personaId: 00000000-0000-0000-0000-000000000000
+          personaName: Cara
+          organizationId: 00000000-0000-0000-0000-000000000000
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 20
+          prev: null
+          next: null
+    ShareLinkUpdate:
+      summary: Raise the usage limit on a share link
+      value:
+        usageLimit: 50
+    PersonaShareLinkResponse:
+      summary: A single share link with its persona details (as returned by get)
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        token: sh_2kL9pQxYzR4vN8mBwHfJc
+        type: LINK
+        expiresAt: '2026-04-27T10:00:00.000Z'
+        usageLimit: 10
+        usageCount: 3
+        allowedOrigins: []
+        allowAllOrigins: false
+        removeWatermark: false
+        enabled: true
+        isPrimary: false
+        createdAt: '2026-04-20T10:00:00.000Z'
+        personaId: 00000000-0000-0000-0000-000000000000
+        personaName: Cara
+        organizationId: 00000000-0000-0000-0000-000000000000
+    ShareLinkCreate:
+      summary: Issue a share link valid for one week
+      value:
+        personaId: 00000000-0000-0000-0000-000000000000
+        expiresInHours: 168
+        usageLimit: 10
+    ShareLinkResponse:
+      summary: A single share link (as returned by create or update)
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        token: sh_2kL9pQxYzR4vN8mBwHfJc
+        type: LINK
+        expiresAt: '2026-04-27T10:00:00.000Z'
+        usageLimit: 10
+        usageCount: 0
+        allowedOrigins: []
+        allowAllOrigins: false
+        removeWatermark: false
+        enabled: true
+        isPrimary: false
+        createdAt: '2026-04-20T10:00:00.000Z'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

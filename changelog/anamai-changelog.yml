@@ -1,0 +1,35 @@
+generated: '2026-07-17'
+method: searched
+source: https://anam.ai/changelog
+scheme: date-based
+current: null
+notes: Anam publishes a dated changelog (no platform semver); SDKs carry their own semver (e.g. JS SDK 4.x).
+entries:
+  - date: '2026-07-10'
+    title: Meetings API launch
+    breaking: false
+    highlights:
+      - New /v1/meetings/invites endpoints to create, list, and manage invites.
+      - Personas can join Google Meet, Zoom, and Microsoft Teams calls.
+      - Display names include an "(AI)" suffix with persistent AI-disclosure treatment on video.
+  - date: '2026-06-22'
+    title: Session performance improvements
+    breaking: false
+    highlights:
+      - US persona sessions reach p50 time-to-first-frame below one second.
+      - Improved WebRTC/TURN connection handling and startup resilience.
+      - Lab enhancements to team management, billing visibility, and build performance.
+  - date: '2026-05-27'
+    title: Lab interface refresh
+    breaking: false
+    highlights:
+      - Redesigned Build, Personas, Sessions, Dashboard, and API Keys views.
+      - Silence prompts and automatic session endings can be disabled via a 0 timeout.
+      - Confirmed end-call flow with standardized close messages.
+  - date: '2026-05-12'
+    title: Cara 4 early access
+    breaking: false
+    highlights:
+      - Higher-resolution avatar output, stronger expressivity, improved custom avatar creation.
+      - Opt in with avatarModel "cara-4-latest".
+      - Knowledge Library redesigned with cleaner layouts.

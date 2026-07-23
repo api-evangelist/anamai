@@ -1,0 +1,19 @@
+generated: '2026-07-17'
+method: searched
+source: https://anam.ai/changelog
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://api.anam.ai/v1/
+  notes: API is versioned in the URI path (/v1/). Platform changes are tracked in a date-based changelog rather than semantic versions; SDKs carry their own semver.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No published deprecation policy or RFC 8594 Sunset/Deprecation header support observed as of 2026-07-17.
+sla:
+  url: https://trust.anam.ai/
+  uptime_target: null
+  notes: Enterprise plan advertises SLA uptime guarantees; no public numeric target published.
+status_page: https://status.anam.ai/
+changelog: https://anam.ai/changelog
+deprecated_operations: []

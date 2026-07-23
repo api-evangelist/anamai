@@ -1,0 +1,2013 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars Sessions API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Sessions
+paths:
+  /v1/auth/session-token:
+    post:
+      description: Create a new session token used to initialise Anam client side SDKs
+      requestBody:
+        description: 'Configuration for the session to be created. Supply `personaConfig.personaId` to use a persona you''ve already created (stateful), or the set `avatarId`/`voiceId`/`llmId`/`systemPrompt` to configure the persona at run time (ephemeral).
+
+
+          The returned token is valid for one hour and bound to this exact config.
+
+
+          Server-side SDKs in a secure context can skip this exchange and start a session directly by calling `POST /v1/engine/session` with their API key and the same configuration in the request body.
+
+          '
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/SessionTokenCreate'
+            schema:
+              type: object
+              properties:
+                clientLabel:
+                  type: string
+                  description: The client label for the session
+                personaConfig:
+                  oneOf:
+                  - type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Cara
+                      avatarId:
+                        type: string
+                        example: 071b0286-4cce-4808-bee2-e642f1062de3
+                      avatarModel:
+                        type: string
+                        example: cara-4
+                        description: Avatar model version. `cara-3` and `cara-4` are generally available; models with the '-latest' suffix are invite only and require organization-level access.
+                        enum:
+                        - cara-3
+                        - cara-4
+                        - cara-4-latest
+                      voiceId:
+                        type: string
+                        example: de23e340-1416-4dd8-977d-065a7ca11697
+                      llmId:
+                        type: string
+                        example: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+                      systemPrompt:
+                        type: string
+                        example: You are a helpful assistant
+                      maxSessionLengthSeconds:
+                        type: number
+                        example: 600
+                      skipGreeting:
+                        type: boolean
+                        example: false
+                      uninterruptibleGreeting:
+                        type: boolean
+                        description: When true, the greeting message cannot be interrupted by the user.
+                        example: false
+                      initialMessage:
+                        type: string
+                        nullable: true
+                        description: Custom first message the persona speaks to open the conversation. If empty or not provided, the persona generates its own greeting.
+                        example: Hi there! I'm excited to chat with you today.
+                      voiceDetectionOptions:
+                        $ref: '#/components/schemas/VoiceDetectionOptions'
+                      languageCode:
+                        type: string
+                        description: ISO 639-1 formatted language code override for transcription, replaces organisation level settings and multilingual (default) mode.
+                      voiceGenerationOptions:
+                        description: Configuration options for voice generation.
+                        oneOf:
+                        - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
+                        - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
+                        - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
+                        - $ref: '#/components/schemas/FishAudioVoiceGenerationOptions'
+                      directorNotes:
+                        type: object
+                        description: Per-session performance overrides for the avatar. Only applied on cara-4 avatars (avatarModel `cara-4` or `cara-4-latest`); if set on a cara-3 avatar they are ignored (silently stripped) and the session proceeds without them. `presetStyle` and `customStylePrompt` are mutually exclusive. These work best when the selected voice matches the intended performance.
+                        properties:
+                          presetStyle:
+                            type: string
+                            enum:
+                            - happy
+                            - warm
+                            - playful
+                            - supportive
+                            - sad
+                            - angry
+                            - distressed
+                            description: Built-in performance style for the avatar to follow. Mutually exclusive with customStylePrompt. Works best with a matching voice, which we've labelled as expressive.
+                            example: warm
+                          customStylePrompt:
+                            type: string
+                            maxLength: 2000
+                            description: Free-form performance style prompt for the avatar to follow. Mutually exclusive with presetStyle. Works best with a matching voice, which we've labelled as expressive.
+                            example: Warm smile, composed, slightly amused, looking directly at camera
+                          expressivity:
+                            type: number
+                            minimum: 0
+                            maximum: 1
+                            description: Controls how closely the avatar follows the selected style or cue. 0 is subtle, 1 follows it most strongly and can become unstable; omit the field to use the default. Works best with a matching voice, which we've labelled as expressive.
+                            example: 0.5
+                      tools:
+                        type: array
+                        description: Runtime tool definitions made available to the persona for this session. Each item is one of a client tool, a server knowledge tool, a server webhook tool, or a system tool. For client and webhook tools, `parameters` (and, for webhook tools, `queryParameters`) is a JSON Schema object the LLM fills at call time; each such object must serialize to 10,000 bytes or less (UTF-8), otherwise the request is rejected. Use `toolIds` instead to reference tools you've pre-created via `/v1/tools` (those are not subject to this inline size limit).
+                        items:
+                          type: object
+                          required:
+                          - type
+                          - name
+                          additionalProperties: true
+                          properties:
+                            type:
+                              type: string
+                              enum:
+                              - client
+                              - server
+                              - system
+                              description: Tool kind. `server` tools additionally set `subtype` (`knowledge` or `webhook`).
+                            name:
+                              type: string
+                              description: Unique tool name the LLM calls.
+                            description:
+                              type: string
+                              maxLength: 1024
+                            parameters:
+                              type: object
+                              description: JSON Schema for the arguments the LLM provides (client and webhook tools). Must serialize to 10,000 bytes or less.
+                        example:
+                        - type: client
+                          name: open_calendar
+                          description: Open the calendar UI in the client app.
+                          parameters:
+                            type: object
+                            properties:
+                              date:
+                                type: string
+                                description: Date to jump to, in YYYY-MM-DD format.
+                      toolIds:
+                        type: array
+                        description: IDs of tools pre-created via `/v1/tools` to make available to the persona for this session.
+                        items:
+                          type: string
+                          format: uuid
+                  - type: object
+                    properties:
+                      personaId:
+                        type: string
+                sessionOptions:
+                  type: object
+                  properties:
+                    sessionReplay:
+                      type: object
+                      properties:
+                        enableSessionReplay:
+                          type: boolean
+                          example: true
+                          default: true
+                    videoQuality:
+                      type: string
+                      enum:
+                      - high
+                      - auto
+                      description: '''high'' pins highest bitrate, ''auto'' enables adaptive bitrate.'
+                      example: high
+                    videoWidth:
+                      type: integer
+                      description: 'Output video frame width in pixels. Supply together with `videoHeight` (both or neither). Omit to use the avatar model''s default. Supported pairs depend on the avatar model — cara-3: `720x480`; cara-4: `1152x768`. Unsupported pairs are rejected (the session is not silently downgraded).'
+                      example: 1152
+                    videoHeight:
+                      type: integer
+                      description: Output video frame height in pixels. Supply together with `videoWidth` (both or neither). See `videoWidth`.
+                      example: 768
+                    egress:
+                      type: object
+                      description: 'Set egress to an alternative egress transport mode. The avatar''s audio/video are published to
+
+                        a 3rd party transport and not delivered over the native webRTC channel.
+
+                        The WebRTC peer connection still exists for signalling and the data channel (interrupts, status).
+
+                        Requires `personaConfig.enableAudioPassthrough=true`. Discriminated on `mode`.
+
+                        '
+                      required:
+                      - mode
+                      properties:
+                        mode:
+                          type: string
+                          enum:
+                          - daily
+                          description: Egress provider. Only `daily` is supported today.
+                          example: daily
+                        daily:
+                          type: object
+                          description: Required when `mode` is `daily`.
+                          required:
+                          - roomUrl
+                          properties:
+                            roomUrl:
+                              type: string
+                              format: uri
+                              description: Daily room URL the avatar should join as a publisher.
+                              example: https://your-domain.daily.co/avatar-room
+                            token:
+                              type: string
+                              description: Optional Daily meeting token. Omit for public rooms.
+                            userName:
+                              type: string
+                              description: Optional display name for the avatar participant. Defaults to "anam-avatar".
+      responses:
+        '200':
+          description: Successfully started session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionToken'
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionTokenResponse'
+        '400':
+          description: Invalid request body
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission, the session config is not authorized for the organization, or the plan does not permit the requested option.
+        '500':
+          description: 'Server error. Note: currently any non-validation error is returned as a 500, eventhough the error might be due to joining the room or related to token validation.'
+      tags:
+      - Sessions
+      operationId: createSessionToken
+      summary: create session token
+      x-mint:
+        metadata:
+          title: create session token
+        mcp:
+          enabled: true
+          name: create-session-token
+          description: Create a new session token used to initialise Anam client side SDKs
+  /v1/sessions:
+    get:
+      description: Returns a list of all sessions for the organization
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Number of items per page (max 100)
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search term to filter sessions by ID or client label
+      - in: query
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        description: Filter sessions by API key ID
+      - in: query
+        name: personaId
+        schema:
+          type: string
+          format: uuid
+        description: Filter sessions by persona ID
+      - in: query
+        name: organizationId
+        schema:
+          type: string
+        description: List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.
+      responses:
+        '200':
+          description: Successfully retrieved sessions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Session'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionListResponse'
+        '400':
+          description: Bad request - Invalid query parameters
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: listSessions
+      summary: list sessions
+      x-mint:
+        metadata:
+          title: list sessions
+        mcp:
+          enabled: true
+          name: list-sessions
+          description: Returns a list of all sessions for the organization
+  /v1/sessions/concurrency:
+    get:
+      summary: Get current concurrency status
+      description: Returns the organization's concurrent-session limit, an approximate count of sessions currently in use, whether a new session can likely be started, and an estimated wait time until a slot frees. Intended as an advisory pre-check before starting a session (e.g. to gate a "Start" button or show a wait estimate). The count is the Lab's optimistic view and can briefly over-report; the authoritative limit is enforced when a session is actually created, which may still return 429.
+      parameters:
+      - in: query
+        name: organizationId
+        schema:
+          type: string
+        description: Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.
+      responses:
+        '200':
+          description: Current concurrency status for the organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConcurrencyStatus'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: getSessionConcurrency
+      x-mint:
+        metadata:
+          title: get session concurrency status
+        mcp:
+          enabled: true
+          name: get-session-concurrency
+          description: Returns the organization's concurrent-session limit, an approximate count of sessions currently in use, whether a new session can likely be started, and an estimated wait time until a slot frees. Intended as an advisory pre-check before starting a session (e.g. to gate a "Start" button or show a wait estimate). The count is the Lab's optimistic view and can briefly over-report; the authoritative limit is enforced when a session is actually created, which may still return 429.
+  /v1/sessions/analytics:
+    get:
+      description: Returns aggregated latency analytics across sessions — percentile distributions (p50/p90/p95/p99/max/avg) for each stage of the transcription → LLM → TTS → first-audio path, interruption and error rates, tool call outcomes, and a sample of the slowest turns. Only sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) produce analytics reports; LiveKit and audio-passthrough sessions count toward `sessionCount` but never carry analytics. Defaults to the last 24 hours; the maximum range is 31 days. Reports are aggregated from the 1000 most recent report-capable sessions matching the filters — session types that never produce reports don't consume that window — and the `truncated` field reports when more report-capable sessions matched. Narrow the time range or filters to analyse busier periods exhaustively.
+      parameters:
+      - in: query
+        name: from
+        schema:
+          type: string
+          format: date-time
+        description: Start of the time range (ISO 8601). Defaults to 24 hours before `to`.
+      - in: query
+        name: to
+        schema:
+          type: string
+          format: date-time
+        description: End of the time range (ISO 8601). Defaults to now.
+      - in: query
+        name: personaId
+        schema:
+          type: string
+          format: uuid
+        description: Only include sessions for this persona.
+      - in: query
+        name: apiKeyId
+        schema:
+          type: string
+          format: uuid
+        description: Only include sessions minted by this API key.
+      - in: query
+        name: clientLabel
+        schema:
+          type: string
+        description: Only include sessions whose client label matches exactly.
+      - in: query
+        name: sessionType
+        schema:
+          type: string
+          enum:
+          - turnkey
+          - custom_llm_server
+          - custom_llm_client
+          - livekit
+          - elevenlabs_agent
+        description: Only include sessions of this type.
+      - in: query
+        name: organizationId
+        schema:
+          type: string
+        description: Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.
+      responses:
+        '200':
+          description: Successfully computed aggregate analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  from:
+                    type: string
+                    format: date-time
+                  to:
+                    type: string
+                    format: date-time
+                  filters:
+                    type: object
+                    description: Echo of the applied filters.
+                    properties:
+                      personaId:
+                        type:
+                        - string
+                        - 'null'
+                      apiKeyId:
+                        type:
+                        - string
+                        - 'null'
+                      clientLabel:
+                        type:
+                        - string
+                        - 'null'
+                      sessionType:
+                        type:
+                        - string
+                        - 'null'
+                  sessionCount:
+                    type: integer
+                    description: Total sessions matching the filters in the range, whether or not they produced an analytics report.
+                  sessionsWithReports:
+                    type: integer
+                    description: Sessions whose analytics report was aggregated. Reports are read from the 1000 most recent report-capable matching sessions; session types that never produce reports don't consume that window.
+                  truncated:
+                    type: boolean
+                    description: True when more than 1000 report-capable sessions matched; only reports among the most recent 1000 of them were aggregated.
+                  turnCount:
+                    type: integer
+                  latencies:
+                    type: object
+                    description: Percentile distributions per latency stage, computed across all turns.
+                    properties:
+                      transcriptionLatencySeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      llmTimeToFirstOutputSeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      llmGenerationDurationSeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      ttsGenerationDurationSeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      ttsTimeToFirstAudioSeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      firstAudioLatencySeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      speakingDurationSeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                      userSpeechDurationSeconds:
+                        $ref: '#/components/schemas/LatencyStats'
+                  counts:
+                    type: object
+                    properties:
+                      completedTurns:
+                        type: integer
+                      interruptedTurns:
+                        type: integer
+                      interruptedBeforeAudioTurns:
+                        type: integer
+                        description: Turns interrupted before the persona started speaking.
+                      totalErrors:
+                        type: integer
+                      totalWarnings:
+                        type: integer
+                      sessionsWithErrors:
+                        type: integer
+                      sessionsWithWarnings:
+                        type: integer
+                      toolCalls:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                          succeeded:
+                            type: integer
+                          failed:
+                            type: integer
+                          byName:
+                            type: object
+                            additionalProperties:
+                              type: integer
+                  rates:
+                    type: object
+                    properties:
+                      interruptionRate:
+                        type:
+                        - number
+                        - 'null'
+                      interruptedBeforeAudioRate:
+                        type:
+                        - number
+                        - 'null'
+                      errorSessionRate:
+                        type:
+                        - number
+                        - 'null'
+                      warningSessionRate:
+                        type:
+                        - number
+                        - 'null'
+                      toolCallFailureRate:
+                        type:
+                        - number
+                        - 'null'
+                  slowestTurns:
+                    type: array
+                    description: The slowest turns per headline latency metric, for jumping straight to problem sessions.
+                    items:
+                      type: object
+                      properties:
+                        sessionId:
+                          type: string
+                          format: uuid
+                        correlationId:
+                          type:
+                          - string
+                          - 'null'
+                        metric:
+                          type: string
+                          enum:
+                          - transcriptionLatencySeconds
+                          - llmTimeToFirstOutputSeconds
+                          - ttsTimeToFirstAudioSeconds
+                          - firstAudioLatencySeconds
+                        valueSeconds:
+                          type: number
+                        sessionStartTime:
+                          type: string
+                          format: date-time
+                        personaId:
+                          type:
+                          - string
+                          - 'null'
+                        clientLabel:
+                          type:
+                          - string
+                          - 'null'
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionAnalyticsAggregateResponse'
+        '400':
+          description: Bad request - Invalid query parameters or date range
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: getAggregatedSessionAnalytics
+      summary: get aggregated session analytics
+      x-mint:
+        metadata:
+          title: get aggregated session analytics
+        mcp:
+          enabled: true
+          name: get-aggregated-session-analytics
+          description: Returns aggregated latency analytics across sessions — percentile distributions (p50/p90/p95/p99/max/avg) for each stage of the transcription → LLM → TTS → first-audio path, interruption and error rates, tool call outcomes, and a sample of the slowest turns. Only sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) produce analytics reports; LiveKit and audio-passthrough sessions count toward `sessionCount` but never carry analytics. Defaults to the last 24 hours; the maximum range is 31 days. Reports are aggregated from the 1000 most recent report-capable sessions matching the filters — session types that never produce reports don't consume that window — and the `truncated` field reports when more report-capable sessions matched. Narrow the time range or filters to analyse busier periods exhaustively.
+  /v1/sessions/{id}:
+    get:
+      description: Returns a session by ID, including the tool calls made during the session once it has ended and the engine has delivered its session report (`toolCalls` is empty until then, and always empty for LiveKit and audio-passthrough sessions, which never produce a report). Tool call names, timing, status and errors are always included; call arguments, results and accessed-document names are only included when transcripts were enabled for the session and the session is not zero-data-retention, since they embed conversation content. HTTP headers and credential-like keys are never returned. Anam-internal admin API keys may fetch sessions of any organization.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Session ID
+      responses:
+        '200':
+          description: Successfully retrieved session
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Session'
+                - type: object
+                  properties:
+                    toolCalls:
+                      type: array
+                      description: Tool calls made during the session, in conversational order. Empty until the session has ended and its report has been delivered.
+                      items:
+                        $ref: '#/components/schemas/SessionToolCallDetail'
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionResponse'
+        '400':
+          description: Bad request - Invalid session ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Session not found
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: getSession
+      summary: get session
+      x-mint:
+        metadata:
+          title: get session
+        mcp:
+          enabled: true
+          name: get-session
+          description: Returns a session by ID, including the tool calls made during the session once it has ended and the engine has delivered its session report (`toolCalls` is empty until then, and always empty for LiveKit and audio-passthrough sessions, which never produce a report). Tool call names, timing, status and errors are always included; call arguments, results and accessed-document names are only included when transcripts were enabled for the session and the session is not zero-data-retention, since they embed conversation content. HTTP headers and credential-like keys are never returned. Anam-internal admin API keys may fetch sessions of any organization.
+  /v1/sessions/{id}/transcript:
+    get:
+      description: Returns the conversation transcript for a session. Anam-internal admin API keys may fetch transcripts for sessions of any organization.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Session ID
+      responses:
+        '200':
+          description: Successfully retrieved transcript
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    description: The session ID
+                  personaName:
+                    type: string
+                    description: Name of the persona in the session
+                  startTime:
+                    type: string
+                    format: date-time
+                    description: Session start time
+                  endTime:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    description: Session end time
+                  durationMs:
+                    type:
+                    - integer
+                    - 'null'
+                    description: Session duration in milliseconds
+                  totalMessages:
+                    type: integer
+                    description: Total number of messages in the transcript
+                  transcriptsEnabled:
+                    type: boolean
+                    description: Whether transcripts were enabled for this session
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        role:
+                          type: string
+                          enum:
+                          - user
+                          - persona
+                        message:
+                          type: string
+                        timestamp:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                        speakingDurationSeconds:
+                          type:
+                          - number
+                          - 'null'
+                        wasInterrupted:
+                          type: boolean
+                          description: Only present for persona messages
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionTranscriptResponse'
+        '400':
+          description: Bad request - Invalid session ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Session not found or no transcript available
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: getSessionTranscript
+      summary: get session transcript
+      x-mint:
+        metadata:
+          title: get session transcript
+        mcp:
+          enabled: true
+          name: get-session-transcript
+          description: Returns the conversation transcript for a session. Anam-internal admin API keys may fetch transcripts for sessions of any organization.
+  /v1/sessions/{id}/stop:
+    post:
+      description: 'Force-terminates a running session. The engine hosting the session
+
+        disconnects the client and shuts the session down immediately.
+
+
+        Termination is asynchronous on the engine side: the session''s
+
+        `endTime`, exit status and session report are delivered through the
+
+        normal end-of-session flow shortly after the stop, so the session may
+
+        briefly still appear active on `GET /v1/sessions/{id}`.
+
+
+        Sessions that never reached an engine, or that run over the LiveKit
+
+        or Agora integrations, have no engine host to terminate and return
+
+        `404`. If the engine rejects the stop (for example the session has
+
+        already ended), the engine''s error status is passed through.
+
+        '
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Session ID
+      responses:
+        '200':
+          description: The engine accepted the stop request
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request - Invalid session ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Session not found, or it has no engine to terminate (it never reached an engine, or is a LiveKit/Agora session)
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: stopSession
+      summary: stop session
+      x-mint:
+        metadata:
+          title: stop session
+        mcp:
+          enabled: true
+          name: stop-session
+          description: 'Force-terminates a running session. The engine hosting the session
+
+            disconnects the client and shuts the session down immediately.
+
+
+            Termination is asynchronous on the engine side: the session''s
+
+            `endTime`, exit status and session report are delivered through the
+
+            normal end-of-session flow shortly after the stop, so the session may
+
+            briefly still appear active on `GET /v1/sessions/{id}`.
+
+
+            Sessions that never reached an engine, or that run over the LiveKit
+
+            or Agora integrations, have no engine host to terminate and return
+
+            `404`. If the engine rejects the stop (for example the session has
+
+            already ended), the engine''s error status is passed through.
+
+            '
+  /v1/sessions/{id}/recording:
+    get:
+      description: Returns a presigned URL to download the session recording. Anam-internal admin API keys may fetch recordings for sessions of any organization.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Session ID
+      responses:
+        '200':
+          description: Successfully retrieved recording URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  recordingUrl:
+                    type: string
+                    description: Presigned URL to download the recording (expires in 1 hour)
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionRecordingResponse'
+        '400':
+          description: Bad request - Invalid session ID
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Session or recording not found
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: getSessionRecording
+      summary: get session recording
+      x-mint:
+        metadata:
+          title: get session recording
+        mcp:
+          enabled: true
+          name: get-session-recording
+          description: Returns a presigned URL to download the session recording. Anam-internal admin API keys may fetch recordings for sessions of any organization.
+  /v1/sessions/{id}/analytics:
+    get:
+      description: Returns per-turn latency analytics for a session — where time was spent in the transcription → LLM → TTS → first-audio path for each conversational turn, plus session-level summary metrics. Analytics become available once the session has ended and the engine has delivered its session report; until then this endpoint returns 404. Analytics exist only for sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) — LiveKit and audio-passthrough sessions never produce them. Message text is omitted unless `includeMessages=true` is passed and transcripts were enabled for the session. Anam-internal admin API keys may fetch analytics for sessions of any organization.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Session ID
+      - in: query
+        name: includeMessages
+        schema:
+          type: boolean
+          default: false
+        description: When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.
+      responses:
+        '200':
+          description: Successfully retrieved session analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sessionId:
+                    type: string
+                    format: uuid
+                  startTime:
+                    type: string
+                    format: date-time
+                  endTime:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                  durationSeconds:
+                    type:
+                    - number
+                    - 'null'
+                  sessionType:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - turnkey
+                    - custom_llm_server
+                    - custom_llm_client
+                    - livekit
+                    - elevenlabs_agent
+                    - null
+                  exitStatus:
+                    type:
+                    - string
+                    - 'null'
+                  clientLabel:
+                    type:
+                    - string
+                    - 'null'
+                  clientMetadata:
+                    type:
+                    - object
+                    - 'null'
+                  personaId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                  apiKeyId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                  config:
+                    type: object
+                    description: Snapshot of the configuration the session ran with.
+                    properties:
+                      llmProvider:
+                        type:
+                        - string
+                        - 'null'
+                      llmModel:
+                        type:
+                        - string
+                        - 'null'
+                      ttsProvider:
+                        type:
+                        - string
+                        - 'null'
+                      ttsVoice:
+                        type:
+                        - string
+                        - 'null'
+                      avatarKey:
+                        type:
+                        - string
+                        - 'null'
+                      personaName:
+                        type:
+                        - string
+                        - 'null'
+                      languageCode:
+                        type:
+                        - string
+                        - 'null'
+                      transcriptsEnabled:
+                        type: boolean
+                  summary:
+                    type: object
+                    properties:
+                      totalTurns:
+                        type: integer
+                        description: Number of entries in `turns`.
+                      completedTurns:
+                        type: integer
+                        description: Turns whose assistant response completed.
+                      interruptedTurns:
+                        type: integer
+                        description: Turns whose assistant response was interrupted.
+                      interruptionRate:
+                        type:
+                        - number
+                        - 'null'
+                        description: interruptedTurns / turns with an assistant response.
+                      totalUserSpeechDurationSeconds:
+                        type:
+                        - number
+                        - 'null'
+                      totalUserWords:
+                        type:
+                        - integer
+                        - 'null'
+                      totalAssistantWords:
+                        type:
+                        - integer
+                        - 'null'
+                      totalWarnings:
+                        type: integer
+                      totalErrors:
+                        type: integer
+                      toolCalls:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                          succeeded:
+                            type: integer
+                          failed:
+                            type: integer
+                          byName:
+                            type: object
+                            additionalProperties:
+                              type: integer
+                      averageLatencies:
+                        type: object
+                        description: Engine-computed per-session averages.
+                        properties:
+                          transcriptionLatencySeconds:
+                            type:
+                            - number
+                            - 'null'
+                          llmTimeToFirstOutputSeconds:
+                            type:
+                            - number
+                            - 'null'
+                          ttsGenerationDurationSeconds:
+                            type:
+                            - number
+                            - 'null'
+                          firstAudioLatencySeconds:
+                            type:
+                            - number
+                            - 'null'
+                  turns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SessionAnalyticsTurn'
+              examples:
+                default:
+                  $ref: '#/components/examples/SessionAnalyticsResponse'
+        '400':
+          description: Bad request - Invalid session ID or query parameters
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Not Found - Session not found, still in progress, of a session type that does not produce analytics (e.g. livekit), or its report was never received. The error message says which.
+        '500':
+          description: Server error
+      tags:
+      - Sessions
+      operationId: getSessionAnalytics
+      summary: get session analytics
+      x-mint:
+        metadata:
+          title: get session analytics
+        mcp:
+          enabled: true
+          name: get-session-analytics
+          description: Returns per-turn latency analytics for a session — where time was spent in the transcription → LLM → TTS → first-audio path for each conversational turn, plus session-level summary metrics. Analytics become available once the session has ended and the engine has delivered its session report; until then this endpoint returns 404. Analytics exist only for sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) — LiveKit and audio-passthrough sessions never produce them. Message text is omitted unless `includeMessages=true` is passed and transcripts were enabled for the session. Anam-internal admin API keys may fetch analytics for sessions of any organization.
+components:
+  schemas:
+    Session:
+      type: object
+      description: A single connection between a client and a persona. Contains metadata but not the transcript or recording — those are fetched separately.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the session.
+        personaId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the persona the client connected to, or `null` if the session was issued with an ephemeral persona config.
+        clientLabel:
+          type:
+          - string
+          - 'null'
+          description: Label supplied by the caller when minting the session token.
+        startTime:
+          type: string
+          format: date-time
+          description: Timestamp when the session started.
+        endTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the session ended, or `null` if still active.
+        sessionLengthMs:
+          type:
+          - integer
+          - 'null'
+          description: Duration of the session in milliseconds, or `null` if still active.
+        exitStatus:
+          type:
+          - string
+          - 'null'
+          description: How the session ended (e.g. `NORMAL_EXIT`, `ERROR`), or `null` if still active.
+        engineHost:
+          type:
+          - string
+          - 'null'
+          description: Hostname of the engine pod that served the session.
+        engineProtocol:
+          type:
+          - string
+          - 'null'
+          description: Protocol used to stream the session (e.g. `https`).
+        engineVersion:
+          type:
+          - string
+          - 'null'
+          description: Version of the engine pod that served the session.
+        clientMetadata:
+          type: object
+          description: Arbitrary metadata collected from the client during the session.
+        personaConfig:
+          type: object
+          additionalProperties: true
+          description: Snapshot of the persona configuration taken at the moment the session started.
+        apiKeyId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the API key that minted the session token.
+        organizationId:
+          type: string
+          description: ID of the organization that owns the session. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the session record was created.
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the session record was last updated.
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
+      type: object
+      description: Voice generation options for ElevenLabs V1 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0
+          minimum: 0
+          maximum: 1
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+    VoiceDetectionOptions:
+      type: object
+      description: Options for voice activity detection during user speech input.
+      properties:
+        endOfSpeechSensitivity:
+          type: number
+          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        silenceBeforeSkipTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the current user turn is skipped.
+          example: 5
+          minimum: 0
+          maximum: 900
+        silenceBeforeSessionEndSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the session is automatically ended.
+          example: 60
+          minimum: 0
+          maximum: 7200
+        silenceBeforeAutoEndTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the user turn is automatically ended.
+          example: 5
+          minimum: 0.5
+          maximum: 10
+        speechEnhancementLevel:
+          type: number
+          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
+          example: 0.8
+          minimum: 0
+          maximum: 1
+    ConcurrencyStatus:
+      type: object
+      description: Advisory concurrency snapshot. The active count is approximate (it can briefly over-report, e.g. a crashed session before cleanup), so treat every field as an optimistic view rather than a guarantee.
+      properties:
+        limit:
+          type: integer
+          description: The organization's concurrent-session plan limit.
+          example: 10
+        active:
+          type: integer
+          description: Approximate number of sessions currently occupying a slot.
+          example: 7
+        canStartSession:
+          type: boolean
+          description: Advisory — whether a session can likely be started now.
+          example: true
+        estimatedWaitSeconds:
+          type: integer
+          nullable: true
+          description: Estimated seconds until the next slot frees while at capacity (derived from the org's rolling 30-day average session length and the elapsed time of the longest-running session); 0 when a slot is available or expected imminently; null when no estimate is possible.
+          example: 0
+    SessionAnalyticsTurn:
+      type: object
+      description: One conversational turn — a user utterance paired with the assistant response it triggered. Assistant-initiated turns (e.g. the greeting) have null user-side fields; user utterances that never received a response have null assistant-side fields. Timing fields are null when the engine did not record the underlying timestamps.
+      properties:
+        turnIndex:
+          type: integer
+        correlationId:
+          type:
+          - string
+          - 'null'
+          description: The user action correlation ID shared by SDK events for this turn.
+        userSpeechStartTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        userSpeechEndTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        userSpeechDurationSeconds:
+          type:
+          - number
+          - 'null'
+        userTranscriptionTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the user's speech transcript was finalised.
+        transcriptionLatencySeconds:
+          type:
+          - number
+          - 'null'
+          description: User speech end → transcript complete.
+        llmFirstOutputTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        llmFinalOutputTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        llmTimeToFirstOutputSeconds:
+          type:
+          - number
+          - 'null'
+          description: Transcript complete → first LLM output.
+        llmGenerationDurationSeconds:
+          type:
+          - number
+          - 'null'
+          description: First LLM output → final LLM output.
+        ttsStartTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        ttsEndTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        ttsGenerationDurationSeconds:
+          type:
+          - number
+          - 'null'
+        ttsTimeToFirstAudioSeconds:
+          type:
+          - number
+          - 'null'
+          description: TTS start → persona starts speaking.
+        personaStartSpeakingTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        personaStopSpeakingTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        firstAudioLatencySeconds:
+          type:
+          - number
+          - 'null'
+          description: User speech end → persona starts speaking. The end-to-end latency the user experienced.
+        speakingDurationSeconds:
+          type:
+          - number
+          - 'null'
+        finishReason:
+          type:
+          - string
+          - 'null'
+          enum:
+          - completed
+          - interrupted
+          - null
+        wasInterrupted:
+          type: boolean
+        interruptedStage:
+          type:
+          - string
+          - 'null'
+          enum:
+          - before_llm_output
+          - during_llm_generation
+          - before_audio
+          - while_speaking
+          - null
+          description: Best-effort classification of when the interruption happened, derived from which pipeline timestamps were recorded.
+        toolCalls:
+          type: array
+          items:
+            $ref: '#/components/schemas/SessionAnalyticsToolCall'
+        userMessage:
+          type: string
+          description: Only present with includeMessages=true and transcripts enabled.
+        assistantMessage:
+          type: string
+          description: Only present with includeMessages=true and transcripts enabled.
+    FishAudioVoiceGenerationOptions:
+      title: Fish Audio
+      type: object
+      description: Voice generation options for Fish Audio models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    SessionAnalyticsToolCall:
+      type: object
+      description: Timing and outcome of a tool call made during the turn. Tool call arguments and results are never exposed by this endpoint.
+      properties:
+        toolCallId:
+          type:
+          - string
+          - 'null'
+          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
+        toolName:
+          type:
+          - string
+          - 'null'
+        toolType:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - started
+          - completed
+          - failed
+          - null
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        durationSeconds:
+          type:
+          - number
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+    ElevenLabsV2VoiceGenerationOptions:
+      title: ElevenLabs V2
+      type: object
+      description: Voice generation options for ElevenLabs V2 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
+          example: 0
+          minimum: 0
+          maximum: 1
+        useSpeakerBoost:
+          type: boolean
+          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
+          example: true
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+        model:
+          type: string
+          description: The ElevenLabs model ID to use for voice generation.
+    SessionToolCallDetail:
+      type: object
+      description: One tool call made by the persona during the session.
+      properties:
+        turnIndex:
+          type: integer
+          description: Index of the conversational turn the call belongs to, matching `turns[].turnIndex` on GET /v1/sessions/{id}/analytics.
+        correlationId:
+          type:
+          - string
+          - 'null'
+          description: The user action correlation ID shared by SDK events for this turn.
+        toolCallId:
+          type:
+          - string
+          - 'null'
+          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
+        toolName:
+          type:
+          - string
+          - 'null'
+        toolType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - server
+          - client
+          - system
+          - null
+        toolSubtype:
+          type:
+          - string
+          - 'null'
+          description: For server tools, distinguishes e.g. `rag` from `webhook`.
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - started
+          - completed
+          - failed
+          - null
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        durationSeconds:
+          type:
+          - number
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        arguments:
+          type:
+          - object
+          - 'null'
+          description: The arguments the LLM called the tool with. Null when the session has transcripts disabled or is zero-data-retention. Values under header- or credential-like keys are replaced with `[REDACTED]`.
+        result:
+          type:
+          - string
+          - 'null'
+          description: The result the tool returned to the LLM. Null when the session has transcripts disabled or is zero-data-retention, and for calls that produced no result (e.g. failed or fire-and-forget client calls).
+        documentsAccessed:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: For knowledge (RAG) tools, the names of the documents the call read. Null under the same conditions as `arguments`.
+    CartesiaSonic3VoiceGenerationOptions:
+      title: Cartesia Sonic-3
+      type: object
+      description: Voice generation options for Cartesia Sonic-3 models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
+          example: 1
+          minimum: 0.6
+          maximum: 1.5
+        emotion:
+          type: string
+          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
+          example: neutral
+          oneOf:
+          - type: string
+            enum:
+            - neutral
+            - calm
+            - angry
+            - content
+            - sad
+            - scared
+    LatencyStats:
+      type: object
+      description: Percentile distribution of a per-turn latency metric, in seconds. Values are null when no turn produced a usable measurement.
+      properties:
+        count:
+          type: integer
+          description: Number of turns that produced a usable value.
+        avg:
+          type:
+          - number
+          - 'null'
+        p50:
+          type:
+          - number
+          - 'null'
+        p90:
+          type:
+          - number
+          - 'null'
+        p95:
+          type:
+          - number
+          - 'null'
+        p99:
+          type:
+          - number
+          - 'null'
+        max:
+          type:
+          - number
+          - 'null'
+    SessionToken:
+      type: object
+      description: Short-lived credential used by a client to connect to a live persona. Valid for one hour.
+      properties:
+        sessionToken:
+          type: string
+          description: Signed JWT the client passes to the Anam SDK to open a WebRTC connection.
+  examples:
+    SessionTokenCreate:
+      summary: Mint a token for an ephemeral persona
+      value:
+        personaConfig:
+          name: Cara
+          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
+          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
+          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+          systemPrompt: You are a helpful assistant.
+    SessionRecordingResponse:
+      summary: A short-lived URL for downloading the session recording
+      value:
+        recordingUrl: https://cdn.anam.ai/recordings/00000000-0000-0000-0000-000000000000.mp4?X-Amz-Signature=…
+    SessionAnalyticsResponse:
+      summary: Per-turn latency analytics for a completed session
+      value:
+        sessionId: 00000000-0000-0000-0000-000000000000
+        startTime: '2026-04-20T09:00:00.000Z'
+        endTime: '2026-04-20T09:12:34.000Z'
+        durationSeconds: 754
+        sessionType: turnkey
+        exitStatus: CLOSED_BY_ENGINE
+        clientLabel: js-sdk-api-key
+        clientMetadata: null
+        personaId: null
+        apiKeyId: 00000000-0000-0000-0000-000000000000
+        config:
+          llmProvider: openai
+          llmModel: gpt-4o
+          ttsProvider: ELEVENLABS
+          ttsVoice: lcMyyd2HUfFzxdCaC4Ta
+          avatarKey: cara_home
+          personaName: Cara
+          languageCode: en
+          transcriptsEnabled: true
+        summary:
+          totalTurns: 4
+          completedTurns: 1
+          interruptedTurns: 1
+          interruptionRate: 0.5
+          totalUserSpeechDurationSeconds: 9.4
+          totalUserWords: 24
+          totalAssistantWords: 61
+          totalWarnings: 0
+          totalErrors: 0
+          toolCalls:
+            total: 1
+            succeeded: 1
+            failed: 0
+            byName:
+              lookup_order: 1
+          averageLatencies:
+            transcriptionLatencySeconds: 0.31
+            llmTimeToFirstOutputSeconds: 0.58
+            ttsGenerationDurationSeconds: 1.12
+            firstAudioLatencySeconds: 1.24
+        turns:
+        - turnIndex: 0
+          correlationId: corr-0000
+          userSpeechStartTime: null
+          userSpeechEndTime: null
+          userSpeechDurationSeconds: null
+          userTranscriptionTime: null
+          transcriptionLatencySeconds: null
+          llmFirstOutputTime: '2026-04-20T09:00:02.100Z'
+          llmFinalOutputTime: '2026-04-20T09:00:03.400Z'
+          llmTimeToFirstOutputSeconds: null
+          llmGenerationDurationSeconds: 1.3
+          ttsStartTime: '2026-04-20T09:00:02.200Z'
+          ttsEndTime: '2026-04-20T09:00:03.900Z'
+          ttsGenerationDurationSeconds: 1.7
+          ttsTimeToFirstAudioSeconds: 0.42
+          personaStartSpeakingTime: '2026-04-20T09:00:02.620Z'
+          personaStopSpeakingTime: '2026-04-20T09:00:07.100Z'
+          firstAudioLatencySeconds: null
+          speakingDurationSeconds: 4.48
+          finishReason: completed
+          wasInterrupted: false
+          interruptedStage: null
+          toolCalls: []
+        - turnIndex: 1
+          correlationId: corr-0001
+          userSpeechStartTime: '2026-04-20T09:00:09.000Z'
+          userSpeechEndTime: '2026-04-20T09:00:11.300Z'
+          userSpeechDurationSeconds: 2.3
+          userTranscriptionTime: '2026-04-20T09:00:11.640Z'
+          transcriptionLatencySeconds: 0.34
+          llmFirstOutputTime: '2026-04-20T09:00:12.210Z'
+          llmFinalOutputTime: '2026-04-20T09:00:13.760Z'
+          llmTimeToFirstOutputSeconds: 0.57
+          llmGenerationDurationSeconds: 1.55
+          ttsStartTime: '2026-04-20T09:00:12.300Z'
+          ttsEndTime: '2026-04-20T09:00:14.100Z'
+          ttsGenerationDurationSeconds: 1.8
+          ttsTimeToFirstAudioSeconds: 0.39
+          personaStartSpeakingTime: '2026-04-20T09:00:12.690Z'
+          personaStopSpeakingTime: '2026-04-20T09:00:16.200Z'
+          firstAudioLatencySeconds: 1.39
+          speakingDurationSeconds: 3.51
+          finishReason: interrupted
+          wasInterrupted: true
+          interruptedStage: while_speaking
+          toolCalls:
+          - toolCallId: tool-0001
+            toolName: lookup_order
+            toolType: SERVER_WEBHOOK
+            status: completed
+            startedAt: '2026-04-20T09:00:12.400Z'
+            completedAt: '2026-04-20T09:00:13.100Z'
+            durationSeconds: 0.7
+            errorMessage: null
+    SessionTokenResponse:
+      summary: A freshly minted session token
+      value:
+        sessionToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAifQ.signature
+    SessionListResponse:
+      summary: A paginated list of sessions
+      value:
+        data:
+        - id: 00000000-0000-0000-0000-000000000000
+          personaId: null
+          clientLabel: anam-lab-chat
+          startTime: '2026-04-20T09:00:00.000Z'
+          endTime: '2026-04-20T09:12:34.000Z'
+          sessionLengthMs: 754000
+          exitStatus: CLOSED_BY_ENGINE
+          engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
+          engineProtocol: https
+          engineVersion: v5.1.0
+          clientMetadata:
+            userAgent: Mozilla/5.0
+          personaConfig:
+            type: ephemeral
+            name: Cara
+            metadata:
+              client: js-sdk
+            llmConfig:
+              id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+              modelName: gpt-4o
+              format: openai
+              urls:
+              - url: https://api.openai.com/v1
+                region: default
+              maxTokens: 4096
+              temperature: 0.7
+              metadata: {}
+              secret_iv: '[REDACTED]'
+              encrypted_secret: '[REDACTED]'
+              createdByOrganizationId: null
+            systemPrompt: You are a helpful assistant.
+            personality: ''
+            languageCode: en
+            skipGreeting: false
+            zeroDataRetention: false
+            ttsProvider: ELEVENLABS
+            ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
+            ttsProviderModelId: eleven_flash_v2_5
+            ttsProviderOptions: {}
+            avatarEngineKey: cara_home
+            avatarVersion: cara-3
+            disableBrains: false
+            fillerPhrases: []
+            useFillerPhrases: false
+            enableAudioPassthrough: false
+            voiceDetectionOptions: {}
+            voiceGenerationOptions: {}
+            maxSessionLengthSeconds: 1000000
+            fps: 25
+          apiKeyId: 00000000-0000-0000-0000-000000000000
+          organizationId: 00000000-0000-0000-0000-000000000000
+          createdAt: '2026-04-20T09:00:00.000Z'
+          updatedAt: '2026-04-20T09:12:34.000Z'
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    SessionAnalyticsAggregateResponse:
+      summary: Aggregated latency percentiles across sessions
+      value:
+        from: '2026-04-19T09:00:00.000Z'
+        to: '2026-04-20T09:00:00.000Z'
+        filters:
+          personaId: null
+          apiKeyId: null
+          clientLabel: null
+          sessionType: null
+        sessionCount: 128
+        sessionsWithReports: 121
+        truncated: false
+        turnCount: 1874
+        latencies:
+          transcriptionLatencySeconds:
+            count: 1702
+            avg: 0.34
+            p50: 0.29
+            p90: 0.52
+            p95: 0.61
+            p99: 0.94
+            max: 1.87
+          llmTimeToFirstOutputSeconds:
+            count: 1698
+            avg: 0.61
+            p50: 0.54
+            p90: 0.92
+            p95: 1.18
+            p99: 2.04
+            max: 4.31
+          llmGenerationDurationSeconds:
+            count: 1698
+            avg: 1.42
+            p50: 1.31
+            p90: 2.12
+            p95: 2.54
+            p99: 3.87
+            max: 7.02
+          ttsGenerationDurationSeconds:
+            count: 1671
+            avg: 1.18
+            p50: 1.09
+            p90: 1.74
+            p95: 2.02
+            p99: 2.98
+            max: 5.44
+          ttsTimeToFirstAudioSeconds:
+            count: 1671
+            avg: 0.41
+            p50: 0.37
+            p90: 0.62
+            p95: 0.74
+            p99: 1.12
+            max: 2.36
+          firstAudioLatencySeconds:
+            count: 1698
+            avg: 1.31
+            p50: 1.18
+            p90: 1.86
+            p95: 2.21
+            p99: 3.42
+            max: 6.75
+          speakingDurationSeconds:
+            count: 1698
+            avg: 7.85
+            p50: 6.92
+            p90: 13.41
+            p95: 16.08
+            p99: 22.6
+            max: 41.19
+          userSpeechDurationSeconds:
+            count: 1702
+            avg: 3.62
+            p50: 3.11
+            p90: 6.4
+            p95: 7.83
+            p99: 11.9
+            max: 19.75
+        counts:
+          completedTurns: 1512
+          interruptedTurns: 186
+          interruptedBeforeAudioTurns: 22
+          totalErrors: 4
+          totalWarnings: 19
+          sessionsWithErrors: 3
+          sessionsWithWarnings: 11
+          toolCalls:
+            total: 96
+            succeeded: 91
+            failed: 5
+            byName:
+              lookup_order: 96
+        rates:
+          interruptionRate: 0.1095
+          interruptedBeforeAudioRate: 0.013
+          errorSessionRate: 0.0248
+          warningSessionRate: 0.0909
+          toolCallFailureRate: 0.0521
+        slowestTurns:
+        - sessionId: 00000000-0000-0000-0000-000000000000
+          correlationId: corr-1042
+          metric: firstAudioLatencySeconds
+          valueSeconds: 6.75
+          sessionStartTime: '2026-04-20T08:41:12.000Z'
+          personaId: null
+          clientLabel: js-sdk-api-key
+        - sessionId: 00000000-0000-0000-0000-000000000000
+          correlationId: corr-0311
+          metric: llmTimeToFirstOutputSeconds
+          valueSeconds: 4.31
+          sessionStartTime: '2026-04-20T07:02:44.000Z'
+          personaId: null
+          clientLabel: js-sdk-api-key
+    SessionTranscriptResponse:
+      summary: The message log of a completed session
+      value:
+        sessionId: 00000000-0000-0000-0000-000000000000
+        personaName: Cara
+        startTime: '2026-04-20T09:00:00.000Z'
+        endTime: '2026-04-20T09:12:34.000Z'
+        durationMs: 754000
+        totalMessages: 6
+        transcriptsEnabled: true
+        messages:
+        - role: persona
+          message: Hi! How can I help?
+          timestamp: '2026-04-20T09:00:01.000Z'
+          speakingDurationSeconds: 1.4
+          wasInterrupted: false
+        - role: user
+          message: Can you tell me a joke?
+          timestamp: '2026-04-20T09:00:05.000Z'
+          speakingDurationSeconds: 2.1
+    SessionResponse:
+      summary: A single session record
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        personaId: null
+        clientLabel: anam-lab-chat
+        startTime: '2026-04-20T09:00:00.000Z'
+        endTime: '2026-04-20T09:12:34.000Z'
+        sessionLengthMs: 754000
+        exitStatus: CLOSED_BY_ENGINE
+        engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
+        engineProtocol: https
+        engineVersion: v5.1.0
+        clientMetadata:
+          userAgent: Mozilla/5.0
+        personaConfig:
+          type: ephemeral
+          name: Cara
+          metadata:
+            client: js-sdk
+          llmConfig:
+            id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+            modelName: gpt-4o
+            format: openai
+            urls:
+            - url: https://api.openai.com/v1
+              region: default
+            maxTokens: 4096
+            temperature: 0.7
+            metadata: {}
+            secret_iv: '[REDACTED]'
+            encrypted_secret: '[REDACTED]'
+            createdByOrganizationId: null
+          systemPrompt: You are a helpful assistant.
+          personality: ''
+          languageCode: en
+          skipGreeting: false
+          zeroDataRetention: false
+          ttsProvider: ELEVENLABS
+          ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
+          ttsProviderModelId: eleven_flash_v2_5
+          ttsProviderOptions: {}
+          avatarEngineKey: cara_home
+          avatarVersion: cara-3
+          disableBrains: false
+          fillerPhrases: []
+          useFillerPhrases: false
+          enableAudioPassthrough: false
+          voiceDetectionOptions: {}
+          voiceGenerationOptions: {}
+          maxSessionLengthSeconds: 1000000
+          fps: 25
+        apiKeyId: 00000000-0000-0000-0000-000000000000
+        organizationId: 00000000-0000-0000-0000-000000000000
+        createdAt: '2026-04-20T09:00:00.000Z'
+        updatedAt: '2026-04-20T09:12:34.000Z'
+        toolCalls:
+        - turnIndex: 3
+          correlationId: 0d9f6c04-3f2b-4f6e-9d4e-6a8f6f2a1b3c
+          toolCallId: fc_f98c6f4e-6441-4061-8c5f-04d6f3e4a726
+          toolName: knowledge_base
+          toolType: server
+          toolSubtype: rag
+          status: completed
+          startedAt: '2026-04-20T09:03:12.412Z'
+          completedAt: '2026-04-20T09:03:13.058Z'
+          durationSeconds: 0.646
+          errorMessage: null
+          arguments:
+            query: opening hours
+          result: '[Source 1 from "FAQs.docx", Relevance: 82%]
+
+            We are open Monday to Friday, 9am to 5pm.'
+          documentsAccessed:
+          - FAQs.docx
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

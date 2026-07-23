@@ -1,0 +1,16 @@
+generated: '2026-07-17'
+method: searched
+source: https://anam.ai/
+url: https://trust.anam.ai/
+certifications:
+  - SOC 2
+  - HIPAA
+compliance_notes: >-
+  Anam states it is "HIPAA and SOC 2 certified" on anam.ai and operates a trust center
+  at https://trust.anam.ai/. Enterprise plan offers zero-data-retention (ZDR) options and
+  SLA uptime guarantees. Voices carry an isZdr flag in the API.
+evidence:
+  - source: https://anam.ai/
+    keywords: [soc 2, hipaa]
+  - source: https://trust.anam.ai/
+    keywords: [trust center]

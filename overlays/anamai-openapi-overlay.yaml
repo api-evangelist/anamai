@@ -1,0 +1,23 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Anam AI API
+  version: 1.0.0
+extends: openapi/anamai-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-rating: 4
+      x-apievangelist-notes: >-
+        Real-time conversational AI-avatar platform. Bearer-token auth with a
+        two-step API-key -> session-token exchange. Page/perPage pagination and
+        IETF RateLimit-* signaling. No idempotency-key contract and no webhook
+        surface observed as of 2026-07-17.
+  - target: $.info
+    update:
+      x-artifact-coverage:
+        authentication: authentication/anamai-authentication.yml
+        conventions: conventions/anamai-conventions.yml
+        errors: errors/anamai-problem-types.yml
+        lifecycle: lifecycle/anamai-lifecycle.yml
+        rate-limits: rate-limits/anamai-rate-limits.yml
+        data-model: data-model/anamai-data-model.yml

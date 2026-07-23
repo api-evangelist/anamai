@@ -1,0 +1,36 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/anamai-openapi-original.json
+standards:
+  - id: oauth2
+    conforms: false
+    evidence: no oauth2 securityScheme; auth is http bearer (API key -> session token)
+  - id: openid-connect
+    conforms: false
+    evidence: no /.well-known/openid-configuration (404)
+  - id: http-bearer-auth
+    conforms: true
+    evidence: components.securitySchemes.BearerAuth type http scheme bearer
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: error responses use application/json, not application/problem+json
+  - id: rfc9116-security-txt
+    conforms: true
+    evidence: https://anam.ai/.well-known/security.txt returns 200
+  - id: ietf-ratelimit-headers
+    conforms: true
+    evidence: responses expose RateLimit-Limit / RateLimit-Remaining / RateLimit-Reset (+ Retry-After)
+  - id: pagination
+    conforms: true
+    evidence: page/perPage query params with a Pagination schema (total/currentPage/next/prev)
+  - id: idempotency
+    conforms: false
+    evidence: no Idempotency-Key header parameter documented in the spec
+  - id: soc2
+    conforms: true
+    evidence: provider states "SOC 2 certified" on anam.ai; trust center at https://trust.anam.ai/
+    method: searched
+  - id: hipaa
+    conforms: true
+    evidence: provider states "HIPAA certified" on anam.ai; trust center at https://trust.anam.ai/
+    method: searched

@@ -1,0 +1,16 @@
+generated: '2026-07-17'
+method: generated
+source: openapi/anamai-openapi-original.json
+skills:
+  - file: anamai-create-persona-and-start-session.md
+    name: Create a persona and start a live avatar session
+    api: openapi/anamai-openapi-original.json
+    operations: [createPersona, createSessionToken, createEngineSession]
+  - file: anamai-build-knowledge-base.md
+    name: Build a RAG knowledge base for a persona
+    api: openapi/anamai-openapi-original.json
+    operations: [createKnowledgeGroup, uploadKnowledgeGroupDocument, listKnowledgeGroupDocuments, searchKnowledgeGroup]
+  - file: anamai-invite-persona-to-meeting.md
+    name: Invite a persona to a video meeting
+    api: openapi/anamai-openapi-original.json
+    operations: [createPersona, createMeetingInvite, getMeetingInvite, cancelMeetingInvite]

@@ -1,0 +1,736 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars Knowledge API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Knowledge
+paths:
+  /v1/knowledge/groups:
+    get:
+      description: Returns a list of all knowledge groups for the organization
+      responses:
+        '200':
+          description: Successfully retrieved knowledge groups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KnowledgeGroup'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeGroupArrayResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: listKnowledgeGroups
+      summary: list knowledge groups
+      x-mint:
+        metadata:
+          title: list knowledge groups
+        mcp:
+          enabled: true
+          name: list-knowledge-groups
+          description: Returns a list of all knowledge groups for the organization
+    post:
+      description: Create a new knowledge group
+      requestBody:
+        description: Name and optional description for the new knowledge group. The group starts empty — upload documents separately via `POST /v1/knowledge/groups/{id}/documents`.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/KnowledgeGroupCreate'
+            schema:
+              type: object
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Successfully created knowledge group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeGroup'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeGroupResponse'
+        '400':
+          description: Bad request - Invalid data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: createKnowledgeGroup
+      summary: create knowledge group
+      x-mint:
+        metadata:
+          title: create knowledge group
+        mcp:
+          enabled: true
+          name: create-knowledge-group
+          description: Create a new knowledge group
+  /v1/knowledge/groups/{id}:
+    get:
+      description: Get a single RAG group by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge group
+      responses:
+        '200':
+          description: Successfully retrieved RAG group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeGroup'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeGroupResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: RAG group not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: getKnowledgeGroup
+      summary: get knowledge group
+      x-mint:
+        metadata:
+          title: get knowledge group
+        mcp:
+          enabled: true
+          name: get-knowledge-group
+          description: Get a single RAG group by ID
+    put:
+      description: Update a RAG group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge group
+      requestBody:
+        description: Fields to update on the knowledge group. Omit a field to leave it unchanged.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/KnowledgeGroupUpdate'
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Successfully updated RAG group
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeGroup'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeGroupResponse'
+        '400':
+          description: Bad request - Invalid data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: RAG group not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: updateKnowledgeGroup
+      summary: update knowledge group
+      x-mint:
+        metadata:
+          title: update knowledge group
+        mcp:
+          enabled: true
+          name: update-knowledge-group
+          description: Update a RAG group
+    delete:
+      description: Delete a RAG group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge group
+      responses:
+        '204':
+          description: Successfully deleted RAG group
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: RAG group not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: deleteKnowledgeGroup
+      summary: delete knowledge group
+      x-mint:
+        metadata:
+          title: delete knowledge group
+        mcp:
+          enabled: true
+          name: delete-knowledge-group
+          description: Delete a RAG group. Use with caution as this action cannot be undone.
+  /v1/knowledge/groups/{id}/search:
+    post:
+      description: Search for similar content in a RAG group using vector similarity
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge group
+      requestBody:
+        description: Query string to search the group's documents, plus an optional cap on how many chunks to return. Only `READY` documents are included in the results.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/KnowledgeGroupSearch'
+            schema:
+              type: object
+              required:
+              - query
+              properties:
+                query:
+                  type: string
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 20
+                  default: 5
+      responses:
+        '200':
+          description: Successfully retrieved search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KnowledgeSearchResult'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeSearchArrayResponse'
+        '400':
+          description: Bad request - Invalid search query
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: RAG group not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: searchKnowledgeGroup
+      summary: search knowledge group
+      x-mint:
+        metadata:
+          title: search knowledge group
+        mcp:
+          enabled: true
+          name: search-knowledge-group
+          description: Search for similar content in a RAG group using vector similarity
+  /v1/knowledge/groups/{id}/documents:
+    get:
+      description: Get all documents in a RAG group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge group
+      responses:
+        '200':
+          description: Successfully retrieved documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/KnowledgeDocument'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeDocumentArrayResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: RAG group not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: listKnowledgeGroupDocuments
+      summary: list knowledge group documents
+      x-mint:
+        metadata:
+          title: list knowledge group documents
+        mcp:
+          enabled: true
+          name: list-knowledge-group-documents
+          description: Get all documents in a RAG group
+    post:
+      description: Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header).
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge group
+      requestBody:
+        description: Document file to upload into the knowledge group. Supported formats are PDF, TXT, MD, DOCX, and CSV, up to 50MB. Must be sent as `multipart/form-data`. Documents are processed asynchronously — the returned record starts in `PROCESSING` state and becomes searchable once it reaches `READY`.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).
+                chunkSize:
+                  type: integer
+                  default: 1000
+                chunkOverlap:
+                  type: integer
+                  default: 200
+      responses:
+        '201':
+          description: Successfully uploaded document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeDocument'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeDocumentResponse'
+        '400':
+          description: Bad request - Invalid file or parameters
+        '401':
+          description: Unauthorized - Invalid or missing API key/upload token
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: RAG group not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: uploadKnowledgeGroupDocument
+      summary: upload knowledge group document
+      x-mint:
+        metadata:
+          title: upload knowledge group document
+        mcp:
+          enabled: true
+          name: upload-knowledge-group-document
+          description: Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header).
+  /v1/knowledge/documents/{id}:
+    get:
+      description: Get a single document by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge document
+      responses:
+        '200':
+          description: Successfully retrieved document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeDocument'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeDocumentResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Document not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: getKnowledgeDocument
+      summary: get knowledge document
+      x-mint:
+        metadata:
+          title: get knowledge document
+        mcp:
+          enabled: true
+          name: get-knowledge-document
+          description: Get a single document by ID
+    put:
+      description: Update a document (rename)
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge document
+      requestBody:
+        description: Rename the document. Only `filename` is editable; the stored file and its extracted chunks are unchanged.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/KnowledgeDocumentRename'
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+                  description: New filename for the document
+      responses:
+        '200':
+          description: Successfully updated document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeDocument'
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeDocumentResponse'
+        '400':
+          description: Bad request - Invalid data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Document not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: updateKnowledgeDocument
+      summary: update knowledge document
+      x-mint:
+        metadata:
+          title: update knowledge document
+        mcp:
+          enabled: true
+          name: update-knowledge-document
+          description: Update a document (rename)
+    delete:
+      description: Delete a document from a RAG group
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge document
+      responses:
+        '204':
+          description: Successfully deleted document
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Document not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: deleteKnowledgeDocument
+      summary: delete knowledge document
+      x-mint:
+        metadata:
+          title: delete knowledge document
+        mcp:
+          enabled: true
+          name: delete-knowledge-document
+          description: Delete a document from a RAG group. Use with caution as this action cannot be undone.
+  /v1/knowledge/documents/{id}/download:
+    get:
+      description: Get a presigned download URL for a knowledge document
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Unique identifier of the knowledge document
+      responses:
+        '200':
+          description: Successfully generated download URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  downloadUrl:
+                    type: string
+                  filename:
+                    type: string
+              examples:
+                default:
+                  $ref: '#/components/examples/KnowledgeDocumentDownloadResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Document not found
+        '500':
+          description: Server error
+      tags:
+      - Knowledge
+      operationId: getKnowledgeDocumentDownload
+      summary: get knowledge document download
+      x-mint:
+        metadata:
+          title: get knowledge document download
+        mcp:
+          enabled: true
+          name: get-knowledge-document-download
+          description: Get a presigned download URL for a knowledge document
+components:
+  examples:
+    KnowledgeDocumentArrayResponse:
+      summary: All documents in a knowledge group (bare array)
+      value:
+      - id: 00000000-0000-0000-0000-000000000000
+        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        fileType: application/pdf
+        fileSize: 248320
+        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
+        status: READY
+        errorMessage: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:01:12.000Z'
+    KnowledgeGroupArrayResponse:
+      summary: All knowledge groups for the organization (bare array)
+      value:
+      - id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    KnowledgeDocumentDownloadResponse:
+      summary: A short-lived URL for downloading a knowledge document
+      value:
+        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+        filename: getting-started.pdf
+    KnowledgeSearchArrayResponse:
+      summary: Search results (bare array, ranked by score)
+      value:
+      - documentId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        content: To reset your password, visit the account settings page and click "Reset password".
+        score: 0.87
+        chunkIndex: 3
+        metadata:
+          section: Account
+    KnowledgeGroupSearch:
+      summary: Find the top 5 chunks matching a query
+      value:
+        query: How do I reset my password?
+        limit: 5
+    KnowledgeGroupUpdate:
+      summary: Rename a knowledge group
+      value:
+        name: Customer support
+    KnowledgeGroupCreate:
+      summary: Create an empty knowledge group
+      value:
+        name: Product docs
+        description: Help-centre articles and API reference.
+    KnowledgeGroupResponse:
+      summary: A single knowledge group
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    KnowledgeDocumentRename:
+      summary: Rename a document
+      value:
+        filename: updated-filename.pdf
+    KnowledgeDocumentResponse:
+      summary: A single knowledge document
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        fileType: application/pdf
+        fileSize: 248320
+        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
+        status: READY
+        errorMessage: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:01:12.000Z'
+  schemas:
+    KnowledgeDocument:
+      type: object
+      description: A single file uploaded into a knowledge group. Retrieved chunks reference it by ID.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the document.
+        knowledgeFolderId:
+          type: string
+          format: uuid
+          description: ID of the knowledge group this document belongs to.
+        filename:
+          type: string
+          description: Original filename as uploaded.
+        fileType:
+          type: string
+          description: MIME type or extension-derived file type.
+        fileSize:
+          type: integer
+          description: Size of the file in bytes.
+        fileUrl:
+          type: string
+          format: uri
+          description: Internal URL at which the file is stored.
+        status:
+          type: string
+          enum:
+          - UPLOADED
+          - PROCESSING
+          - READY
+          - FAILED
+          description: Current processing state. Only `READY` documents are searchable.
+        errorMessage:
+          type:
+          - string
+          - 'null'
+          description: Failure reason when `status` is `FAILED`, otherwise `null`.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the document was uploaded.
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the document record was last updated.
+    KnowledgeGroup:
+      type: object
+      description: A folder of documents that a persona can search via RAG tools.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the knowledge group.
+        name:
+          type: string
+          description: Human-readable name for the group.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of what the group contains.
+        documentCount:
+          type: integer
+          description: Number of non-deleted documents currently in the group.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the group was created.
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the group was last updated.
+    KnowledgeSearchResult:
+      type: object
+      description: One matching chunk returned by a knowledge-group search.
+      properties:
+        documentId:
+          type: string
+          format: uuid
+          description: ID of the document the chunk was extracted from.
+        filename:
+          type: string
+          description: Filename of the source document.
+        content:
+          type: string
+          description: Text content of the matching chunk.
+        score:
+          type: number
+          description: Similarity score for this chunk against the query, higher is more similar.
+        chunkIndex:
+          type: integer
+          description: Zero-based index of the chunk within the source document.
+        metadata:
+          type: object
+          description: Free-form metadata attached to the chunk at ingest time.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

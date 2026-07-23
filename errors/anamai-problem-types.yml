@@ -1,0 +1,102 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/anamai-openapi-original.json
+format: json
+envelope_note: Errors are returned as application/json (not RFC 9457 problem+json). Bodies carry a human-readable
+  message/description; 422 validation errors carry field-level detail.
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad request - Invalid LLM data; Bad request - Invalid avatar ID; Bad request - Invalid
+    avatar data; Bad request - Invalid avatar data, missing image file/URL, or both provided; Bad request
+    - Invalid body or file too large; Bad request - Invalid data; Bad request - Invalid file or parameters;
+    Bad req
+  remediation: Check the request body and parameters against the API reference.
+  example_operations:
+  - createAvatar
+  - createEngineSession
+  - createKnowledgeGroup
+  - createLlm
+  - createMeetingInvite
+- status: 401
+  title: Unauthorized
+  description: Unauthorized - Invalid or missing API key; Unauthorized - Invalid or missing API key/upload
+    token; Unauthorized - invalid API key, or invalid/expired session token; Unauthorized - missing or
+    invalid API key.
+  remediation: Provide a valid API key (Bearer token) or a fresh session token.
+  example_operations:
+  - cancelMeetingInvite
+  - createAvatar
+  - createEngineSession
+  - createKnowledgeGroup
+  - createLlm
+- status: 403
+  title: Forbidden
+  description: Forbidden - API key lacks the required permission; Forbidden - API key lacks the required
+    permission, or the saved persona is not available to the authenticated organization.; Forbidden -
+    API key lacks the required permission, the session config is not authorized for the organization,
+    or the plan do
+  remediation: The credential lacks permission or the plan does not allow this action.
+  example_operations:
+  - cancelMeetingInvite
+  - createAvatar
+  - createEngineSession
+  - createKnowledgeGroup
+  - createLlm
+- status: 404
+  title: Not Found
+  description: Document not found; LLM not found; Not Found - Avatar not found; Not Found - No avatars
+    found; Not Found - No personas found; Not Found - No voices found; Not Found - Persona not found;
+    Not Found - Session not found; Not Found - Session not found or no transcript available; Not Found
+    - Session not f
+  remediation: Verify the resource ID; it may not exist or was deleted.
+  example_operations:
+  - cancelMeetingInvite
+  - createShareLink
+  - deleteAvatar
+  - deleteKnowledgeDocument
+  - deleteKnowledgeGroup
+- status: 422
+  title: Unprocessable Entity
+  description: Unprocessable Entity - Image could not be processed, or was rejected by content moderation
+    (e.g. inappropriate content, celebrity likeness, or the subject's age could not be verified); Unprocessable
+    Entity - the meeting service rejected the invite (customer-correctable).
+  remediation: Validation failed; inspect field-level errors in the response body.
+  example_operations:
+  - createAvatar
+  - createMeetingInvite
+- status: 429
+  title: Too Many Requests
+  description: Concurrent session limit or spend cap reached; Too Many Requests - Content moderation rate
+    limit reached; wait and retry; Too Many Requests - create invite rate limit exceeded.
+  remediation: Rate limit exceeded; honor RateLimit-Reset / Retry-After before retrying.
+  example_operations:
+  - createAvatar
+  - createEngineSession
+  - createMeetingInvite
+- status: 500
+  title: Internal Server Error
+  description: 'Server error; Server error.; Server error. Note: currently any non-validation error is
+    returned as a 500, eventhough the error might be due to joining the room or related to token validation.'
+  remediation: Server error; retry with backoff and contact support if it persists.
+  example_operations:
+  - cancelMeetingInvite
+  - createAvatar
+  - createKnowledgeGroup
+  - createLlm
+  - createMeetingInvite
+- status: 502
+  title: Bad Gateway
+  description: Bad Gateway - meeting service is unavailable.
+  remediation: Upstream/gateway error; retry with backoff.
+  example_operations:
+  - cancelMeetingInvite
+  - createMeetingInvite
+- status: 503
+  title: Service Unavailable
+  description: No engines available; Service Unavailable - meeting invites are disabled, not configured,
+    or temporarily at capacity. Capacity responses include a Retry-After header.
+  remediation: Service temporarily unavailable; retry with backoff.
+  example_operations:
+  - createEngineSession
+  - createMeetingInvite

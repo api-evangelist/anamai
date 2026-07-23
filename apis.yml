@@ -1,25 +1,227 @@
 aid: anamai
 name: Anam.ai
-description: Anam.ai is a company surfaced as a portfolio company of techstars and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Anam.ai is a real-time interactive AI avatar platform for building conversational video AI
+  agents with photorealistic personas. Its proprietary CARA-4 avatar model streams over WebRTC
+  with ultra-low latency (around 180ms) across 70+ languages, powering customer support, sales,
+  tutoring, medical, and training use cases. The REST API (https://api.anam.ai/v1/) lets teams
+  create and manage personas, avatars, voices, LLM configs, RAG knowledge groups, tools, share
+  links, and sessions, and invite personas into Google Meet, Zoom, and Microsoft Teams calls via
+  the Meetings API. Auth is a two-step Bearer flow (API key exchanged for a short-lived session
+  token). Anam is HIPAA and SOC 2 certified. Surfaced as a Techstars portfolio company and
+  enriched into the API Evangelist network.
 url: https://raw.githubusercontent.com/api-evangelist/anamai/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://framerusercontent.com/assets/cyASyHEg6g3WK5dCwQoOyyVbFZU.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - techstars
-x-tier: stub
+x-tier: enriched
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
 modified: '2026-07-17'
 tags:
 - Company
-apis: []
+- AI Avatars
+- Conversational AI
+- Real-Time Video
+- WebRTC
+- Digital Humans
+- Generative AI
+apis:
+- aid: anamai:anamai-avatars-api
+  name: Anam.ai Avatars API
+  description: The Avatars API from Anam.ai — 2 operation(s) for avatars.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Avatars
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-avatars-api-openapi.yml
+- aid: anamai:anamai-engine-api
+  name: Anam.ai Engine API
+  description: The Engine API from Anam.ai — 1 operation(s) for engine.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Engine
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-engine-api-openapi.yml
+- aid: anamai:anamai-knowledge-api
+  name: Anam.ai Knowledge API
+  description: The Knowledge API from Anam.ai — 6 operation(s) for knowledge.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Knowledge
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-knowledge-api-openapi.yml
+- aid: anamai:anamai-llms-api
+  name: Anam.ai LLMs API
+  description: The LLMs API from Anam.ai — 2 operation(s) for llms.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - LLMs
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-llms-api-openapi.yml
+- aid: anamai:anamai-meetings-api
+  name: Anam.ai Meetings API
+  description: The Meetings API from Anam.ai — 2 operation(s) for meetings.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Meetings
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-meetings-api-openapi.yml
+- aid: anamai:anamai-personas-api
+  name: Anam.ai Personas API
+  description: The Personas API from Anam.ai — 2 operation(s) for personas.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Personas
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-personas-api-openapi.yml
+- aid: anamai:anamai-sessions-api
+  name: Anam.ai Sessions API
+  description: The Sessions API from Anam.ai — 9 operation(s) for sessions.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-sessions-api-openapi.yml
+- aid: anamai:anamai-share-links-api
+  name: Anam.ai Share Links API
+  description: The Share Links API from Anam.ai — 2 operation(s) for share links.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Share Links
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-share-links-api-openapi.yml
+- aid: anamai:anamai-tools-api
+  name: Anam.ai Tools API
+  description: The Tools API from Anam.ai — 2 operation(s) for tools.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Tools
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-tools-api-openapi.yml
+- aid: anamai:anamai-voices-api
+  name: Anam.ai Voices API
+  description: The Voices API from Anam.ai — 3 operation(s) for voices.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Voices
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-voices-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DeveloperPortal
+  url: https://anam.ai/docs
+- type: Documentation
+  url: https://anam.ai/docs
+- type: APIReference
+  url: https://anam.ai/docs/api-reference
+- type: GettingStarted
+  url: https://anam.ai/docs/quickstart
+- type: Blog
+  url: https://anam.ai/blog
+- type: Pricing
+  url: https://anam.ai/pricing
+- type: SignUp
+  url: https://lab.anam.ai/register
+- type: Login
+  url: https://lab.anam.ai/login
+- type: TermsOfService
+  url: https://anam.ai/terms-of-service
+- type: PrivacyPolicy
+  url: https://anam.ai/privacy-policy
+- type: Support
+  url: mailto:support@anam.ai
+- type: GitHubOrganization
+  url: https://github.com/anam-org
+- type: StatusPage
+  url: https://status.anam.ai/
+- type: ChangeLog
+  url: changelog/anamai-changelog.yml
+- type: Trust
+  url: https://trust.anam.ai/
+- type: Compliance
+  url: https://trust.anam.ai/
+- type: Packages
+  url: packages/anamai-packages.yml
+- type: SDKs
+  url: packages/anamai-packages.yml
+- type: MCPServer
+  url: mcp/anamai-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/anamai-llms.txt
+- type: WellKnown
+  url: well-known/anamai-well-known.yml
+- type: SecurityTxt
+  url: well-known/anamai-security.txt
+- type: Security
+  url: https://anam.ai/.well-known/security.txt
+- type: Conformance
+  url: conformance/anamai-conformance.yml
+- type: ErrorCatalog
+  url: errors/anamai-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/anamai-lifecycle.yml
+- type: Conventions
+  url: conventions/anamai-conventions.yml
+- type: DataModel
+  url: data-model/anamai-data-model.yml
+- type: RateLimits
+  url: rate-limits/anamai-rate-limits.yml
+- type: AgenticAccess
+  url: agentic-access/anamai-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/anamai-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: security/anamai-trust-center.yml
+- type: DomainSecurity
+  url: security/anamai-domain-security.yml
+- type: Authentication
+  url: authentication/anamai-authentication.yml
 - type: Website
   url: https://anam.ai/
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

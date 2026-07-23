@@ -1,0 +1,570 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars Tools API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Tools
+paths:
+  /v1/tools:
+    get:
+      description: Returns a list of all tools for the organization
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Number of items per page
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Filter tools by name, description, or ID
+      responses:
+        '200':
+          description: Successfully retrieved tools
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tool'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/ToolListResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Tools
+      operationId: listTools
+      summary: list tools
+      x-mint:
+        metadata:
+          title: list tools
+        mcp:
+          enabled: true
+          name: list-tools
+          description: Returns a list of all tools for the organization
+    post:
+      description: Create a new tool for function calling in persona sessions
+      requestBody:
+        description: Tool definition. The `config` object shape depends on `type` — see the inline `oneOf` for the shape expected for each variant.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/ToolCreate'
+            schema:
+              type: object
+              required:
+              - name
+              - description
+              - type
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                  description: Unique name for the tool. Must match pattern [a-zA-Z0-9_.-]+
+                  example: search_knowledge_base
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 1024
+                  description: Description of what the tool does. Used by the LLM to decide when to call it.
+                  example: Search the knowledge base for information about products and services
+                type:
+                  type: string
+                  enum:
+                  - CLIENT
+                  - SERVER_RAG
+                  - SERVER_WEBHOOK
+                  - SYSTEM
+                  description: 'Type of tool:
+
+                    - CLIENT: Triggers events on the client SDK
+
+                    - SERVER_RAG: Searches knowledge base documents
+
+                    - SERVER_WEBHOOK: Calls an external webhook URL
+
+                    - SYSTEM: Internal system actions (end_call, interrupt)
+
+                    '
+                  example: SERVER_RAG
+                disableInterruptions:
+                  type: boolean
+                  description: When true, interruptions are disabled while this tool is executing. Defaults to false.
+                  default: false
+                  example: false
+                config:
+                  type: object
+                  description: Type-specific configuration for the tool
+                  oneOf:
+                  - title: ClientToolConfig
+                    type: object
+                    properties:
+                      parameters:
+                        type: object
+                        description: JSON schema for parameters the LLM will provide
+                      awaitResult:
+                        type: boolean
+                        description: If true, engine pauses until client sends a result back. Default is fire-and-forget.
+                      toolTimeoutSeconds:
+                        type: number
+                        minimum: 1
+                        maximum: 600
+                        description: Per-tool timeout in seconds when awaitResult is true. Default 10s.
+                  - title: ServerRagToolConfig
+                    type: object
+                    required:
+                    - documentFolderIds
+                    properties:
+                      documentFolderIds:
+                        type: array
+                        items:
+                          type: string
+                          format: uuid
+                        description: IDs of knowledge folders to search
+                        example:
+                        - 67d27a9f-0ce1-4432-848b-8ab2b97f024b
+                  - title: ServerWebhookToolConfig
+                    type: object
+                    required:
+                    - url
+                    - method
+                    properties:
+                      url:
+                        type: string
+                        format: uri
+                        description: Webhook URL to call
+                        example: https://api.example.com/webhook
+                      method:
+                        type: string
+                        enum:
+                        - GET
+                        - POST
+                        - PUT
+                        - DELETE
+                        - PATCH
+                        description: HTTP method to use
+                        example: POST
+                      headers:
+                        type: object
+                        additionalProperties:
+                          type: string
+                        description: Custom headers to send with the request
+                      bodyTemplate:
+                        type: string
+                        description: Template for the request body
+                  - title: SystemToolConfig
+                    type: object
+                    required:
+                    - action
+                    properties:
+                      action:
+                        type: string
+                        enum:
+                        - end_call
+                        - interrupt
+                        description: System action to perform
+      responses:
+        '201':
+          description: Successfully created tool
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+              examples:
+                default:
+                  $ref: '#/components/examples/ToolResponse'
+        '400':
+          description: Bad request - Invalid tool data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - Tools
+      operationId: createTool
+      summary: create tool
+      x-mint:
+        metadata:
+          title: create tool
+        mcp:
+          enabled: true
+          name: create-tool
+          description: Create a new tool for function calling in persona sessions
+  /v1/tools/{id}:
+    get:
+      description: Get a tool by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Tool ID
+        example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '200':
+          description: Successfully retrieved tool
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+              examples:
+                default:
+                  $ref: '#/components/examples/ToolResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: Tool not found
+        '500':
+          description: Server error
+      tags:
+      - Tools
+      operationId: getTool
+      summary: get tool
+      x-mint:
+        metadata:
+          title: get tool
+        mcp:
+          enabled: true
+          name: get-tool
+          description: Get a tool by ID
+    put:
+      description: Update an existing tool
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Tool ID
+        example: 00000000-0000-0000-0000-000000000000
+      requestBody:
+        description: Fields to update on the tool. Only the fields you include are changed; omit a field to leave it unchanged. System tools cannot be modified.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/ToolUpdate'
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 64
+                  description: Updated name for the tool
+                  example: search_products
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 1024
+                  description: Updated description of what the tool does
+                  example: Search the product catalog
+                type:
+                  type: string
+                  enum:
+                  - CLIENT
+                  - SERVER_RAG
+                  - SERVER_WEBHOOK
+                  - SYSTEM
+                  description: Updated tool type
+                disableInterruptions:
+                  type: boolean
+                  description: When true, interruptions are disabled while this tool is executing. Defaults to false.
+                  default: false
+                  example: false
+                config:
+                  type: object
+                  description: Updated type-specific configuration
+                  oneOf:
+                  - title: ClientToolConfig
+                    type: object
+                    properties:
+                      parameters:
+                        type: object
+                        description: JSON schema for parameters
+                      awaitResult:
+                        type: boolean
+                        description: If true, engine pauses until client sends a result back. Default is fire-and-forget.
+                      toolTimeoutSeconds:
+                        type: number
+                        minimum: 1
+                        maximum: 600
+                        description: Per-tool timeout in seconds when awaitResult is true. Default 10s.
+                  - title: ServerRagToolConfig
+                    type: object
+                    properties:
+                      documentFolderIds:
+                        type: array
+                        items:
+                          type: string
+                          format: uuid
+                        description: IDs of knowledge folders to search
+                  - title: ServerWebhookToolConfig
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        format: uri
+                        description: Webhook URL to call
+                      method:
+                        type: string
+                        enum:
+                        - GET
+                        - POST
+                        - PUT
+                        - DELETE
+                        - PATCH
+                      headers:
+                        type: object
+                        additionalProperties:
+                          type: string
+                      bodyTemplate:
+                        type: string
+                  - title: SystemToolConfig
+                    type: object
+                    properties:
+                      action:
+                        type: string
+                        enum:
+                        - end_call
+                        - interrupt
+      responses:
+        '200':
+          description: Successfully updated tool
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tool'
+              examples:
+                default:
+                  $ref: '#/components/examples/ToolResponse'
+        '400':
+          description: Bad request - Invalid tool data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - System tools cannot be modified, or the API key lacks the required permission
+        '404':
+          description: Tool not found
+        '500':
+          description: Server error
+      tags:
+      - Tools
+      operationId: updateTool
+      summary: update tool
+      x-mint:
+        metadata:
+          title: update tool
+        mcp:
+          enabled: true
+          name: update-tool
+          description: Update an existing tool
+    delete:
+      description: Delete a tool. The tool will be soft-deleted and no longer available.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          format: uuid
+        description: Tool ID
+        example: 00000000-0000-0000-0000-000000000000
+      responses:
+        '204':
+          description: Successfully deleted tool
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - System tools cannot be deleted, or the API key lacks the required permission
+        '404':
+          description: Tool not found
+        '500':
+          description: Server error
+      tags:
+      - Tools
+      operationId: deleteTool
+      summary: delete tool
+      x-mint:
+        metadata:
+          title: delete tool
+        mcp:
+          enabled: true
+          name: delete-tool
+          description: Delete a tool. The tool will be soft-deleted and no longer available.. Use with caution as this action cannot be undone.
+components:
+  schemas:
+    Tool:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the tool
+          example: 00000000-0000-0000-0000-000000000000
+        name:
+          type: string
+          description: Name of the tool
+          example: search_knowledge_base
+        description:
+          type: string
+          description: Description of what the tool does
+          example: Search the knowledge base for product information
+        type:
+          type: string
+          enum:
+          - CLIENT
+          - SERVER_RAG
+          - SERVER_WEBHOOK
+          - SYSTEM
+          description: Type of tool
+        config:
+          type: object
+          description: Type-specific configuration
+        disableInterruptions:
+          type: boolean
+          description: When true, interruptions are disabled while this tool is executing
+          default: false
+        createdAt:
+          type: string
+          format: date-time
+          description: When the tool was created
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the tool was last updated
+        usageCount:
+          type: integer
+          description: Number of personas using this tool
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+  examples:
+    ToolListResponse:
+      summary: A paginated list of tools
+      value:
+        data:
+        - id: 00000000-0000-0000-0000-000000000000
+          name: open_calendar
+          description: Open the calendar UI in the client app.
+          type: CLIENT
+          config:
+            parameters:
+              type: object
+              properties:
+                date:
+                  type: string
+                  description: Date to jump to, in YYYY-MM-DD format.
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: null
+          usageCount: 0
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    ToolResponse:
+      summary: A single tool definition
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        name: open_calendar
+        description: Open the calendar UI in the client app.
+        type: CLIENT
+        config:
+          parameters:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Date to jump to, in YYYY-MM-DD format.
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: null
+        usageCount: 0
+    ToolUpdate:
+      summary: Rename a tool
+      value:
+        name: open_scheduler
+    ToolCreate:
+      summary: Register a client-side tool the persona can trigger
+      value:
+        name: open_calendar
+        description: Open the calendar UI in the client app.
+        type: CLIENT
+        config:
+          parameters:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Date to jump to, in YYYY-MM-DD format.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

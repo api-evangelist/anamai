@@ -1,0 +1,530 @@
+openapi: 3.1.0
+info:
+  title: Anam AI Avatars LLMs API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: LLMs
+paths:
+  /v1/llms:
+    get:
+      description: Returns a list of all LLMs available to the organization
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+        description: Number of items per page
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search term to filter LLMs
+      - in: query
+        name: includeDefaults
+        schema:
+          type: boolean
+        description: Include default LLMs in the response
+      responses:
+        '200':
+          description: Successfully retrieved LLMs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/LLM'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/LlmListResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - LLMs
+      operationId: listLlms
+      summary: list llms
+      x-mint:
+        metadata:
+          title: list llms
+        mcp:
+          enabled: true
+          name: list-llms
+          description: Returns a list of all LLMs available to the organization
+    post:
+      description: Create a new LLM configuration
+      requestBody:
+        description: Endpoint URLs, model name, and credentials for the LLM. `secret` is encrypted at rest and is never returned in subsequent responses. Set `llmFormat` to match the upstream API's wire protocol.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/LlmCreate'
+            schema:
+              type: object
+              required:
+              - displayName
+              - urls
+              - llmFormat
+              - modelName
+              - secret
+              properties:
+                displayName:
+                  type: string
+                description:
+                  type: string
+                urls:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        format: uri
+                llmFormat:
+                  type: string
+                  enum:
+                  - openai
+                  - azure_openai
+                  - groq_openai
+                  - gemini
+                  - advanced_voice
+                  - none
+                modelName:
+                  type: string
+                secret:
+                  type: string
+                metadata:
+                  type: object
+                reasoningEffort:
+                  type: string
+                  enum:
+                  - default
+                  - low
+                  - medium
+                  - high
+                reasoningFormat:
+                  type: string
+                  enum:
+                  - parsed
+                  - raw
+                  - hidden
+      responses:
+        '201':
+          description: Successfully created LLM
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LLM'
+              examples:
+                default:
+                  $ref: '#/components/examples/LlmResponse'
+        '400':
+          description: Bad request - Invalid LLM data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '500':
+          description: Server error
+      tags:
+      - LLMs
+      operationId: createLlm
+      summary: create llm
+      x-mint:
+        metadata:
+          title: create llm
+        mcp:
+          enabled: true
+          name: create-llm
+          description: Create a new LLM configuration
+  /v1/llms/{id}:
+    get:
+      description: Get a specific LLM by ID
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: The LLM ID
+      responses:
+        '200':
+          description: Successfully retrieved LLM
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LLM'
+              examples:
+                default:
+                  $ref: '#/components/examples/LlmResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks the required permission
+        '404':
+          description: LLM not found
+        '500':
+          description: Server error
+      tags:
+      - LLMs
+      operationId: getLlm
+      summary: get llm
+      x-mint:
+        metadata:
+          title: get llm
+        mcp:
+          enabled: true
+          name: get-llm
+          description: Get a specific LLM by ID
+    put:
+      description: Update an LLM configuration
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: The LLM ID
+      requestBody:
+        description: Partial update of the LLM configuration. Only the fields you include are changed. Default LLMs (not owned by your organization) cannot be modified. Rotating `secret` replaces the stored credential.
+        required: true
+        content:
+          application/json:
+            examples:
+              default:
+                $ref: '#/components/examples/LlmUpdate'
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                description:
+                  type: string
+                url:
+                  type: string
+                llmFormat:
+                  type: string
+                  enum:
+                  - openai
+                  - azure_openai
+                  - groq_openai
+                  - anthropic
+                  - custom
+                modelName:
+                  type: string
+                secret:
+                  type: string
+                metadata:
+                  type: object
+                reasoningEffort:
+                  type: string
+                  enum:
+                  - default
+                  - low
+                  - medium
+                  - high
+                reasoningFormat:
+                  type: string
+                  enum:
+                  - parsed
+                  - raw
+                  - hidden
+      responses:
+        '200':
+          description: Successfully updated LLM
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LLM'
+              examples:
+                default:
+                  $ref: '#/components/examples/LlmResponse'
+        '400':
+          description: Bad request - Invalid LLM data
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - Cannot update default LLMs or API key lacks the required permission
+        '404':
+          description: LLM not found
+        '500':
+          description: Server error
+      tags:
+      - LLMs
+      operationId: updateLlm
+      summary: update llm
+      x-mint:
+        metadata:
+          title: update llm
+        mcp:
+          enabled: true
+          name: update-llm
+          description: Update an LLM configuration
+    delete:
+      description: Delete an LLM configuration
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: The LLM ID
+      responses:
+        '204':
+          description: Successfully deleted LLM
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - Cannot delete default LLMs or API key lacks the required permission
+        '404':
+          description: LLM not found
+        '500':
+          description: Server error
+      tags:
+      - LLMs
+      operationId: deleteLlm
+      summary: delete llm
+      x-mint:
+        metadata:
+          title: delete llm
+        mcp:
+          enabled: true
+          name: delete-llm
+          description: Delete an LLM configuration. Use with caution as this action cannot be undone.
+components:
+  examples:
+    LlmResponse:
+      summary: A single LLM configuration
+      value:
+        id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+        displayName: GPT-4o
+        description: OpenAI GPT-4o default configuration.
+        llmFormat: openai
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        modelName: gpt-4o
+        temperature: 0.7
+        maxTokens: 1024
+        deploymentName: null
+        apiVersion: null
+        metadata: {}
+        displayTags:
+        - openai
+        isDefault: true
+        isGlobal: true
+        isZdr: false
+        createdByOrganizationId: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: null
+    LlmUpdate:
+      summary: Adjust the temperature on an existing LLM
+      value:
+        temperature: 0.5
+    LlmCreate:
+      summary: Register an OpenAI-format LLM
+      value:
+        displayName: My GPT-4o
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        llmFormat: openai
+        modelName: gpt-4o
+        secret: sk-…
+        temperature: 0.7
+    LlmListResponse:
+      summary: A paginated list of LLMs
+      value:
+        data:
+        - id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+          displayName: GPT-4o
+          description: OpenAI GPT-4o default configuration.
+          llmFormat: openai
+          urls:
+          - url: https://api.openai.com/v1/chat/completions
+          modelName: gpt-4o
+          temperature: 0.7
+          maxTokens: 1024
+          deploymentName: null
+          apiVersion: null
+          metadata: {}
+          displayTags:
+          - openai
+          isDefault: true
+          isGlobal: true
+          isZdr: false
+          createdByOrganizationId: null
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: null
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+  schemas:
+    LLM:
+      type: object
+      description: An LLM configuration a persona can use. Secrets are never returned.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the LLM configuration.
+        displayName:
+          type: string
+          description: Human-readable name shown in the Lab.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of the LLM configuration.
+        llmFormat:
+          type: string
+          enum:
+          - openai
+          - azure_openai
+          - groq_openai
+          - gemini
+          - advanced_voice
+          - none
+          description: Wire format used to call the upstream LLM.
+        urls:
+          type: array
+          items:
+            $ref: '#/components/schemas/LlmUrl'
+          description: Endpoints configured for this LLM.
+        modelName:
+          type:
+          - string
+          - 'null'
+          description: Upstream model identifier (e.g. `gpt-4o`).
+        temperature:
+          type:
+          - number
+          - 'null'
+          description: Sampling temperature applied when calling the LLM.
+        maxTokens:
+          type:
+          - integer
+          - 'null'
+          description: Maximum tokens generated per response.
+        deploymentName:
+          type:
+          - string
+          - 'null'
+          description: Azure OpenAI deployment name. Only used when `llmFormat` is `azure_openai`.
+        apiVersion:
+          type:
+          - string
+          - 'null'
+          description: Azure OpenAI API version. Only used when `llmFormat` is `azure_openai`.
+        metadata:
+          type: object
+          description: Free-form provider-specific metadata.
+        displayTags:
+          type: array
+          items:
+            type: string
+          description: Tags used to categorise the LLM in the Lab UI.
+        isDefault:
+          type: boolean
+          description: Whether this LLM is a built-in default available to every organization.
+        isGlobal:
+          type: boolean
+          description: Whether this LLM is visible to every organization.
+        isZdr:
+          type: boolean
+          description: Whether this LLM meets the Zero Data Retention requirements.
+        reasoningEffort:
+          type: string
+          enum:
+          - default
+          - low
+          - medium
+          - high
+          description: Reasoning effort hint for models that accept it.
+        reasoningFormat:
+          type: string
+          enum:
+          - parsed
+          - raw
+          - hidden
+          description: Reasoning format hint for models that accept it.
+        createdByOrganizationId:
+          type:
+          - string
+          - 'null'
+          description: ID of the organization that created the LLM, or `null` for global defaults. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the LLM was created.
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the LLM was last updated.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    LlmUrl:
+      type: object
+      description: One endpoint configured on an LLM. Multiple URLs can be specified to route different regions to different upstreams.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Upstream URL for the LLM endpoint.
+        region:
+          type: string
+          description: Region hint used to pick this URL when the persona is streamed from a specific region.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true
