@@ -1,0 +1,406 @@
+{
+  "info": {
+    "_postman_id": "ece49006-67d5-4a32-8c59-39b6918cead9",
+    "name": "Anam AI Avatars Engine API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:41.000Z",
+    "updatedAt": "2026-07-28T01:00:41.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ece49006-67d5-4a32-8c59-39b6918cead9"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "engine",
+          "item": [
+            {
+              "name": "session",
+              "item": [
+                {
+                  "name": "create engine session",
+                  "id": "280109e6-2387-4617-9a3f-ad1bdb551d55",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/engine/session",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "engine",
+                        "session"
+                      ]
+                    },
+                    "description": "Start a live persona session.\n\nTwo authentication modes are supported via the `Authorization: Bearer` header:\n\n- **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.\n  The session configuration was bound to the token when it was created, so the body only carries\n  optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don't call\n  this endpoint yourself.\n- **API key** (server-side SDKs): pass your API key directly and supply the session configuration\n  in the request body \u2014 the same shape as the `/v1/auth/session-token` body (`personaConfig`,\n  `environment`, `sessionOptions`, plus optional `clientLabel` and `clientMetadata`; `expiresIn`\n  and `widgetConfig` do not apply). This skips the session-token exchange. Only use this from a\n  secure server-side context \u2014 never expose an API key in a browser.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "5726fd1c-60b4-4845-8725-f8413cad5897",
+                      "name": "Session started",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/engine/session",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "engine",
+                            "session"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"sessionId\": \"<uuid>\",\n  \"engineHost\": \"<string>\",\n  \"engineProtocol\": \"<string>\",\n  \"signallingEndpoint\": \"<string>\",\n  \"clientConfig\": {}\n}",
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-5726fd1c-60b4-4845-8725-f8413cad5897"
+                    },
+                    {
+                      "id": "02233267-56c0-43ce-ad28-0772000e46b3",
+                      "name": "Invalid request body or persona configuration",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/engine/session",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "engine",
+                            "session"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-02233267-56c0-43ce-ad28-0772000e46b3"
+                    },
+                    {
+                      "id": "9d5bca7b-2bed-4f51-a196-27af6b9e8f80",
+                      "name": "Unauthorized - invalid API key, or invalid/expired session token",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/engine/session",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "engine",
+                            "session"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-9d5bca7b-2bed-4f51-a196-27af6b9e8f80"
+                    },
+                    {
+                      "id": "9a40eba7-81d4-468c-856a-7accd39ffdab",
+                      "name": "Forbidden - the API key lacks the required permission, or the organization is not entitled to a requested feature (e.g. gated avatar model, devSettings)",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/engine/session",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "engine",
+                            "session"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-9a40eba7-81d4-468c-856a-7accd39ffdab"
+                    },
+                    {
+                      "id": "bcffa905-5ad3-46bc-b116-415212bb472d",
+                      "name": "Concurrent session limit or spend cap reached",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/engine/session",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "engine",
+                            "session"
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-bcffa905-5ad3-46bc-b116-415212bb472d"
+                    },
+                    {
+                      "id": "ea4a21e0-183f-4e9f-a212-383325e435ae",
+                      "name": "No engines available",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {},\n  \"environment\": {},\n  \"sessionOptions\": {},\n  \"clientMetadata\": {}\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/engine/session",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "engine",
+                            "session"
+                          ]
+                        }
+                      },
+                      "status": "Service Unavailable",
+                      "code": 503,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-ea4a21e0-183f-4e9f-a212-383325e435ae"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:42.000Z",
+                  "updatedAt": "2026-07-28T01:00:42.000Z",
+                  "uid": "35240-280109e6-2387-4617-9a3f-ad1bdb551d55"
+                }
+              ],
+              "id": "6ac3454d-be56-447f-9a68-4e0931f6d7ed",
+              "createdAt": "2026-07-28T01:00:42.000Z",
+              "updatedAt": "2026-07-28T01:00:42.000Z",
+              "uid": "35240-6ac3454d-be56-447f-9a68-4e0931f6d7ed"
+            }
+          ],
+          "id": "01c752cc-b1d8-45c0-823b-00ab1cdbb8ee",
+          "createdAt": "2026-07-28T01:00:42.000Z",
+          "updatedAt": "2026-07-28T01:00:42.000Z",
+          "uid": "35240-01c752cc-b1d8-45c0-823b-00ab1cdbb8ee"
+        }
+      ],
+      "id": "64b96236-6746-448e-a216-f86dd439218f",
+      "createdAt": "2026-07-28T01:00:42.000Z",
+      "updatedAt": "2026-07-28T01:00:42.000Z",
+      "uid": "35240-64b96236-6746-448e-a216-f86dd439218f"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

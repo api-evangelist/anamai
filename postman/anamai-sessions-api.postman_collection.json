@@ -1,0 +1,3015 @@
+{
+  "info": {
+    "_postman_id": "09752584-72ce-4b58-91e0-3068d1ed85a6",
+    "name": "Anam AI Avatars Sessions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:47.000Z",
+    "updatedAt": "2026-07-28T01:00:47.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-09752584-72ce-4b58-91e0-3068d1ed85a6"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "auth",
+          "item": [
+            {
+              "name": "session-token",
+              "item": [
+                {
+                  "name": "create session token",
+                  "id": "db55ef58-7419-4fb3-98fe-fe426730a297",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {\n    \"name\": \"<string>\",\n    \"avatarId\": \"<string>\",\n    \"avatarModel\": \"cara-4\",\n    \"voiceId\": \"<string>\",\n    \"llmId\": \"<string>\",\n    \"systemPrompt\": \"<string>\",\n    \"maxSessionLengthSeconds\": \"<number>\",\n    \"skipGreeting\": \"<boolean>\",\n    \"uninterruptibleGreeting\": \"<boolean>\",\n    \"initialMessage\": \"<string>\",\n    \"voiceDetectionOptions\": {\n      \"endOfSpeechSensitivity\": \"<number>\",\n      \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n      \"silenceBeforeSessionEndSeconds\": \"<number>\",\n      \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n      \"speechEnhancementLevel\": \"<number>\"\n    },\n    \"languageCode\": \"<string>\",\n    \"voiceGenerationOptions\": {\n      \"stability\": \"<number>\",\n      \"similarityBoost\": \"<number>\",\n      \"speed\": \"<number>\"\n    },\n    \"directorNotes\": {\n      \"presetStyle\": \"distressed\",\n      \"customStylePrompt\": \"<string>\",\n      \"expressivity\": \"<number>\"\n    },\n    \"tools\": [\n      {\n        \"type\": \"system\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      {\n        \"type\": \"client\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    ],\n    \"toolIds\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ]\n  },\n  \"sessionOptions\": {\n    \"sessionReplay\": {\n      \"enableSessionReplay\": true\n    },\n    \"videoQuality\": \"high\",\n    \"videoWidth\": \"<integer>\",\n    \"videoHeight\": \"<integer>\",\n    \"egress\": {\n      \"mode\": \"daily\",\n      \"daily\": {\n        \"roomUrl\": \"<uri>\",\n        \"token\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/auth/session-token",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "auth",
+                        "session-token"
+                      ]
+                    },
+                    "description": "Create a new session token used to initialise Anam client side SDKs"
+                  },
+                  "response": [
+                    {
+                      "id": "a0dff8a2-98a5-4198-acc2-a911629d37db",
+                      "name": "Successfully started session",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {\n    \"name\": \"<string>\",\n    \"avatarId\": \"<string>\",\n    \"avatarModel\": \"cara-4\",\n    \"voiceId\": \"<string>\",\n    \"llmId\": \"<string>\",\n    \"systemPrompt\": \"<string>\",\n    \"maxSessionLengthSeconds\": \"<number>\",\n    \"skipGreeting\": \"<boolean>\",\n    \"uninterruptibleGreeting\": \"<boolean>\",\n    \"initialMessage\": \"<string>\",\n    \"voiceDetectionOptions\": {\n      \"endOfSpeechSensitivity\": \"<number>\",\n      \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n      \"silenceBeforeSessionEndSeconds\": \"<number>\",\n      \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n      \"speechEnhancementLevel\": \"<number>\"\n    },\n    \"languageCode\": \"<string>\",\n    \"voiceGenerationOptions\": {\n      \"stability\": \"<number>\",\n      \"similarityBoost\": \"<number>\",\n      \"speed\": \"<number>\"\n    },\n    \"directorNotes\": {\n      \"presetStyle\": \"distressed\",\n      \"customStylePrompt\": \"<string>\",\n      \"expressivity\": \"<number>\"\n    },\n    \"tools\": [\n      {\n        \"type\": \"system\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      {\n        \"type\": \"client\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    ],\n    \"toolIds\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ]\n  },\n  \"sessionOptions\": {\n    \"sessionReplay\": {\n      \"enableSessionReplay\": true\n    },\n    \"videoQuality\": \"high\",\n    \"videoWidth\": \"<integer>\",\n    \"videoHeight\": \"<integer>\",\n    \"egress\": {\n      \"mode\": \"daily\",\n      \"daily\": {\n        \"roomUrl\": \"<uri>\",\n        \"token\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/auth/session-token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "auth",
+                            "session-token"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"sessionToken\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-a0dff8a2-98a5-4198-acc2-a911629d37db"
+                    },
+                    {
+                      "id": "5f9a4f2b-963e-4680-a7cd-a721fcf3ecd2",
+                      "name": "Invalid request body",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {\n    \"name\": \"<string>\",\n    \"avatarId\": \"<string>\",\n    \"avatarModel\": \"cara-4\",\n    \"voiceId\": \"<string>\",\n    \"llmId\": \"<string>\",\n    \"systemPrompt\": \"<string>\",\n    \"maxSessionLengthSeconds\": \"<number>\",\n    \"skipGreeting\": \"<boolean>\",\n    \"uninterruptibleGreeting\": \"<boolean>\",\n    \"initialMessage\": \"<string>\",\n    \"voiceDetectionOptions\": {\n      \"endOfSpeechSensitivity\": \"<number>\",\n      \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n      \"silenceBeforeSessionEndSeconds\": \"<number>\",\n      \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n      \"speechEnhancementLevel\": \"<number>\"\n    },\n    \"languageCode\": \"<string>\",\n    \"voiceGenerationOptions\": {\n      \"stability\": \"<number>\",\n      \"similarityBoost\": \"<number>\",\n      \"speed\": \"<number>\"\n    },\n    \"directorNotes\": {\n      \"presetStyle\": \"distressed\",\n      \"customStylePrompt\": \"<string>\",\n      \"expressivity\": \"<number>\"\n    },\n    \"tools\": [\n      {\n        \"type\": \"system\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      {\n        \"type\": \"client\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    ],\n    \"toolIds\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ]\n  },\n  \"sessionOptions\": {\n    \"sessionReplay\": {\n      \"enableSessionReplay\": true\n    },\n    \"videoQuality\": \"high\",\n    \"videoWidth\": \"<integer>\",\n    \"videoHeight\": \"<integer>\",\n    \"egress\": {\n      \"mode\": \"daily\",\n      \"daily\": {\n        \"roomUrl\": \"<uri>\",\n        \"token\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/auth/session-token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "auth",
+                            "session-token"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-5f9a4f2b-963e-4680-a7cd-a721fcf3ecd2"
+                    },
+                    {
+                      "id": "b04e543d-e38f-43a0-b24c-8ae45c46103b",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {\n    \"name\": \"<string>\",\n    \"avatarId\": \"<string>\",\n    \"avatarModel\": \"cara-4\",\n    \"voiceId\": \"<string>\",\n    \"llmId\": \"<string>\",\n    \"systemPrompt\": \"<string>\",\n    \"maxSessionLengthSeconds\": \"<number>\",\n    \"skipGreeting\": \"<boolean>\",\n    \"uninterruptibleGreeting\": \"<boolean>\",\n    \"initialMessage\": \"<string>\",\n    \"voiceDetectionOptions\": {\n      \"endOfSpeechSensitivity\": \"<number>\",\n      \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n      \"silenceBeforeSessionEndSeconds\": \"<number>\",\n      \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n      \"speechEnhancementLevel\": \"<number>\"\n    },\n    \"languageCode\": \"<string>\",\n    \"voiceGenerationOptions\": {\n      \"stability\": \"<number>\",\n      \"similarityBoost\": \"<number>\",\n      \"speed\": \"<number>\"\n    },\n    \"directorNotes\": {\n      \"presetStyle\": \"distressed\",\n      \"customStylePrompt\": \"<string>\",\n      \"expressivity\": \"<number>\"\n    },\n    \"tools\": [\n      {\n        \"type\": \"system\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      {\n        \"type\": \"client\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    ],\n    \"toolIds\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ]\n  },\n  \"sessionOptions\": {\n    \"sessionReplay\": {\n      \"enableSessionReplay\": true\n    },\n    \"videoQuality\": \"high\",\n    \"videoWidth\": \"<integer>\",\n    \"videoHeight\": \"<integer>\",\n    \"egress\": {\n      \"mode\": \"daily\",\n      \"daily\": {\n        \"roomUrl\": \"<uri>\",\n        \"token\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/auth/session-token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "auth",
+                            "session-token"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-b04e543d-e38f-43a0-b24c-8ae45c46103b"
+                    },
+                    {
+                      "id": "7e4ab83f-bb08-44f9-afdc-368c84412dc8",
+                      "name": "Forbidden - API key lacks the required permission, the session config is not authorized for the organization, or the plan does not permit the requested option.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {\n    \"name\": \"<string>\",\n    \"avatarId\": \"<string>\",\n    \"avatarModel\": \"cara-4\",\n    \"voiceId\": \"<string>\",\n    \"llmId\": \"<string>\",\n    \"systemPrompt\": \"<string>\",\n    \"maxSessionLengthSeconds\": \"<number>\",\n    \"skipGreeting\": \"<boolean>\",\n    \"uninterruptibleGreeting\": \"<boolean>\",\n    \"initialMessage\": \"<string>\",\n    \"voiceDetectionOptions\": {\n      \"endOfSpeechSensitivity\": \"<number>\",\n      \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n      \"silenceBeforeSessionEndSeconds\": \"<number>\",\n      \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n      \"speechEnhancementLevel\": \"<number>\"\n    },\n    \"languageCode\": \"<string>\",\n    \"voiceGenerationOptions\": {\n      \"stability\": \"<number>\",\n      \"similarityBoost\": \"<number>\",\n      \"speed\": \"<number>\"\n    },\n    \"directorNotes\": {\n      \"presetStyle\": \"distressed\",\n      \"customStylePrompt\": \"<string>\",\n      \"expressivity\": \"<number>\"\n    },\n    \"tools\": [\n      {\n        \"type\": \"system\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      {\n        \"type\": \"client\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    ],\n    \"toolIds\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ]\n  },\n  \"sessionOptions\": {\n    \"sessionReplay\": {\n      \"enableSessionReplay\": true\n    },\n    \"videoQuality\": \"high\",\n    \"videoWidth\": \"<integer>\",\n    \"videoHeight\": \"<integer>\",\n    \"egress\": {\n      \"mode\": \"daily\",\n      \"daily\": {\n        \"roomUrl\": \"<uri>\",\n        \"token\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/auth/session-token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "auth",
+                            "session-token"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-7e4ab83f-bb08-44f9-afdc-368c84412dc8"
+                    },
+                    {
+                      "id": "41f966ba-96e9-4472-9822-8bf861f88e6b",
+                      "name": "Server error. Note: currently any non-validation error is returned as a 500, eventhough the error might be due to joining the room or related to token validation.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": {\n    \"name\": \"<string>\",\n    \"avatarId\": \"<string>\",\n    \"avatarModel\": \"cara-4\",\n    \"voiceId\": \"<string>\",\n    \"llmId\": \"<string>\",\n    \"systemPrompt\": \"<string>\",\n    \"maxSessionLengthSeconds\": \"<number>\",\n    \"skipGreeting\": \"<boolean>\",\n    \"uninterruptibleGreeting\": \"<boolean>\",\n    \"initialMessage\": \"<string>\",\n    \"voiceDetectionOptions\": {\n      \"endOfSpeechSensitivity\": \"<number>\",\n      \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n      \"silenceBeforeSessionEndSeconds\": \"<number>\",\n      \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n      \"speechEnhancementLevel\": \"<number>\"\n    },\n    \"languageCode\": \"<string>\",\n    \"voiceGenerationOptions\": {\n      \"stability\": \"<number>\",\n      \"similarityBoost\": \"<number>\",\n      \"speed\": \"<number>\"\n    },\n    \"directorNotes\": {\n      \"presetStyle\": \"distressed\",\n      \"customStylePrompt\": \"<string>\",\n      \"expressivity\": \"<number>\"\n    },\n    \"tools\": [\n      {\n        \"type\": \"system\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      },\n      {\n        \"type\": \"client\",\n        \"name\": \"<string>\",\n        \"description\": \"<string>\",\n        \"parameters\": {}\n      }\n    ],\n    \"toolIds\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ]\n  },\n  \"sessionOptions\": {\n    \"sessionReplay\": {\n      \"enableSessionReplay\": true\n    },\n    \"videoQuality\": \"high\",\n    \"videoWidth\": \"<integer>\",\n    \"videoHeight\": \"<integer>\",\n    \"egress\": {\n      \"mode\": \"daily\",\n      \"daily\": {\n        \"roomUrl\": \"<uri>\",\n        \"token\": \"<string>\",\n        \"userName\": \"<string>\"\n      }\n    }\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/auth/session-token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "auth",
+                            "session-token"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-41f966ba-96e9-4472-9822-8bf861f88e6b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-db55ef58-7419-4fb3-98fe-fe426730a297"
+                }
+              ],
+              "id": "ca4c457d-0eab-4ebd-b707-601d924c4549",
+              "createdAt": "2026-07-28T01:00:48.000Z",
+              "updatedAt": "2026-07-28T01:00:48.000Z",
+              "uid": "35240-ca4c457d-0eab-4ebd-b707-601d924c4549"
+            }
+          ],
+          "id": "b7b87fd7-2706-48a5-a8bf-9e905f8465a5",
+          "createdAt": "2026-07-28T01:00:48.000Z",
+          "updatedAt": "2026-07-28T01:00:48.000Z",
+          "uid": "35240-b7b87fd7-2706-48a5-a8bf-9e905f8465a5"
+        },
+        {
+          "name": "sessions",
+          "item": [
+            {
+              "name": "concurrency",
+              "item": [
+                {
+                  "name": "Get current concurrency status",
+                  "id": "a45e0680-af0d-45f7-a8a1-2933a28349ac",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions/concurrency?organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions",
+                        "concurrency"
+                      ],
+                      "query": [
+                        {
+                          "description": "Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns the organization's concurrent-session limit, an approximate count of sessions currently in use, whether a new session can likely be started, and an estimated wait time until a slot frees. Intended as an advisory pre-check before starting a session (e.g. to gate a \"Start\" button or show a wait estimate). The count is the Lab's optimistic view and can briefly over-report; the authoritative limit is enforced when a session is actually created, which may still return 429."
+                  },
+                  "response": [
+                    {
+                      "id": "55cd0265-7ee9-4651-bb3c-28bff861948d",
+                      "name": "Current concurrency status for the organization",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/concurrency?organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "concurrency"
+                          ],
+                          "query": [
+                            {
+                              "description": "Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"limit\": \"<integer>\",\n  \"active\": \"<integer>\",\n  \"canStartSession\": \"<boolean>\",\n  \"estimatedWaitSeconds\": \"<integer>\"\n}",
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-55cd0265-7ee9-4651-bb3c-28bff861948d"
+                    },
+                    {
+                      "id": "4546b465-267b-4510-a5a3-9ec953f9500d",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/concurrency?organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "concurrency"
+                          ],
+                          "query": [
+                            {
+                              "description": "Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-4546b465-267b-4510-a5a3-9ec953f9500d"
+                    },
+                    {
+                      "id": "d0f23c3b-52c1-411b-8210-0946af7c3910",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/concurrency?organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "concurrency"
+                          ],
+                          "query": [
+                            {
+                              "description": "Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-d0f23c3b-52c1-411b-8210-0946af7c3910"
+                    },
+                    {
+                      "id": "d5851f21-6710-4eda-b770-5ee5e01e972e",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/concurrency?organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "concurrency"
+                          ],
+                          "query": [
+                            {
+                              "description": "Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-d5851f21-6710-4eda-b770-5ee5e01e972e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-a45e0680-af0d-45f7-a8a1-2933a28349ac"
+                }
+              ],
+              "id": "56f7b5e3-58c3-48b9-b247-b1ec06ee365f",
+              "createdAt": "2026-07-28T01:00:48.000Z",
+              "updatedAt": "2026-07-28T01:00:48.000Z",
+              "uid": "35240-56f7b5e3-58c3-48b9-b247-b1ec06ee365f"
+            },
+            {
+              "name": "analytics",
+              "item": [
+                {
+                  "name": "get aggregated session analytics",
+                  "id": "fc19512b-d0c8-48de-98d8-c2b19d7a37db",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions/analytics?from=<dateTime>&to=<dateTime>&personaId=<uuid>&apiKeyId=<uuid>&clientLabel=<string>&sessionType=turnkey&organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions",
+                        "analytics"
+                      ],
+                      "query": [
+                        {
+                          "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`.",
+                          "key": "from",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "End of the time range (ISO 8601). Defaults to now.",
+                          "key": "to",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Only include sessions for this persona.",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Only include sessions minted by this API key.",
+                          "key": "apiKeyId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Only include sessions whose client label matches exactly.",
+                          "key": "clientLabel",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only include sessions of this type.",
+                          "key": "sessionType",
+                          "value": "turnkey"
+                        },
+                        {
+                          "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns aggregated latency analytics across sessions \u2014 percentile distributions (p50/p90/p95/p99/max/avg) for each stage of the transcription \u2192 LLM \u2192 TTS \u2192 first-audio path, interruption and error rates, tool call outcomes, and a sample of the slowest turns. Only sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) produce analytics reports; LiveKit and audio-passthrough sessions count toward `sessionCount` but never carry analytics. Defaults to the last 24 hours; the maximum range is 31 days. Reports are aggregated from the 1000 most recent report-capable sessions matching the filters \u2014 session types that never produce reports don't consume that window \u2014 and the `truncated` field reports when more report-capable sessions matched. Narrow the time range or filters to analyse busier periods exhaustively."
+                  },
+                  "response": [
+                    {
+                      "id": "8cfbd43d-3a2f-4906-a0e8-853e6b040d33",
+                      "name": "Successfully computed aggregate analytics",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/analytics?from=<dateTime>&to=<dateTime>&personaId=<uuid>&apiKeyId=<uuid>&clientLabel=<string>&sessionType=turnkey&organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`.",
+                              "key": "from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End of the time range (ISO 8601). Defaults to now.",
+                              "key": "to",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Only include sessions for this persona.",
+                              "key": "personaId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions minted by this API key.",
+                              "key": "apiKeyId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions whose client label matches exactly.",
+                              "key": "clientLabel",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Only include sessions of this type.",
+                              "key": "sessionType",
+                              "value": "turnkey"
+                            },
+                            {
+                              "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"from\": \"<dateTime>\",\n  \"to\": \"<dateTime>\",\n  \"filters\": {\n    \"personaId\": \"<string,null>\",\n    \"apiKeyId\": \"<string,null>\",\n    \"clientLabel\": \"<string,null>\",\n    \"sessionType\": \"<string,null>\"\n  },\n  \"sessionCount\": \"<integer>\",\n  \"sessionsWithReports\": \"<integer>\",\n  \"truncated\": \"<boolean>\",\n  \"turnCount\": \"<integer>\",\n  \"latencies\": {\n    \"transcriptionLatencySeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"llmTimeToFirstOutputSeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"llmGenerationDurationSeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"ttsGenerationDurationSeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"ttsTimeToFirstAudioSeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"firstAudioLatencySeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"speakingDurationSeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    },\n    \"userSpeechDurationSeconds\": {\n      \"count\": \"<integer>\",\n      \"avg\": \"<number,null>\",\n      \"p50\": \"<number,null>\",\n      \"p90\": \"<number,null>\",\n      \"p95\": \"<number,null>\",\n      \"p99\": \"<number,null>\",\n      \"max\": \"<number,null>\"\n    }\n  },\n  \"counts\": {\n    \"completedTurns\": \"<integer>\",\n    \"interruptedTurns\": \"<integer>\",\n    \"interruptedBeforeAudioTurns\": \"<integer>\",\n    \"totalErrors\": \"<integer>\",\n    \"totalWarnings\": \"<integer>\",\n    \"sessionsWithErrors\": \"<integer>\",\n    \"sessionsWithWarnings\": \"<integer>\",\n    \"toolCalls\": {\n      \"total\": \"<integer>\",\n      \"succeeded\": \"<integer>\",\n      \"failed\": \"<integer>\",\n      \"byName\": {\n        \"amet_66\": \"<integer>\",\n        \"mollit0e0\": \"<integer>\",\n        \"laborisd\": \"<integer>\"\n      }\n    }\n  },\n  \"rates\": {\n    \"interruptionRate\": \"<number,null>\",\n    \"interruptedBeforeAudioRate\": \"<number,null>\",\n    \"errorSessionRate\": \"<number,null>\",\n    \"warningSessionRate\": \"<number,null>\",\n    \"toolCallFailureRate\": \"<number,null>\"\n  },\n  \"slowestTurns\": [\n    {\n      \"sessionId\": \"<uuid>\",\n      \"correlationId\": \"<string,null>\",\n      \"metric\": \"ttsTimeToFirstAudioSeconds\",\n      \"valueSeconds\": \"<number>\",\n      \"sessionStartTime\": \"<dateTime>\",\n      \"personaId\": \"<string,null>\",\n      \"clientLabel\": \"<string,null>\"\n    },\n    {\n      \"sessionId\": \"<uuid>\",\n      \"correlationId\": \"<string,null>\",\n      \"metric\": \"ttsTimeToFirstAudioSeconds\",\n      \"valueSeconds\": \"<number>\",\n      \"sessionStartTime\": \"<dateTime>\",\n      \"personaId\": \"<string,null>\",\n      \"clientLabel\": \"<string,null>\"\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-8cfbd43d-3a2f-4906-a0e8-853e6b040d33"
+                    },
+                    {
+                      "id": "b987dbc9-38e0-4d45-aa92-2b2187f385e5",
+                      "name": "Bad request - Invalid query parameters or date range",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/analytics?from=<dateTime>&to=<dateTime>&personaId=<uuid>&apiKeyId=<uuid>&clientLabel=<string>&sessionType=turnkey&organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`.",
+                              "key": "from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End of the time range (ISO 8601). Defaults to now.",
+                              "key": "to",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Only include sessions for this persona.",
+                              "key": "personaId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions minted by this API key.",
+                              "key": "apiKeyId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions whose client label matches exactly.",
+                              "key": "clientLabel",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Only include sessions of this type.",
+                              "key": "sessionType",
+                              "value": "turnkey"
+                            },
+                            {
+                              "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-b987dbc9-38e0-4d45-aa92-2b2187f385e5"
+                    },
+                    {
+                      "id": "2fdb7fe2-85a8-46c3-b90e-ccd77f93c1e7",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/analytics?from=<dateTime>&to=<dateTime>&personaId=<uuid>&apiKeyId=<uuid>&clientLabel=<string>&sessionType=turnkey&organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`.",
+                              "key": "from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End of the time range (ISO 8601). Defaults to now.",
+                              "key": "to",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Only include sessions for this persona.",
+                              "key": "personaId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions minted by this API key.",
+                              "key": "apiKeyId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions whose client label matches exactly.",
+                              "key": "clientLabel",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Only include sessions of this type.",
+                              "key": "sessionType",
+                              "value": "turnkey"
+                            },
+                            {
+                              "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-2fdb7fe2-85a8-46c3-b90e-ccd77f93c1e7"
+                    },
+                    {
+                      "id": "ee8a1126-2a52-43ad-869a-0be449efbb41",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/analytics?from=<dateTime>&to=<dateTime>&personaId=<uuid>&apiKeyId=<uuid>&clientLabel=<string>&sessionType=turnkey&organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`.",
+                              "key": "from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End of the time range (ISO 8601). Defaults to now.",
+                              "key": "to",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Only include sessions for this persona.",
+                              "key": "personaId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions minted by this API key.",
+                              "key": "apiKeyId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions whose client label matches exactly.",
+                              "key": "clientLabel",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Only include sessions of this type.",
+                              "key": "sessionType",
+                              "value": "turnkey"
+                            },
+                            {
+                              "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-ee8a1126-2a52-43ad-869a-0be449efbb41"
+                    },
+                    {
+                      "id": "6feba314-add4-493f-a58f-a18f601c9200",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/analytics?from=<dateTime>&to=<dateTime>&personaId=<uuid>&apiKeyId=<uuid>&clientLabel=<string>&sessionType=turnkey&organizationId=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`.",
+                              "key": "from",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "End of the time range (ISO 8601). Defaults to now.",
+                              "key": "to",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Only include sessions for this persona.",
+                              "key": "personaId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions minted by this API key.",
+                              "key": "apiKeyId",
+                              "value": "<uuid>"
+                            },
+                            {
+                              "description": "Only include sessions whose client label matches exactly.",
+                              "key": "clientLabel",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "Only include sessions of this type.",
+                              "key": "sessionType",
+                              "value": "turnkey"
+                            },
+                            {
+                              "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                              "key": "organizationId",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-6feba314-add4-493f-a58f-a18f601c9200"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-fc19512b-d0c8-48de-98d8-c2b19d7a37db"
+                }
+              ],
+              "id": "f385c4b9-c684-4d79-a1c4-97d5a1a215a5",
+              "createdAt": "2026-07-28T01:00:48.000Z",
+              "updatedAt": "2026-07-28T01:00:48.000Z",
+              "uid": "35240-f385c4b9-c684-4d79-a1c4-97d5a1a215a5"
+            },
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "transcript",
+                  "item": [
+                    {
+                      "name": "get session transcript",
+                      "id": "e4159c84-bd9d-4764-a0a9-fe5e1e7bf6fb",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id",
+                            "transcript"
+                          ],
+                          "variable": [
+                            {
+                              "id": "e1a2d3ab-1651-47f8-9866-293792bc906b",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Session ID"
+                            }
+                          ]
+                        },
+                        "description": "Returns the conversation transcript for a session. Anam-internal admin API keys may fetch transcripts for sessions of any organization."
+                      },
+                      "response": [
+                        {
+                          "id": "66fd27da-ebf0-4094-9370-f2581df3957e",
+                          "name": "Successfully retrieved transcript",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "transcript"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"sessionId\": \"<string>\",\n  \"personaName\": \"<string>\",\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<string,null-date-time>\",\n  \"durationMs\": \"<integer,null>\",\n  \"totalMessages\": \"<integer>\",\n  \"transcriptsEnabled\": \"<boolean>\",\n  \"messages\": [\n    {\n      \"role\": \"persona\",\n      \"message\": \"<string>\",\n      \"timestamp\": \"<string,null-date-time>\",\n      \"speakingDurationSeconds\": \"<number,null>\",\n      \"wasInterrupted\": \"<boolean>\"\n    },\n    {\n      \"role\": \"user\",\n      \"message\": \"<string>\",\n      \"timestamp\": \"<string,null-date-time>\",\n      \"speakingDurationSeconds\": \"<number,null>\",\n      \"wasInterrupted\": \"<boolean>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-66fd27da-ebf0-4094-9370-f2581df3957e"
+                        },
+                        {
+                          "id": "1af02c82-c8e2-4803-847b-18f77a7bfd8e",
+                          "name": "Bad request - Invalid session ID",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "transcript"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-1af02c82-c8e2-4803-847b-18f77a7bfd8e"
+                        },
+                        {
+                          "id": "42d8e00b-fbe3-4eb3-a88b-f91bd90ff3bb",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "transcript"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-42d8e00b-fbe3-4eb3-a88b-f91bd90ff3bb"
+                        },
+                        {
+                          "id": "c9740393-0fb0-48bd-90dd-ad473c60df7c",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "transcript"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-c9740393-0fb0-48bd-90dd-ad473c60df7c"
+                        },
+                        {
+                          "id": "916463ce-1eef-432e-9e24-5822ae6d4dc1",
+                          "name": "Not Found - Session not found or no transcript available",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "transcript"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-916463ce-1eef-432e-9e24-5822ae6d4dc1"
+                        },
+                        {
+                          "id": "b02e8ac4-6e7a-4bba-8d07-62205f109463",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/transcript",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "transcript"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-b02e8ac4-6e7a-4bba-8d07-62205f109463"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-e4159c84-bd9d-4764-a0a9-fe5e1e7bf6fb"
+                    }
+                  ],
+                  "id": "ef95a38d-7510-4394-8441-bdd960e8dcbf",
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-ef95a38d-7510-4394-8441-bdd960e8dcbf"
+                },
+                {
+                  "name": "stop",
+                  "item": [
+                    {
+                      "name": "stop session",
+                      "id": "2b6a5e3d-df64-49a4-acba-829ebae25e2c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id",
+                            "stop"
+                          ],
+                          "variable": [
+                            {
+                              "id": "5e0c57ce-dfbe-4a8e-99c1-d9ffc1662adf",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Session ID"
+                            }
+                          ]
+                        },
+                        "description": "Force-terminates a running session. The engine hosting the session\ndisconnects the client and shuts the session down immediately.\n\nTermination is asynchronous on the engine side: the session's\n`endTime`, exit status and session report are delivered through the\nnormal end-of-session flow shortly after the stop, so the session may\nbriefly still appear active on `GET /v1/sessions/{id}`.\n\nSessions that never reached an engine, or that run over the LiveKit\nor Agora integrations, have no engine host to terminate and return\n`404`. If the engine rejects the stop (for example the session has\nalready ended), the engine's error status is passed through.\n"
+                      },
+                      "response": [
+                        {
+                          "id": "656f3262-3dcc-4af2-bf7a-74f45c01bae7",
+                          "name": "The engine accepted the stop request",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "stop"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{}",
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-656f3262-3dcc-4af2-bf7a-74f45c01bae7"
+                        },
+                        {
+                          "id": "aecc3bfe-a5db-4325-8008-593bfe565a1b",
+                          "name": "Bad request - Invalid session ID",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "stop"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-aecc3bfe-a5db-4325-8008-593bfe565a1b"
+                        },
+                        {
+                          "id": "1f7cdebf-95ab-42ca-9778-e83e616a38d1",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "stop"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-1f7cdebf-95ab-42ca-9778-e83e616a38d1"
+                        },
+                        {
+                          "id": "08dce807-043a-4c71-93a6-bcbb854ad622",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "stop"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-08dce807-043a-4c71-93a6-bcbb854ad622"
+                        },
+                        {
+                          "id": "cdd19f38-d78c-44c6-8f3b-62c03096af8c",
+                          "name": "Not Found - Session not found, or it has no engine to terminate (it never reached an engine, or is a LiveKit/Agora session)",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "stop"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-cdd19f38-d78c-44c6-8f3b-62c03096af8c"
+                        },
+                        {
+                          "id": "63076e7d-c2c9-4832-8a0c-e1b220a06598",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/stop",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "stop"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-63076e7d-c2c9-4832-8a0c-e1b220a06598"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-2b6a5e3d-df64-49a4-acba-829ebae25e2c"
+                    }
+                  ],
+                  "id": "16b11a43-5272-4814-b285-ac99aa75dd9a",
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-16b11a43-5272-4814-b285-ac99aa75dd9a"
+                },
+                {
+                  "name": "recording",
+                  "item": [
+                    {
+                      "name": "get session recording",
+                      "id": "d3ff69c4-e56e-4625-a0c4-0b84ba6fdd6b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id",
+                            "recording"
+                          ],
+                          "variable": [
+                            {
+                              "id": "4538ae00-04b9-4fcf-b123-a8e2f935c530",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Session ID"
+                            }
+                          ]
+                        },
+                        "description": "Returns a presigned URL to download the session recording. Anam-internal admin API keys may fetch recordings for sessions of any organization."
+                      },
+                      "response": [
+                        {
+                          "id": "e5d2d458-1be4-47e5-beff-6c07ed3fa707",
+                          "name": "Successfully retrieved recording URL",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "recording"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"recordingUrl\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-e5d2d458-1be4-47e5-beff-6c07ed3fa707"
+                        },
+                        {
+                          "id": "d6a7eefe-186c-4340-bfb2-5cadb77e8698",
+                          "name": "Bad request - Invalid session ID",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "recording"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-d6a7eefe-186c-4340-bfb2-5cadb77e8698"
+                        },
+                        {
+                          "id": "184663c8-6904-4dee-bbbc-c4f31b68c430",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "recording"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-184663c8-6904-4dee-bbbc-c4f31b68c430"
+                        },
+                        {
+                          "id": "585e88cc-afae-4b7e-ab16-e41477da0261",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "recording"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-585e88cc-afae-4b7e-ab16-e41477da0261"
+                        },
+                        {
+                          "id": "47360fe9-bc13-4127-ae2f-74a456d29b45",
+                          "name": "Not Found - Session or recording not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "recording"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-47360fe9-bc13-4127-ae2f-74a456d29b45"
+                        },
+                        {
+                          "id": "802fce66-b464-4df4-bbc9-6e4d2e552032",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/recording",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "recording"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-802fce66-b464-4df4-bbc9-6e4d2e552032"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-d3ff69c4-e56e-4625-a0c4-0b84ba6fdd6b"
+                    }
+                  ],
+                  "id": "ad2f78f5-8ea3-46a5-bad6-b6e9cbfeabf8",
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-ad2f78f5-8ea3-46a5-bad6-b6e9cbfeabf8"
+                },
+                {
+                  "name": "analytics",
+                  "item": [
+                    {
+                      "name": "get session analytics",
+                      "id": "8d43d80e-c07e-436f-8e51-ce98f5ff6507",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id",
+                            "analytics"
+                          ],
+                          "query": [
+                            {
+                              "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                              "key": "includeMessages",
+                              "value": "false"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "d424391f-b67b-468d-876a-2933169f3268",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Session ID"
+                            }
+                          ]
+                        },
+                        "description": "Returns per-turn latency analytics for a session \u2014 where time was spent in the transcription \u2192 LLM \u2192 TTS \u2192 first-audio path for each conversational turn, plus session-level summary metrics. Analytics become available once the session has ended and the engine has delivered its session report; until then this endpoint returns 404. Analytics exist only for sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) \u2014 LiveKit and audio-passthrough sessions never produce them. Message text is omitted unless `includeMessages=true` is passed and transcripts were enabled for the session. Anam-internal admin API keys may fetch analytics for sessions of any organization."
+                      },
+                      "response": [
+                        {
+                          "id": "0a2bf40b-8277-4137-88d4-5d301e02bcc2",
+                          "name": "Successfully retrieved session analytics",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "analytics"
+                              ],
+                              "query": [
+                                {
+                                  "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                                  "key": "includeMessages",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"sessionId\": \"<uuid>\",\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<string,null-date-time>\",\n  \"durationSeconds\": \"<number,null>\",\n  \"sessionType\": null,\n  \"exitStatus\": \"<string,null>\",\n  \"clientLabel\": \"<string,null>\",\n  \"clientMetadata\": null,\n  \"personaId\": \"<string,null-uuid>\",\n  \"apiKeyId\": \"<string,null-uuid>\",\n  \"config\": {\n    \"llmProvider\": \"<string,null>\",\n    \"llmModel\": \"<string,null>\",\n    \"ttsProvider\": \"<string,null>\",\n    \"ttsVoice\": \"<string,null>\",\n    \"avatarKey\": \"<string,null>\",\n    \"personaName\": \"<string,null>\",\n    \"languageCode\": \"<string,null>\",\n    \"transcriptsEnabled\": \"<boolean>\"\n  },\n  \"summary\": {\n    \"totalTurns\": \"<integer>\",\n    \"completedTurns\": \"<integer>\",\n    \"interruptedTurns\": \"<integer>\",\n    \"interruptionRate\": \"<number,null>\",\n    \"totalUserSpeechDurationSeconds\": \"<number,null>\",\n    \"totalUserWords\": \"<integer,null>\",\n    \"totalAssistantWords\": \"<integer,null>\",\n    \"totalWarnings\": \"<integer>\",\n    \"totalErrors\": \"<integer>\",\n    \"toolCalls\": {\n      \"total\": \"<integer>\",\n      \"succeeded\": \"<integer>\",\n      \"failed\": \"<integer>\",\n      \"byName\": {\n        \"et_50f\": \"<integer>\"\n      }\n    },\n    \"averageLatencies\": {\n      \"transcriptionLatencySeconds\": \"<number,null>\",\n      \"llmTimeToFirstOutputSeconds\": \"<number,null>\",\n      \"ttsGenerationDurationSeconds\": \"<number,null>\",\n      \"firstAudioLatencySeconds\": \"<number,null>\"\n    }\n  },\n  \"turns\": [\n    {\n      \"turnIndex\": \"<integer>\",\n      \"correlationId\": \"<string,null>\",\n      \"userSpeechStartTime\": \"<string,null-date-time>\",\n      \"userSpeechEndTime\": \"<string,null-date-time>\",\n      \"userSpeechDurationSeconds\": \"<number,null>\",\n      \"userTranscriptionTime\": \"<string,null-date-time>\",\n      \"transcriptionLatencySeconds\": \"<number,null>\",\n      \"llmFirstOutputTime\": \"<string,null-date-time>\",\n      \"llmFinalOutputTime\": \"<string,null-date-time>\",\n      \"llmTimeToFirstOutputSeconds\": \"<number,null>\",\n      \"llmGenerationDurationSeconds\": \"<number,null>\",\n      \"ttsStartTime\": \"<string,null-date-time>\",\n      \"ttsEndTime\": \"<string,null-date-time>\",\n      \"ttsGenerationDurationSeconds\": \"<number,null>\",\n      \"ttsTimeToFirstAudioSeconds\": \"<number,null>\",\n      \"personaStartSpeakingTime\": \"<string,null-date-time>\",\n      \"personaStopSpeakingTime\": \"<string,null-date-time>\",\n      \"firstAudioLatencySeconds\": \"<number,null>\",\n      \"speakingDurationSeconds\": \"<number,null>\",\n      \"finishReason\": \"completed\",\n      \"wasInterrupted\": \"<boolean>\",\n      \"interruptedStage\": \"before_llm_output\",\n      \"toolCalls\": [\n        {\n          \"toolCallId\": \"<string,null>\",\n          \"toolName\": \"<string,null>\",\n          \"toolType\": \"<string,null>\",\n          \"status\": \"started\",\n          \"startedAt\": \"<string,null-date-time>\",\n          \"completedAt\": \"<string,null-date-time>\",\n          \"durationSeconds\": \"<number,null>\",\n          \"errorMessage\": \"<string,null>\"\n        },\n        {\n          \"toolCallId\": \"<string,null>\",\n          \"toolName\": \"<string,null>\",\n          \"toolType\": \"<string,null>\",\n          \"status\": \"failed\",\n          \"startedAt\": \"<string,null-date-time>\",\n          \"completedAt\": \"<string,null-date-time>\",\n          \"durationSeconds\": \"<number,null>\",\n          \"errorMessage\": \"<string,null>\"\n        }\n      ],\n      \"userMessage\": \"<string>\",\n      \"assistantMessage\": \"<string>\"\n    },\n    {\n      \"turnIndex\": \"<integer>\",\n      \"correlationId\": \"<string,null>\",\n      \"userSpeechStartTime\": \"<string,null-date-time>\",\n      \"userSpeechEndTime\": \"<string,null-date-time>\",\n      \"userSpeechDurationSeconds\": \"<number,null>\",\n      \"userTranscriptionTime\": \"<string,null-date-time>\",\n      \"transcriptionLatencySeconds\": \"<number,null>\",\n      \"llmFirstOutputTime\": \"<string,null-date-time>\",\n      \"llmFinalOutputTime\": \"<string,null-date-time>\",\n      \"llmTimeToFirstOutputSeconds\": \"<number,null>\",\n      \"llmGenerationDurationSeconds\": \"<number,null>\",\n      \"ttsStartTime\": \"<string,null-date-time>\",\n      \"ttsEndTime\": \"<string,null-date-time>\",\n      \"ttsGenerationDurationSeconds\": \"<number,null>\",\n      \"ttsTimeToFirstAudioSeconds\": \"<number,null>\",\n      \"personaStartSpeakingTime\": \"<string,null-date-time>\",\n      \"personaStopSpeakingTime\": \"<string,null-date-time>\",\n      \"firstAudioLatencySeconds\": \"<number,null>\",\n      \"speakingDurationSeconds\": \"<number,null>\",\n      \"finishReason\": \"completed\",\n      \"wasInterrupted\": \"<boolean>\",\n      \"interruptedStage\": null,\n      \"toolCalls\": [\n        {\n          \"toolCallId\": \"<string,null>\",\n          \"toolName\": \"<string,null>\",\n          \"toolType\": \"<string,null>\",\n          \"status\": \"started\",\n          \"startedAt\": \"<string,null-date-time>\",\n          \"completedAt\": \"<string,null-date-time>\",\n          \"durationSeconds\": \"<number,null>\",\n          \"errorMessage\": \"<string,null>\"\n        },\n        {\n          \"toolCallId\": \"<string,null>\",\n          \"toolName\": \"<string,null>\",\n          \"toolType\": \"<string,null>\",\n          \"status\": \"failed\",\n          \"startedAt\": \"<string,null-date-time>\",\n          \"completedAt\": \"<string,null-date-time>\",\n          \"durationSeconds\": \"<number,null>\",\n          \"errorMessage\": \"<string,null>\"\n        }\n      ],\n      \"userMessage\": \"<string>\",\n      \"assistantMessage\": \"<string>\"\n    }\n  ]\n}",
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-0a2bf40b-8277-4137-88d4-5d301e02bcc2"
+                        },
+                        {
+                          "id": "0d73f511-2bc6-4d7b-8138-dd3af4b38330",
+                          "name": "Bad request - Invalid session ID or query parameters",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "analytics"
+                              ],
+                              "query": [
+                                {
+                                  "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                                  "key": "includeMessages",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-0d73f511-2bc6-4d7b-8138-dd3af4b38330"
+                        },
+                        {
+                          "id": "019da56b-1e2e-4cc8-9617-eae778cc9ef8",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "analytics"
+                              ],
+                              "query": [
+                                {
+                                  "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                                  "key": "includeMessages",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-019da56b-1e2e-4cc8-9617-eae778cc9ef8"
+                        },
+                        {
+                          "id": "28c28912-1fee-405d-b392-15d3a93cc81f",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "analytics"
+                              ],
+                              "query": [
+                                {
+                                  "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                                  "key": "includeMessages",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-28c28912-1fee-405d-b392-15d3a93cc81f"
+                        },
+                        {
+                          "id": "d6bf21a5-5619-4b55-a713-0db63802b1cd",
+                          "name": "Not Found - Session not found, still in progress, of a session type that does not produce analytics (e.g. livekit), or its report was never received. The error message says which.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "analytics"
+                              ],
+                              "query": [
+                                {
+                                  "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                                  "key": "includeMessages",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-d6bf21a5-5619-4b55-a713-0db63802b1cd"
+                        },
+                        {
+                          "id": "80996f01-96a3-4ea5-ac97-48af6a128663",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/sessions/:id/analytics?includeMessages=false",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "sessions",
+                                ":id",
+                                "analytics"
+                              ],
+                              "query": [
+                                {
+                                  "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned.",
+                                  "key": "includeMessages",
+                                  "value": "false"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:48.000Z",
+                          "updatedAt": "2026-07-28T01:00:48.000Z",
+                          "uid": "35240-80996f01-96a3-4ea5-ac97-48af6a128663"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-8d43d80e-c07e-436f-8e51-ce98f5ff6507"
+                    }
+                  ],
+                  "id": "057dfbdd-1952-4cca-b30d-d21ac6f16f8b",
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-057dfbdd-1952-4cca-b30d-d21ac6f16f8b"
+                },
+                {
+                  "name": "get session",
+                  "id": "c8a139bc-7b8a-4080-b9aa-124f72c21d08",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "15f5adfd-477f-4430-a7d7-037e1d01e29f",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Session ID"
+                        }
+                      ]
+                    },
+                    "description": "Returns a session by ID, including the tool calls made during the session once it has ended and the engine has delivered its session report (`toolCalls` is empty until then, and always empty for LiveKit and audio-passthrough sessions, which never produce a report). Tool call names, timing, status and errors are always included; call arguments, results and accessed-document names are only included when transcripts were enabled for the session and the session is not zero-data-retention, since they embed conversation content. HTTP headers and credential-like keys are never returned. Anam-internal admin API keys may fetch sessions of any organization."
+                  },
+                  "response": [
+                    {
+                      "id": "090eda9b-a8bd-4ef4-bacb-432f2fb39dfb",
+                      "name": "Successfully retrieved session",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"personaId\": \"<string,null-uuid>\",\n  \"clientLabel\": \"<string,null>\",\n  \"startTime\": \"<dateTime>\",\n  \"endTime\": \"<string,null-date-time>\",\n  \"sessionLengthMs\": \"<integer,null>\",\n  \"exitStatus\": \"<string,null>\",\n  \"engineHost\": \"<string,null>\",\n  \"engineProtocol\": \"<string,null>\",\n  \"engineVersion\": \"<string,null>\",\n  \"clientMetadata\": {},\n  \"personaConfig\": {\n    \"voluptate_1ca\": 69942157.17147622,\n    \"fugiat_7\": \"Ut in labore ut id\"\n  },\n  \"apiKeyId\": \"<string,null-uuid>\",\n  \"organizationId\": \"<string>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\",\n  \"toolCalls\": [\n    {\n      \"turnIndex\": \"<integer>\",\n      \"correlationId\": \"<string,null>\",\n      \"toolCallId\": \"<string,null>\",\n      \"toolName\": \"<string,null>\",\n      \"toolType\": \"server\",\n      \"toolSubtype\": \"<string,null>\",\n      \"status\": \"started\",\n      \"startedAt\": \"<string,null-date-time>\",\n      \"completedAt\": \"<string,null-date-time>\",\n      \"durationSeconds\": \"<number,null>\",\n      \"errorMessage\": \"<string,null>\",\n      \"arguments\": null,\n      \"result\": \"<string,null>\",\n      \"documentsAccessed\": null\n    },\n    {\n      \"turnIndex\": \"<integer>\",\n      \"correlationId\": \"<string,null>\",\n      \"toolCallId\": \"<string,null>\",\n      \"toolName\": \"<string,null>\",\n      \"toolType\": null,\n      \"toolSubtype\": \"<string,null>\",\n      \"status\": \"started\",\n      \"startedAt\": \"<string,null-date-time>\",\n      \"completedAt\": \"<string,null-date-time>\",\n      \"durationSeconds\": \"<number,null>\",\n      \"errorMessage\": \"<string,null>\",\n      \"arguments\": null,\n      \"result\": \"<string,null>\",\n      \"documentsAccessed\": null\n    }\n  ]\n}",
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-090eda9b-a8bd-4ef4-bacb-432f2fb39dfb"
+                    },
+                    {
+                      "id": "2c8504c8-0afc-457a-9a09-2acc30fb64f7",
+                      "name": "Bad request - Invalid session ID",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-2c8504c8-0afc-457a-9a09-2acc30fb64f7"
+                    },
+                    {
+                      "id": "63f908a2-11b0-4965-a256-5e19e3ded684",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-63f908a2-11b0-4965-a256-5e19e3ded684"
+                    },
+                    {
+                      "id": "62e6f14a-50c3-4e90-a9f5-a0a97c232876",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-62e6f14a-50c3-4e90-a9f5-a0a97c232876"
+                    },
+                    {
+                      "id": "67b2b6b0-4918-43f7-8e95-2af82ca0c3e0",
+                      "name": "Not Found - Session not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-67b2b6b0-4918-43f7-8e95-2af82ca0c3e0"
+                    },
+                    {
+                      "id": "a6446712-24da-42e4-9945-930dc6909217",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/sessions/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "sessions",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:48.000Z",
+                      "updatedAt": "2026-07-28T01:00:48.000Z",
+                      "uid": "35240-a6446712-24da-42e4-9945-930dc6909217"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-c8a139bc-7b8a-4080-b9aa-124f72c21d08"
+                }
+              ],
+              "id": "a1b814f0-1fed-49af-8157-9d12a0a67b47",
+              "createdAt": "2026-07-28T01:00:48.000Z",
+              "updatedAt": "2026-07-28T01:00:48.000Z",
+              "uid": "35240-a1b814f0-1fed-49af-8157-9d12a0a67b47"
+            },
+            {
+              "name": "list sessions",
+              "id": "027f0184-150a-49df-88a5-b93cf207c8ac",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/sessions?page=1&perPage=10&search=<string>&apiKeyId=<uuid>&personaId=<uuid>&organizationId=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of items per page (max 100)",
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "description": "Search term to filter sessions by ID or client label",
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter sessions by API key ID",
+                      "key": "apiKeyId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "description": "Filter sessions by persona ID",
+                      "key": "personaId",
+                      "value": "<uuid>"
+                    },
+                    {
+                      "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                      "key": "organizationId",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all sessions for the organization"
+              },
+              "response": [
+                {
+                  "id": "94251c37-3de0-4530-81ee-0f68e3cacd8f",
+                  "name": "Successfully retrieved sessions",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions?page=1&perPage=10&search=<string>&apiKeyId=<uuid>&personaId=<uuid>&organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter sessions by ID or client label",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter sessions by API key ID",
+                          "key": "apiKeyId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Filter sessions by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"personaId\": \"<string,null-uuid>\",\n      \"clientLabel\": \"<string,null>\",\n      \"startTime\": \"<dateTime>\",\n      \"endTime\": \"<string,null-date-time>\",\n      \"sessionLengthMs\": \"<integer,null>\",\n      \"exitStatus\": \"<string,null>\",\n      \"engineHost\": \"<string,null>\",\n      \"engineProtocol\": \"<string,null>\",\n      \"engineVersion\": \"<string,null>\",\n      \"clientMetadata\": {},\n      \"personaConfig\": {\n        \"labore02f\": 68187020.51139,\n        \"labore_3\": 71842771.05485183\n      },\n      \"apiKeyId\": \"<string,null-uuid>\",\n      \"organizationId\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<string,null-date-time>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"personaId\": \"<string,null-uuid>\",\n      \"clientLabel\": \"<string,null>\",\n      \"startTime\": \"<dateTime>\",\n      \"endTime\": \"<string,null-date-time>\",\n      \"sessionLengthMs\": \"<integer,null>\",\n      \"exitStatus\": \"<string,null>\",\n      \"engineHost\": \"<string,null>\",\n      \"engineProtocol\": \"<string,null>\",\n      \"engineVersion\": \"<string,null>\",\n      \"clientMetadata\": {},\n      \"personaConfig\": {\n        \"id_ee\": 15123209.527942196\n      },\n      \"apiKeyId\": \"<string,null-uuid>\",\n      \"organizationId\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<string,null-date-time>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-94251c37-3de0-4530-81ee-0f68e3cacd8f"
+                },
+                {
+                  "id": "4bcd38db-31e2-4189-ac37-3152522477b2",
+                  "name": "Bad request - Invalid query parameters",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions?page=1&perPage=10&search=<string>&apiKeyId=<uuid>&personaId=<uuid>&organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter sessions by ID or client label",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter sessions by API key ID",
+                          "key": "apiKeyId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Filter sessions by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-4bcd38db-31e2-4189-ac37-3152522477b2"
+                },
+                {
+                  "id": "a42cb9f1-9150-46c0-9d2f-911b7ee2c0d3",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions?page=1&perPage=10&search=<string>&apiKeyId=<uuid>&personaId=<uuid>&organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter sessions by ID or client label",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter sessions by API key ID",
+                          "key": "apiKeyId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Filter sessions by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-a42cb9f1-9150-46c0-9d2f-911b7ee2c0d3"
+                },
+                {
+                  "id": "feb6d5e6-25f5-4b12-8a62-0d984820bbee",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions?page=1&perPage=10&search=<string>&apiKeyId=<uuid>&personaId=<uuid>&organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter sessions by ID or client label",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter sessions by API key ID",
+                          "key": "apiKeyId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Filter sessions by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-feb6d5e6-25f5-4b12-8a62-0d984820bbee"
+                },
+                {
+                  "id": "38fa6de0-b147-46ca-8568-d377bf02af99",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/sessions?page=1&perPage=10&search=<string>&apiKeyId=<uuid>&personaId=<uuid>&organizationId=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "sessions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter sessions by ID or client label",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter sessions by API key ID",
+                          "key": "apiKeyId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "Filter sessions by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        },
+                        {
+                          "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403.",
+                          "key": "organizationId",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:48.000Z",
+                  "updatedAt": "2026-07-28T01:00:48.000Z",
+                  "uid": "35240-38fa6de0-b147-46ca-8568-d377bf02af99"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:48.000Z",
+              "updatedAt": "2026-07-28T01:00:48.000Z",
+              "uid": "35240-027f0184-150a-49df-88a5-b93cf207c8ac"
+            }
+          ],
+          "id": "3b8a9346-470a-4488-ab9d-458c148f5d3f",
+          "createdAt": "2026-07-28T01:00:48.000Z",
+          "updatedAt": "2026-07-28T01:00:48.000Z",
+          "uid": "35240-3b8a9346-470a-4488-ab9d-458c148f5d3f"
+        }
+      ],
+      "id": "ab518b56-9165-4cfb-be60-8df0d87a8d96",
+      "createdAt": "2026-07-28T01:00:48.000Z",
+      "updatedAt": "2026-07-28T01:00:48.000Z",
+      "uid": "35240-ab518b56-9165-4cfb-be60-8df0d87a8d96"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

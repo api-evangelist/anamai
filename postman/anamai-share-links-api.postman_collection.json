@@ -1,0 +1,1710 @@
+{
+  "info": {
+    "_postman_id": "c0cbdf37-6f49-4dc0-ad3b-fe48a8e0a931",
+    "name": "Anam AI Avatars Share Links API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:48.000Z",
+    "updatedAt": "2026-07-28T01:00:48.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c0cbdf37-6f49-4dc0-ad3b-fe48a8e0a931"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "share-links",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get share link",
+                  "id": "236adc7f-8164-47dd-a0f5-7a3237ce8cda",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "105ba93c-98bd-43dc-954f-4ad49b9b2b26",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Share link ID"
+                        }
+                      ]
+                    },
+                    "description": "Returns a share link by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "027478ec-ab46-48e0-97e4-6241670b924d",
+                      "name": "Successfully retrieved share link",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"token\": \"<string>\",\n  \"type\": \"ORB_EMBED\",\n  \"expiresAt\": \"<string,null-date-time>\",\n  \"usageLimit\": \"<integer,null>\",\n  \"usageCount\": \"<integer>\",\n  \"allowedOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allowAllOrigins\": \"<boolean>\",\n  \"removeWatermark\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"isPrimary\": \"<boolean>\",\n  \"createdAt\": \"<dateTime>\",\n  \"personaId\": \"<uuid>\",\n  \"personaName\": \"<string>\",\n  \"organizationId\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-027478ec-ab46-48e0-97e4-6241670b924d"
+                    },
+                    {
+                      "id": "71d7b224-1b9a-49a7-93c7-b8f64755ca43",
+                      "name": "Bad request - Invalid share link ID",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-71d7b224-1b9a-49a7-93c7-b8f64755ca43"
+                    },
+                    {
+                      "id": "46db516f-abdc-4d16-b2fb-ee31980bc72f",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-46db516f-abdc-4d16-b2fb-ee31980bc72f"
+                    },
+                    {
+                      "id": "68ebd795-a90d-49cf-9e54-ffe3e0ce3b4a",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-68ebd795-a90d-49cf-9e54-ffe3e0ce3b4a"
+                    },
+                    {
+                      "id": "e08ad6f7-721b-449b-9fd3-f31e949f94e4",
+                      "name": "Not Found - Share link not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-e08ad6f7-721b-449b-9fd3-f31e949f94e4"
+                    },
+                    {
+                      "id": "d2997e46-c7b4-41a8-bf23-76c7dd804a0c",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-d2997e46-c7b4-41a8-bf23-76c7dd804a0c"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-236adc7f-8164-47dd-a0f5-7a3237ce8cda"
+                },
+                {
+                  "name": "update share link",
+                  "id": "81a57fd0-396b-4611-9bd0-11e314d64532",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "76dbb369-8efc-4dd7-801d-e0fdb8553461",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Share link ID"
+                        }
+                      ]
+                    },
+                    "description": "Update a share link by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "2f7fc61c-1bb2-4432-9abd-5bf69096c712",
+                      "name": "Successfully updated share link",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"token\": \"<string>\",\n  \"type\": \"ORB_EMBED\",\n  \"expiresAt\": \"<string,null-date-time>\",\n  \"usageLimit\": \"<integer,null>\",\n  \"usageCount\": \"<integer>\",\n  \"allowedOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allowAllOrigins\": \"<boolean>\",\n  \"removeWatermark\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"isPrimary\": \"<boolean>\",\n  \"createdAt\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-2f7fc61c-1bb2-4432-9abd-5bf69096c712"
+                    },
+                    {
+                      "id": "88ad996c-944c-4388-b9a5-506d93721ed4",
+                      "name": "Bad request - Invalid share link data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-88ad996c-944c-4388-b9a5-506d93721ed4"
+                    },
+                    {
+                      "id": "b4fdb33c-c925-4d16-8463-a09696314c69",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-b4fdb33c-c925-4d16-8463-a09696314c69"
+                    },
+                    {
+                      "id": "3b4f5fd2-33cc-4c12-b2fd-828bcfd3a080",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-3b4f5fd2-33cc-4c12-b2fd-828bcfd3a080"
+                    },
+                    {
+                      "id": "6759b186-ae08-401a-8a57-f7f874eb295d",
+                      "name": "Not Found - Share link not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-6759b186-ae08-401a-8a57-f7f874eb295d"
+                    },
+                    {
+                      "id": "8caaa4b7-7035-4270-aa9c-c7e2941d8e45",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"expiresInHours\": \"<number>\",\n  \"usageLimit\": \"<number>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-8caaa4b7-7035-4270-aa9c-c7e2941d8e45"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-81a57fd0-396b-4611-9bd0-11e314d64532"
+                },
+                {
+                  "name": "delete share link",
+                  "id": "dc64f3d7-f43c-4d5d-b8df-4ab211062285",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "4d9159f9-7187-4247-8b0f-d94e4a9d8aef",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Share link ID"
+                        }
+                      ]
+                    },
+                    "description": "Delete a share link by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "a0b68937-ddca-4e4b-8db4-9b17d8360830",
+                      "name": "Successfully deleted share link",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-a0b68937-ddca-4e4b-8db4-9b17d8360830"
+                    },
+                    {
+                      "id": "9cd0ebf7-9129-4fd8-819d-286e8e0d5bbd",
+                      "name": "Bad request - Invalid share link ID",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-9cd0ebf7-9129-4fd8-819d-286e8e0d5bbd"
+                    },
+                    {
+                      "id": "559424fb-ab3a-4006-86fd-8f14277bf9ec",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-559424fb-ab3a-4006-86fd-8f14277bf9ec"
+                    },
+                    {
+                      "id": "cc93201a-4f80-4652-9d08-b6fa321ce512",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-cc93201a-4f80-4652-9d08-b6fa321ce512"
+                    },
+                    {
+                      "id": "45060acc-6121-473d-9ce8-75cac46757b0",
+                      "name": "Not Found - Share link not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-45060acc-6121-473d-9ce8-75cac46757b0"
+                    },
+                    {
+                      "id": "d9a5bf37-b808-4c19-b9bc-593cbe4abaf9",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/share-links/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "share-links",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:49.000Z",
+                      "updatedAt": "2026-07-28T01:00:49.000Z",
+                      "uid": "35240-d9a5bf37-b808-4c19-b9bc-593cbe4abaf9"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-dc64f3d7-f43c-4d5d-b8df-4ab211062285"
+                }
+              ],
+              "id": "8ee35f47-7c0f-4112-ad73-cca2e378828b",
+              "createdAt": "2026-07-28T01:00:49.000Z",
+              "updatedAt": "2026-07-28T01:00:49.000Z",
+              "uid": "35240-8ee35f47-7c0f-4112-ad73-cca2e378828b"
+            },
+            {
+              "name": "list share links",
+              "id": "06d6f150-f888-4d1a-b014-7ec59fc93fce",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/share-links?page=1&perPage=20&search=<string>&personaId=<uuid>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "share-links"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of items per page (max 100)",
+                      "key": "perPage",
+                      "value": "20"
+                    },
+                    {
+                      "description": "Search term to filter share links",
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter share links by persona ID",
+                      "key": "personaId",
+                      "value": "<uuid>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all share links for the organization"
+              },
+              "response": [
+                {
+                  "id": "f289b4b9-10eb-421f-aeb5-d7f489bf8dbf",
+                  "name": "Successfully retrieved share links",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links?page=1&perPage=20&search=<string>&personaId=<uuid>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "20"
+                        },
+                        {
+                          "description": "Search term to filter share links",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter share links by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"token\": \"<string>\",\n      \"type\": \"ORB_EMBED\",\n      \"expiresAt\": \"<string,null-date-time>\",\n      \"usageLimit\": \"<integer,null>\",\n      \"usageCount\": \"<integer>\",\n      \"allowedOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"allowAllOrigins\": \"<boolean>\",\n      \"removeWatermark\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"isPrimary\": \"<boolean>\",\n      \"createdAt\": \"<dateTime>\",\n      \"personaId\": \"<uuid>\",\n      \"personaName\": \"<string>\",\n      \"organizationId\": \"<string>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"token\": \"<string>\",\n      \"type\": \"ORB_EMBED\",\n      \"expiresAt\": \"<string,null-date-time>\",\n      \"usageLimit\": \"<integer,null>\",\n      \"usageCount\": \"<integer>\",\n      \"allowedOrigins\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"allowAllOrigins\": \"<boolean>\",\n      \"removeWatermark\": \"<boolean>\",\n      \"enabled\": \"<boolean>\",\n      \"isPrimary\": \"<boolean>\",\n      \"createdAt\": \"<dateTime>\",\n      \"personaId\": \"<uuid>\",\n      \"personaName\": \"<string>\",\n      \"organizationId\": \"<string>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-f289b4b9-10eb-421f-aeb5-d7f489bf8dbf"
+                },
+                {
+                  "id": "42d2ba5c-9723-4ee9-8678-8e247a3dba8d",
+                  "name": "Bad request - Invalid query parameters",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links?page=1&perPage=20&search=<string>&personaId=<uuid>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "20"
+                        },
+                        {
+                          "description": "Search term to filter share links",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter share links by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-42d2ba5c-9723-4ee9-8678-8e247a3dba8d"
+                },
+                {
+                  "id": "d08f3333-3e21-4b76-9612-4ca7ad1b88d0",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links?page=1&perPage=20&search=<string>&personaId=<uuid>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "20"
+                        },
+                        {
+                          "description": "Search term to filter share links",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter share links by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-d08f3333-3e21-4b76-9612-4ca7ad1b88d0"
+                },
+                {
+                  "id": "5bb251af-8fde-43be-9878-eaa3502f15f0",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links?page=1&perPage=20&search=<string>&personaId=<uuid>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "20"
+                        },
+                        {
+                          "description": "Search term to filter share links",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter share links by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-5bb251af-8fde-43be-9878-eaa3502f15f0"
+                },
+                {
+                  "id": "b953f494-8d2c-45d8-976d-6f3911e6e183",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links?page=1&perPage=20&search=<string>&personaId=<uuid>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "20"
+                        },
+                        {
+                          "description": "Search term to filter share links",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter share links by persona ID",
+                          "key": "personaId",
+                          "value": "<uuid>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-b953f494-8d2c-45d8-976d-6f3911e6e183"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:49.000Z",
+              "updatedAt": "2026-07-28T01:00:49.000Z",
+              "uid": "35240-06d6f150-f888-4d1a-b014-7ec59fc93fce"
+            },
+            {
+              "name": "create share link",
+              "id": "a76bdf88-5d45-443c-b6f8-b955f3a065e7",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/share-links",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "share-links"
+                  ]
+                },
+                "description": "Create a new share link"
+              },
+              "response": [
+                {
+                  "id": "189e4dd9-76c0-4799-a99b-9fb9d53bf454",
+                  "name": "Successfully created share link",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"token\": \"<string>\",\n  \"type\": \"ORB_EMBED\",\n  \"expiresAt\": \"<string,null-date-time>\",\n  \"usageLimit\": \"<integer,null>\",\n  \"usageCount\": \"<integer>\",\n  \"allowedOrigins\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"allowAllOrigins\": \"<boolean>\",\n  \"removeWatermark\": \"<boolean>\",\n  \"enabled\": \"<boolean>\",\n  \"isPrimary\": \"<boolean>\",\n  \"createdAt\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-189e4dd9-76c0-4799-a99b-9fb9d53bf454"
+                },
+                {
+                  "id": "2145e05e-ad0d-43b6-a109-214313bff86f",
+                  "name": "Bad request - Invalid share link data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-2145e05e-ad0d-43b6-a109-214313bff86f"
+                },
+                {
+                  "id": "b4ae3470-e97b-44fd-af12-f00cc23ec947",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-b4ae3470-e97b-44fd-af12-f00cc23ec947"
+                },
+                {
+                  "id": "4f7a0671-f289-4679-9096-5072b4cb3aec",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-4f7a0671-f289-4679-9096-5072b4cb3aec"
+                },
+                {
+                  "id": "a9a5ccab-c8c7-44a1-bda3-8a37a6327ca0",
+                  "name": "Not Found - Persona not found",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-a9a5ccab-c8c7-44a1-bda3-8a37a6327ca0"
+                },
+                {
+                  "id": "4533d252-a3e0-460f-a088-822bf6a6d9fc",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": \"<uuid>\",\n  \"expiresInHours\": 168,\n  \"usageLimit\": 10\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/share-links",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "share-links"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:49.000Z",
+                  "updatedAt": "2026-07-28T01:00:49.000Z",
+                  "uid": "35240-4533d252-a3e0-460f-a088-822bf6a6d9fc"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:49.000Z",
+              "updatedAt": "2026-07-28T01:00:49.000Z",
+              "uid": "35240-a76bdf88-5d45-443c-b6f8-b955f3a065e7"
+            }
+          ],
+          "id": "38897709-aa5f-44ad-8fdf-9ce48d15604a",
+          "createdAt": "2026-07-28T01:00:49.000Z",
+          "updatedAt": "2026-07-28T01:00:49.000Z",
+          "uid": "35240-38897709-aa5f-44ad-8fdf-9ce48d15604a"
+        }
+      ],
+      "id": "dc191a9f-dcbd-4127-acb2-b58be0644ffc",
+      "createdAt": "2026-07-28T01:00:49.000Z",
+      "updatedAt": "2026-07-28T01:00:49.000Z",
+      "uid": "35240-dc191a9f-dcbd-4127-acb2-b58be0644ffc"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

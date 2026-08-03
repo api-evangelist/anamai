@@ -1,0 +1,2017 @@
+{
+  "info": {
+    "_postman_id": "8ad404c2-c917-4148-b93b-3cb86e945c06",
+    "name": "Anam AI Avatars API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:40.000Z",
+    "updatedAt": "2026-07-28T01:00:40.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8ad404c2-c917-4148-b93b-3cb86e945c06"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "avatars",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get avatar",
+                  "id": "50db0303-1169-4049-9976-8069da2a8967",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "6d2a15e5-9634-47c5-a6cc-a81e77171f17",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Avatar ID"
+                        }
+                      ]
+                    },
+                    "description": "Returns an avatar by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "7c270d0e-5a12-49df-a0fe-702613403a5a",
+                      "name": "Successfully retrieved avatar",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"variantName\": \"<string>\",\n  \"imageUrl\": \"<uri>\",\n  \"landscapeImageUrl\": \"<string,null-uri>\",\n  \"portraitImageUrl\": \"<string,null-uri>\",\n  \"videoUrl\": \"<string,null-uri>\",\n  \"idleVideoUrl\": \"<string,null-uri>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"availableVersions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"activeVersion\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"renderStyle\": \"unknown\"\n}",
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-7c270d0e-5a12-49df-a0fe-702613403a5a"
+                    },
+                    {
+                      "id": "17f9c0bb-b4af-4a57-af38-2f66d5851357",
+                      "name": "Bad request - Invalid avatar ID",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-17f9c0bb-b4af-4a57-af38-2f66d5851357"
+                    },
+                    {
+                      "id": "f2f35e86-3b47-4182-ab7a-666a968911f0",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-f2f35e86-3b47-4182-ab7a-666a968911f0"
+                    },
+                    {
+                      "id": "e0b87d64-beb3-4f9c-9d3c-7925498551f4",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-e0b87d64-beb3-4f9c-9d3c-7925498551f4"
+                    },
+                    {
+                      "id": "0232d9bc-7fd0-4b66-b665-790c1990ac71",
+                      "name": "Not Found - Avatar not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-0232d9bc-7fd0-4b66-b665-790c1990ac71"
+                    },
+                    {
+                      "id": "386a492a-b707-4ab7-9f70-4cbc539ad848",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-386a492a-b707-4ab7-9f70-4cbc539ad848"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-50db0303-1169-4049-9976-8069da2a8967"
+                },
+                {
+                  "name": "update avatar",
+                  "id": "0299d2d7-14b9-4367-b1fd-3c0ac5285d3c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "1294899b-1275-4c11-8f54-921dff8cd42e",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Avatar ID"
+                        }
+                      ]
+                    },
+                    "description": "Update an avatar by ID (only display name can be updated)"
+                  },
+                  "response": [
+                    {
+                      "id": "9d9cb8d1-d4f8-4321-b458-94b8e1cf0ae4",
+                      "name": "Successfully updated avatar",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"variantName\": \"<string>\",\n  \"imageUrl\": \"<uri>\",\n  \"landscapeImageUrl\": \"<string,null-uri>\",\n  \"portraitImageUrl\": \"<string,null-uri>\",\n  \"videoUrl\": \"<string,null-uri>\",\n  \"idleVideoUrl\": \"<string,null-uri>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"availableVersions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"activeVersion\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"renderStyle\": \"unknown\"\n}",
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-9d9cb8d1-d4f8-4321-b458-94b8e1cf0ae4"
+                    },
+                    {
+                      "id": "2a402372-0690-4902-8c0f-761d5af868be",
+                      "name": "Bad request - Invalid avatar data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-2a402372-0690-4902-8c0f-761d5af868be"
+                    },
+                    {
+                      "id": "5b6d36dc-163d-4aa2-b27c-5e0004d2ca76",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-5b6d36dc-163d-4aa2-b27c-5e0004d2ca76"
+                    },
+                    {
+                      "id": "c212218a-de50-4b50-b524-0052e2e8fc81",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-c212218a-de50-4b50-b524-0052e2e8fc81"
+                    },
+                    {
+                      "id": "5f8c7923-38e2-4792-aa07-a560c71c4580",
+                      "name": "Not Found - Avatar not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-5f8c7923-38e2-4792-aa07-a560c71c4580"
+                    },
+                    {
+                      "id": "6940e35c-0c6d-4f18-98bd-939d41464fb3",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-6940e35c-0c6d-4f18-98bd-939d41464fb3"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-0299d2d7-14b9-4367-b1fd-3c0ac5285d3c"
+                },
+                {
+                  "name": "delete avatar",
+                  "id": "6d7543cc-22d8-4486-8c52-d4f33f921b1e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars",
+                        ":id"
+                      ],
+                      "query": [
+                        {
+                          "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                          "key": "hard",
+                          "value": "<boolean>"
+                        }
+                      ],
+                      "variable": [
+                        {
+                          "id": "a68847f5-4be2-44c9-9239-7e1d2fdb2939",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Avatar ID"
+                        }
+                      ]
+                    },
+                    "description": "Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted."
+                  },
+                  "response": [
+                    {
+                      "id": "acb9a119-7eaf-4339-b514-973f5c058947",
+                      "name": "Successfully deleted avatar",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                              "key": "hard",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-acb9a119-7eaf-4339-b514-973f5c058947"
+                    },
+                    {
+                      "id": "1ea63c2f-adff-41a7-801b-328cbd3165be",
+                      "name": "Bad request - Invalid avatar ID",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                              "key": "hard",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-1ea63c2f-adff-41a7-801b-328cbd3165be"
+                    },
+                    {
+                      "id": "ae6a5757-7fe4-45b1-8acd-1a73ce7ce588",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                              "key": "hard",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-ae6a5757-7fe4-45b1-8acd-1a73ce7ce588"
+                    },
+                    {
+                      "id": "4ca842de-0436-4ea7-b724-d1c5655a54e3",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                              "key": "hard",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-4ca842de-0436-4ea7-b724-d1c5655a54e3"
+                    },
+                    {
+                      "id": "c3ed6bef-8e9c-4d89-8bb7-cd3b5bba6ba3",
+                      "name": "Not Found - Avatar not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                              "key": "hard",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-c3ed6bef-8e9c-4d89-8bb7-cd3b5bba6ba3"
+                    },
+                    {
+                      "id": "39e29074-637a-45ec-b4fa-2337ef25ba4e",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/avatars/:id?hard=<boolean>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "avatars",
+                            ":id"
+                          ],
+                          "query": [
+                            {
+                              "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it.",
+                              "key": "hard",
+                              "value": "<boolean>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:41.000Z",
+                      "updatedAt": "2026-07-28T01:00:41.000Z",
+                      "uid": "35240-39e29074-637a-45ec-b4fa-2337ef25ba4e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-6d7543cc-22d8-4486-8c52-d4f33f921b1e"
+                }
+              ],
+              "id": "98fe9781-f084-4136-9061-eebc1350b999",
+              "createdAt": "2026-07-28T01:00:41.000Z",
+              "updatedAt": "2026-07-28T01:00:41.000Z",
+              "uid": "35240-98fe9781-f084-4136-9061-eebc1350b999"
+            },
+            {
+              "name": "list avatars",
+              "id": "bf623d58-da77-4377-ad76-be38987284a0",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/avatars?page=1&perPage=10&search=<string>&renderStyle=all&tags=<string>&tags=<string>&onlyOneShot=false",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "avatars"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of avatars per page (max 100)",
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "description": "Search term to filter avatars by display name or generated description",
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).",
+                      "key": "renderStyle",
+                      "value": "all"
+                    },
+                    {
+                      "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                      "key": "tags",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Only return one-shot avatars",
+                      "key": "onlyOneShot",
+                      "value": "false"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all avatars"
+              },
+              "response": [
+                {
+                  "id": "e497936e-0dd0-4981-9e8f-bfa8b4a5704e",
+                  "name": "Successfully retrieved avatars",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars?page=1&perPage=10&search=<string>&renderStyle=all&tags=<string>&onlyOneShot=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of avatars per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter avatars by display name or generated description",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).",
+                          "key": "renderStyle",
+                          "value": "all"
+                        },
+                        {
+                          "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                          "key": "tags",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return one-shot avatars",
+                          "key": "onlyOneShot",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"displayName\": \"<string>\",\n      \"variantName\": \"<string>\",\n      \"imageUrl\": \"<uri>\",\n      \"landscapeImageUrl\": \"<string,null-uri>\",\n      \"portraitImageUrl\": \"<string,null-uri>\",\n      \"videoUrl\": \"<string,null-uri>\",\n      \"idleVideoUrl\": \"<string,null-uri>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"createdByOrganizationId\": \"<string,null>\",\n      \"availableVersions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"activeVersion\": \"<string,null>\",\n      \"description\": \"<string,null>\",\n      \"displayTags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"renderStyle\": \"illustrated\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"displayName\": \"<string>\",\n      \"variantName\": \"<string>\",\n      \"imageUrl\": \"<uri>\",\n      \"landscapeImageUrl\": \"<string,null-uri>\",\n      \"portraitImageUrl\": \"<string,null-uri>\",\n      \"videoUrl\": \"<string,null-uri>\",\n      \"idleVideoUrl\": \"<string,null-uri>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"createdByOrganizationId\": \"<string,null>\",\n      \"availableVersions\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"activeVersion\": \"<string,null>\",\n      \"description\": \"<string,null>\",\n      \"displayTags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"renderStyle\": \"realistic\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-e497936e-0dd0-4981-9e8f-bfa8b4a5704e"
+                },
+                {
+                  "id": "08125c16-9f3f-408b-93e7-8a7ef8fd03f8",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars?page=1&perPage=10&search=<string>&renderStyle=all&tags=<string>&onlyOneShot=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of avatars per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter avatars by display name or generated description",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).",
+                          "key": "renderStyle",
+                          "value": "all"
+                        },
+                        {
+                          "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                          "key": "tags",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return one-shot avatars",
+                          "key": "onlyOneShot",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-08125c16-9f3f-408b-93e7-8a7ef8fd03f8"
+                },
+                {
+                  "id": "7c568239-4f5f-4700-91c3-d366283d99f2",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars?page=1&perPage=10&search=<string>&renderStyle=all&tags=<string>&onlyOneShot=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of avatars per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter avatars by display name or generated description",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).",
+                          "key": "renderStyle",
+                          "value": "all"
+                        },
+                        {
+                          "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                          "key": "tags",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return one-shot avatars",
+                          "key": "onlyOneShot",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-7c568239-4f5f-4700-91c3-d366283d99f2"
+                },
+                {
+                  "id": "b4612563-3f2c-4d1b-9257-a9a78feeb8c1",
+                  "name": "Not Found - No avatars found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars?page=1&perPage=10&search=<string>&renderStyle=all&tags=<string>&onlyOneShot=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of avatars per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter avatars by display name or generated description",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).",
+                          "key": "renderStyle",
+                          "value": "all"
+                        },
+                        {
+                          "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                          "key": "tags",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return one-shot avatars",
+                          "key": "onlyOneShot",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-b4612563-3f2c-4d1b-9257-a9a78feeb8c1"
+                },
+                {
+                  "id": "9c7977b6-d648-4afe-9f9d-7c21b5dc0fd5",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars?page=1&perPage=10&search=<string>&renderStyle=all&tags=<string>&onlyOneShot=false",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of avatars per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter avatars by display name or generated description",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed).",
+                          "key": "renderStyle",
+                          "value": "all"
+                        },
+                        {
+                          "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase.",
+                          "key": "tags",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return one-shot avatars",
+                          "key": "onlyOneShot",
+                          "value": "false"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-9c7977b6-d648-4afe-9f9d-7c21b5dc0fd5"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:41.000Z",
+              "updatedAt": "2026-07-28T01:00:41.000Z",
+              "uid": "35240-bf623d58-da77-4377-ad76-be38987284a0"
+            },
+            {
+              "name": "create avatar",
+              "id": "1c93f1e7-e7d5-4d59-bdb6-e2706b5c5f4c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": "(Required) Display name for the avatar (3-50 characters)",
+                      "key": "displayName",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                      "key": "imageFile",
+                      "type": "file",
+                      "value": null
+                    },
+                    {
+                      "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                      "key": "imageUrl",
+                      "value": "<uri>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                      "key": "avatarModel",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/avatars",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "avatars"
+                  ]
+                },
+                "description": "Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL."
+              },
+              "response": [
+                {
+                  "id": "46310501-066d-4872-bfd0-d99a7d3ab698",
+                  "name": "Successfully created avatar",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"variantName\": \"<string>\",\n  \"imageUrl\": \"<uri>\",\n  \"landscapeImageUrl\": \"<string,null-uri>\",\n  \"portraitImageUrl\": \"<string,null-uri>\",\n  \"videoUrl\": \"<string,null-uri>\",\n  \"idleVideoUrl\": \"<string,null-uri>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"availableVersions\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"activeVersion\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"renderStyle\": \"unknown\"\n}",
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-46310501-066d-4872-bfd0-d99a7d3ab698"
+                },
+                {
+                  "id": "9f8a8eb3-20ab-43fc-becb-4aad4417dd8f",
+                  "name": "Bad request - Invalid avatar data, missing image file/URL, or both provided",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-9f8a8eb3-20ab-43fc-becb-4aad4417dd8f"
+                },
+                {
+                  "id": "2ea2e24e-4411-42ae-9b50-25a5cc8553fd",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-2ea2e24e-4411-42ae-9b50-25a5cc8553fd"
+                },
+                {
+                  "id": "50304a55-6c62-4d09-a0eb-2bd1b55a7077",
+                  "name": "Forbidden - Requires enterprise plan or API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-50304a55-6c62-4d09-a0eb-2bd1b55a7077"
+                },
+                {
+                  "id": "bf3c2ee3-e2b3-48a3-8b1f-6b9f18b99b1a",
+                  "name": "Unprocessable Entity - Image could not be processed, or was rejected by content moderation (e.g. inappropriate content, celebrity likeness, or the subject's age could not be verified)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                  "code": 422,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-bf3c2ee3-e2b3-48a3-8b1f-6b9f18b99b1a"
+                },
+                {
+                  "id": "92537296-1076-42d9-9b6b-ca3c8bee492b",
+                  "name": "Too Many Requests - Content moderation rate limit reached; wait and retry",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-92537296-1076-42d9-9b6b-ca3c8bee492b"
+                },
+                {
+                  "id": "e252fabf-a4f4-45e4-ad7a-0ce2f04a4401",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the avatar (3-50 characters)",
+                          "key": "displayName",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Image file to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.",
+                          "key": "imageUrl",
+                          "value": "<uri>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Avatar model to use (e.g. \"cara-3\", \"cara-4\", \"cara-4-latest\"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.",
+                          "key": "avatarModel",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/avatars",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "avatars"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:41.000Z",
+                  "updatedAt": "2026-07-28T01:00:41.000Z",
+                  "uid": "35240-e252fabf-a4f4-45e4-ad7a-0ce2f04a4401"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:41.000Z",
+              "updatedAt": "2026-07-28T01:00:41.000Z",
+              "uid": "35240-1c93f1e7-e7d5-4d59-bdb6-e2706b5c5f4c"
+            }
+          ],
+          "id": "06f2df35-191d-43c0-af35-8093a63cd710",
+          "createdAt": "2026-07-28T01:00:41.000Z",
+          "updatedAt": "2026-07-28T01:00:41.000Z",
+          "uid": "35240-06f2df35-191d-43c0-af35-8093a63cd710"
+        }
+      ],
+      "id": "c5db5d94-b285-4a72-b746-3c2ae65ee557",
+      "createdAt": "2026-07-28T01:00:41.000Z",
+      "updatedAt": "2026-07-28T01:00:41.000Z",
+      "uid": "35240-c5db5d94-b285-4a72-b746-3c2ae65ee557"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

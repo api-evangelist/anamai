@@ -1,0 +1,1487 @@
+{
+  "info": {
+    "_postman_id": "8011a066-69f7-4e2d-ba03-146f5f571a73",
+    "name": "Anam AI Avatars Tools API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:49.000Z",
+    "updatedAt": "2026-07-28T01:00:50.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8011a066-69f7-4e2d-ba03-146f5f571a73"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "tools",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get tool",
+                  "id": "dbe9187e-1488-4c7c-b8d8-dcd4ce6b305f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "14060579-87eb-4604-8a84-bf6a94da48c5",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Tool ID"
+                        }
+                      ]
+                    },
+                    "description": "Get a tool by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "3635fae9-5538-43a7-931a-e1be52b999cc",
+                      "name": "Successfully retrieved tool",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"SERVER_RAG\",\n  \"config\": {},\n  \"disableInterruptions\": false,\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\",\n  \"usageCount\": \"<integer>\"\n}",
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-3635fae9-5538-43a7-931a-e1be52b999cc"
+                    },
+                    {
+                      "id": "0b1fa536-73f7-43a3-8cee-0ebf89efef12",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-0b1fa536-73f7-43a3-8cee-0ebf89efef12"
+                    },
+                    {
+                      "id": "9d227aba-1751-4209-bae8-8ceeea7defc0",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-9d227aba-1751-4209-bae8-8ceeea7defc0"
+                    },
+                    {
+                      "id": "ba1f9edf-9b93-43cc-ac98-a9a1bbe30ad5",
+                      "name": "Tool not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-ba1f9edf-9b93-43cc-ac98-a9a1bbe30ad5"
+                    },
+                    {
+                      "id": "1c22d5b5-0695-4782-8a3f-fbd38ff0e92e",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-1c22d5b5-0695-4782-8a3f-fbd38ff0e92e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-dbe9187e-1488-4c7c-b8d8-dcd4ce6b305f"
+                },
+                {
+                  "name": "update tool",
+                  "id": "4fb7e254-ee30-45ad-8845-4ea3d9414819",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "02fd9e5e-c262-4509-b6d9-17bae7f19922",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Tool ID"
+                        }
+                      ]
+                    },
+                    "description": "Update an existing tool"
+                  },
+                  "response": [
+                    {
+                      "id": "edec729f-5de3-4a19-9af5-178ee9804b61",
+                      "name": "Successfully updated tool",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"SERVER_RAG\",\n  \"config\": {},\n  \"disableInterruptions\": false,\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\",\n  \"usageCount\": \"<integer>\"\n}",
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-edec729f-5de3-4a19-9af5-178ee9804b61"
+                    },
+                    {
+                      "id": "b6d6638e-9525-4dc9-87b8-cc7c013457a5",
+                      "name": "Bad request - Invalid tool data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-b6d6638e-9525-4dc9-87b8-cc7c013457a5"
+                    },
+                    {
+                      "id": "4e766ebe-d791-4002-b669-a3279fc88795",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-4e766ebe-d791-4002-b669-a3279fc88795"
+                    },
+                    {
+                      "id": "bf23f9a3-e331-4b4b-bda3-f0e86b95b423",
+                      "name": "Forbidden - System tools cannot be modified, or the API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-bf23f9a3-e331-4b4b-bda3-f0e86b95b423"
+                    },
+                    {
+                      "id": "b5b9719a-5ee1-40fc-8f71-b3ab125af5e7",
+                      "name": "Tool not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-b5b9719a-5ee1-40fc-8f71-b3ab125af5e7"
+                    },
+                    {
+                      "id": "4c8bb8d1-841c-4f06-8d02-b5427948242b",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-4c8bb8d1-841c-4f06-8d02-b5427948242b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-4fb7e254-ee30-45ad-8845-4ea3d9414819"
+                },
+                {
+                  "name": "delete tool",
+                  "id": "a9c72470-de27-433a-86b1-a685c6fb9a72",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "2dcbad8c-6ad8-4b97-b866-92b2d3288913",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Tool ID"
+                        }
+                      ]
+                    },
+                    "description": "Delete a tool. The tool will be soft-deleted and no longer available."
+                  },
+                  "response": [
+                    {
+                      "id": "c9cedd52-6ee7-4adc-9f84-266386eac92c",
+                      "name": "Successfully deleted tool",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-c9cedd52-6ee7-4adc-9f84-266386eac92c"
+                    },
+                    {
+                      "id": "db5c25cb-c786-4b68-914c-bd0ccd3ac601",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-db5c25cb-c786-4b68-914c-bd0ccd3ac601"
+                    },
+                    {
+                      "id": "61a71cef-048f-41fc-80a4-db1216ab80f9",
+                      "name": "Forbidden - System tools cannot be deleted, or the API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-61a71cef-048f-41fc-80a4-db1216ab80f9"
+                    },
+                    {
+                      "id": "a56010a6-bfe2-4b8e-8822-cca2ccae6dd7",
+                      "name": "Tool not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-a56010a6-bfe2-4b8e-8822-cca2ccae6dd7"
+                    },
+                    {
+                      "id": "547124cc-7565-42a1-a797-04ab0cfee051",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/tools/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "tools",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:50.000Z",
+                      "updatedAt": "2026-07-28T01:00:50.000Z",
+                      "uid": "35240-547124cc-7565-42a1-a797-04ab0cfee051"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-a9c72470-de27-433a-86b1-a685c6fb9a72"
+                }
+              ],
+              "id": "cc3b2e4c-53b9-4c46-8ba8-55a91d9ee0f0",
+              "createdAt": "2026-07-28T01:00:50.000Z",
+              "updatedAt": "2026-07-28T01:00:50.000Z",
+              "uid": "35240-cc3b2e4c-53b9-4c46-8ba8-55a91d9ee0f0"
+            },
+            {
+              "name": "list tools",
+              "id": "12b40f53-d752-4bb3-aebc-e85d90ee3e7e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/tools?page=1&perPage=10&search=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "tools"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of items per page",
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "description": "Filter tools by name, description, or ID",
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all tools for the organization"
+              },
+              "response": [
+                {
+                  "id": "de462b08-5728-47be-a128-a2a70b1741b7",
+                  "name": "Successfully retrieved tools",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Filter tools by name, description, or ID",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"type\": \"CLIENT\",\n      \"config\": {},\n      \"disableInterruptions\": false,\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<string,null-date-time>\",\n      \"usageCount\": \"<integer>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"type\": \"SERVER_WEBHOOK\",\n      \"config\": {},\n      \"disableInterruptions\": false,\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<string,null-date-time>\",\n      \"usageCount\": \"<integer>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-de462b08-5728-47be-a128-a2a70b1741b7"
+                },
+                {
+                  "id": "cd420208-3e13-40cf-9712-7255a7e8d771",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Filter tools by name, description, or ID",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-cd420208-3e13-40cf-9712-7255a7e8d771"
+                },
+                {
+                  "id": "99a3c52a-fd01-4b00-a229-1e869dfd9b2f",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Filter tools by name, description, or ID",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-99a3c52a-fd01-4b00-a229-1e869dfd9b2f"
+                },
+                {
+                  "id": "03d10240-8c12-49b8-8d25-0d0c78a8216c",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Filter tools by name, description, or ID",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-03d10240-8c12-49b8-8d25-0d0c78a8216c"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:50.000Z",
+              "updatedAt": "2026-07-28T01:00:50.000Z",
+              "uid": "35240-12b40f53-d752-4bb3-aebc-e85d90ee3e7e"
+            },
+            {
+              "name": "create tool",
+              "id": "12f0960b-3e03-4aff-b2b7-5bfa25d69b35",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/tools",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "tools"
+                  ]
+                },
+                "description": "Create a new tool for function calling in persona sessions"
+              },
+              "response": [
+                {
+                  "id": "7e4153a2-aaba-4ff3-b528-bddacb1ded2f",
+                  "name": "Successfully created tool",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"SERVER_RAG\",\n  \"config\": {},\n  \"disableInterruptions\": false,\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\",\n  \"usageCount\": \"<integer>\"\n}",
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-7e4153a2-aaba-4ff3-b528-bddacb1ded2f"
+                },
+                {
+                  "id": "6a6d7596-9329-40ae-a2a4-f1f0c3bc2193",
+                  "name": "Bad request - Invalid tool data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-6a6d7596-9329-40ae-a2a4-f1f0c3bc2193"
+                },
+                {
+                  "id": "5f0fc86e-ba68-43c4-8af6-358b275b975d",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-5f0fc86e-ba68-43c4-8af6-358b275b975d"
+                },
+                {
+                  "id": "b4d83321-e5e8-4375-8f76-fd302cf1d3ae",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-b4d83321-e5e8-4375-8f76-fd302cf1d3ae"
+                },
+                {
+                  "id": "bee40644-43fd-41b6-b4da-11a1d0fd2f7a",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"type\": \"CLIENT\",\n  \"disableInterruptions\": false,\n  \"config\": {\n    \"parameters\": {},\n    \"awaitResult\": \"<boolean>\",\n    \"toolTimeoutSeconds\": \"<number>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/tools",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "tools"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:50.000Z",
+                  "updatedAt": "2026-07-28T01:00:50.000Z",
+                  "uid": "35240-bee40644-43fd-41b6-b4da-11a1d0fd2f7a"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:50.000Z",
+              "updatedAt": "2026-07-28T01:00:50.000Z",
+              "uid": "35240-12f0960b-3e03-4aff-b2b7-5bfa25d69b35"
+            }
+          ],
+          "id": "4510f460-0183-4160-ad88-fd9192fd35e9",
+          "createdAt": "2026-07-28T01:00:50.000Z",
+          "updatedAt": "2026-07-28T01:00:50.000Z",
+          "uid": "35240-4510f460-0183-4160-ad88-fd9192fd35e9"
+        }
+      ],
+      "id": "e5a3c416-bd96-4616-9289-24e530b19ac3",
+      "createdAt": "2026-07-28T01:00:50.000Z",
+      "updatedAt": "2026-07-28T01:00:50.000Z",
+      "uid": "35240-e5a3c416-bd96-4616-9289-24e530b19ac3"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

@@ -1,0 +1,3778 @@
+{
+  "info": {
+    "_postman_id": "1ef5ad27-829e-4053-8f54-6fe4076d24e9",
+    "name": "Anam AI Avatars Knowledge API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:42.000Z",
+    "updatedAt": "2026-07-28T01:00:42.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-1ef5ad27-829e-4053-8f54-6fe4076d24e9"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "knowledge",
+          "item": [
+            {
+              "name": "groups",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "search",
+                      "item": [
+                        {
+                          "name": "search knowledge group",
+                          "id": "7587a05f-edfa-4ad2-9459-7a418b5bf44e",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id",
+                                "search"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "b00567cb-2684-4913-a672-c4daea414fbb",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the knowledge group"
+                                }
+                              ]
+                            },
+                            "description": "Search for similar content in a RAG group using vector similarity"
+                          },
+                          "response": [
+                            {
+                              "id": "5ffbe584-0251-421a-99ca-e6eb418af93c",
+                              "name": "Successfully retrieved search results",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "search"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"documentId\": \"<uuid>\",\n    \"filename\": \"<string>\",\n    \"content\": \"<string>\",\n    \"score\": \"<number>\",\n    \"chunkIndex\": \"<integer>\",\n    \"metadata\": {}\n  },\n  {\n    \"documentId\": \"<uuid>\",\n    \"filename\": \"<string>\",\n    \"content\": \"<string>\",\n    \"score\": \"<number>\",\n    \"chunkIndex\": \"<integer>\",\n    \"metadata\": {}\n  }\n]",
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-5ffbe584-0251-421a-99ca-e6eb418af93c"
+                            },
+                            {
+                              "id": "d55ebd55-31a1-4b51-9b7d-fe5e2a2ef81e",
+                              "name": "Bad request - Invalid search query",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "search"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-d55ebd55-31a1-4b51-9b7d-fe5e2a2ef81e"
+                            },
+                            {
+                              "id": "27a0df18-7c21-406a-8d40-d3ed1b7badb3",
+                              "name": "Unauthorized - Invalid or missing API key",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "search"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-27a0df18-7c21-406a-8d40-d3ed1b7badb3"
+                            },
+                            {
+                              "id": "59fc4924-04b6-434e-942d-3087a726ac47",
+                              "name": "Forbidden - API key lacks the required permission",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "search"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-59fc4924-04b6-434e-942d-3087a726ac47"
+                            },
+                            {
+                              "id": "7f747079-e9c8-4e1f-932a-dd37d739c90b",
+                              "name": "RAG group not found",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "search"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-7f747079-e9c8-4e1f-932a-dd37d739c90b"
+                            },
+                            {
+                              "id": "e3af4c79-90c3-444b-a2bf-23842bd55d4e",
+                              "name": "Server error",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"query\": \"<string>\",\n  \"limit\": 5\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/search",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "search"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-e3af4c79-90c3-444b-a2bf-23842bd55d4e"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:00:42.000Z",
+                          "updatedAt": "2026-07-28T01:00:42.000Z",
+                          "uid": "35240-7587a05f-edfa-4ad2-9459-7a418b5bf44e"
+                        }
+                      ],
+                      "id": "5290f521-d311-408c-bc69-4504b56f6c70",
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-5290f521-d311-408c-bc69-4504b56f6c70"
+                    },
+                    {
+                      "name": "documents",
+                      "item": [
+                        {
+                          "name": "list knowledge group documents",
+                          "id": "3ac1303e-26fc-4120-a8e5-0225c3bf655a",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id",
+                                "documents"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "71e88b64-d1fe-4eac-8c72-afef24e74867",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the knowledge group"
+                                }
+                              ]
+                            },
+                            "description": "Get all documents in a RAG group"
+                          },
+                          "response": [
+                            {
+                              "id": "5011826b-46f1-43e0-8e20-d64cacd75f7b",
+                              "name": "Successfully retrieved documents",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"knowledgeFolderId\": \"<uuid>\",\n    \"filename\": \"<string>\",\n    \"fileType\": \"<string>\",\n    \"fileSize\": \"<integer>\",\n    \"fileUrl\": \"<uri>\",\n    \"status\": \"PROCESSING\",\n    \"errorMessage\": \"<string,null>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<string,null-date-time>\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"knowledgeFolderId\": \"<uuid>\",\n    \"filename\": \"<string>\",\n    \"fileType\": \"<string>\",\n    \"fileSize\": \"<integer>\",\n    \"fileUrl\": \"<uri>\",\n    \"status\": \"PROCESSING\",\n    \"errorMessage\": \"<string,null>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<string,null-date-time>\"\n  }\n]",
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-5011826b-46f1-43e0-8e20-d64cacd75f7b"
+                            },
+                            {
+                              "id": "a82d9762-4b62-4860-9549-8ee00127ade5",
+                              "name": "Unauthorized - Invalid or missing API key",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-a82d9762-4b62-4860-9549-8ee00127ade5"
+                            },
+                            {
+                              "id": "a333a571-328d-4b04-b090-93fcfd2e01e7",
+                              "name": "Forbidden - API key lacks the required permission",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-a333a571-328d-4b04-b090-93fcfd2e01e7"
+                            },
+                            {
+                              "id": "18d7d68c-a0f6-4acf-8c03-a37d223520cb",
+                              "name": "RAG group not found",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-18d7d68c-a0f6-4acf-8c03-a37d223520cb"
+                            },
+                            {
+                              "id": "6a061994-7c9b-41a3-8c61-f5b8878fdf0e",
+                              "name": "Server error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-6a061994-7c9b-41a3-8c61-f5b8878fdf0e"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:00:42.000Z",
+                          "updatedAt": "2026-07-28T01:00:42.000Z",
+                          "uid": "35240-3ac1303e-26fc-4120-a8e5-0225c3bf655a"
+                        },
+                        {
+                          "name": "upload knowledge group document",
+                          "id": "c7d69be2-9cd0-4406-8352-6da7f22bab30",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "multipart/form-data"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "formdata",
+                              "formdata": [
+                                {
+                                  "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                  "key": "file",
+                                  "type": "file",
+                                  "value": null
+                                },
+                                {
+                                  "key": "chunkSize",
+                                  "value": "1000",
+                                  "type": "text"
+                                },
+                                {
+                                  "key": "chunkOverlap",
+                                  "value": "200",
+                                  "type": "text"
+                                }
+                              ]
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id",
+                                "documents"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "cebd1675-ca92-4d84-a9db-0815a0de5ea0",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the knowledge group"
+                                }
+                              ]
+                            },
+                            "description": "Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header)."
+                          },
+                          "response": [
+                            {
+                              "id": "c1e11048-e3b2-4c55-b4c5-fd9a9608e0ca",
+                              "name": "Successfully uploaded document",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "key": "chunkSize",
+                                      "value": "1000",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "key": "chunkOverlap",
+                                      "value": "200",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Created",
+                              "code": 201,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"id\": \"<uuid>\",\n  \"knowledgeFolderId\": \"<uuid>\",\n  \"filename\": \"<string>\",\n  \"fileType\": \"<string>\",\n  \"fileSize\": \"<integer>\",\n  \"fileUrl\": \"<uri>\",\n  \"status\": \"UPLOADED\",\n  \"errorMessage\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-c1e11048-e3b2-4c55-b4c5-fd9a9608e0ca"
+                            },
+                            {
+                              "id": "014b9b4c-f035-41e9-b222-dc078db75a35",
+                              "name": "Bad request - Invalid file or parameters",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "key": "chunkSize",
+                                      "value": "1000",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "key": "chunkOverlap",
+                                      "value": "200",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-014b9b4c-f035-41e9-b222-dc078db75a35"
+                            },
+                            {
+                              "id": "20ccb98e-d0ab-4beb-b889-55e4ef778dc9",
+                              "name": "Unauthorized - Invalid or missing API key/upload token",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "key": "chunkSize",
+                                      "value": "1000",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "key": "chunkOverlap",
+                                      "value": "200",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-20ccb98e-d0ab-4beb-b889-55e4ef778dc9"
+                            },
+                            {
+                              "id": "2e6005fa-e5e1-42cc-832c-4752c07fa19d",
+                              "name": "Forbidden - API key lacks the required permission",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "key": "chunkSize",
+                                      "value": "1000",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "key": "chunkOverlap",
+                                      "value": "200",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-2e6005fa-e5e1-42cc-832c-4752c07fa19d"
+                            },
+                            {
+                              "id": "f7b28d08-a649-45bf-a6ea-f8ee9fac9461",
+                              "name": "RAG group not found",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "key": "chunkSize",
+                                      "value": "1000",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "key": "chunkOverlap",
+                                      "value": "200",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-f7b28d08-a649-45bf-a6ea-f8ee9fac9461"
+                            },
+                            {
+                              "id": "8c90f7be-4c17-4264-91c3-0a86a3f7801f",
+                              "name": "Server error",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "key": "chunkSize",
+                                      "value": "1000",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "key": "chunkOverlap",
+                                      "value": "200",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/groups/:id/documents",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "groups",
+                                    ":id",
+                                    "documents"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-8c90f7be-4c17-4264-91c3-0a86a3f7801f"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:00:42.000Z",
+                          "updatedAt": "2026-07-28T01:00:42.000Z",
+                          "uid": "35240-c7d69be2-9cd0-4406-8352-6da7f22bab30"
+                        }
+                      ],
+                      "id": "d18a949a-eeea-4d91-9710-d17f7cbdfa96",
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-d18a949a-eeea-4d91-9710-d17f7cbdfa96"
+                    },
+                    {
+                      "name": "get knowledge group",
+                      "id": "2273362d-8894-4f8f-8723-fa1d800b516e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "7b45229c-7217-4b74-b771-de9e4a34d5cf",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the knowledge group"
+                            }
+                          ]
+                        },
+                        "description": "Get a single RAG group by ID"
+                      },
+                      "response": [
+                        {
+                          "id": "5653577b-4368-43b5-8b34-d37f29d28280",
+                          "name": "Successfully retrieved RAG group",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"documentCount\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-5653577b-4368-43b5-8b34-d37f29d28280"
+                        },
+                        {
+                          "id": "ffb7aa39-1d87-4cca-a874-de1dca608ad1",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-ffb7aa39-1d87-4cca-a874-de1dca608ad1"
+                        },
+                        {
+                          "id": "ac7ed617-af79-4c73-99cc-91fd3cba14ae",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-ac7ed617-af79-4c73-99cc-91fd3cba14ae"
+                        },
+                        {
+                          "id": "bc41a3b1-d043-4d6b-94fa-fed326b0fe33",
+                          "name": "RAG group not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-bc41a3b1-d043-4d6b-94fa-fed326b0fe33"
+                        },
+                        {
+                          "id": "247010cf-3c99-4d90-af27-b1efa144fd48",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-247010cf-3c99-4d90-af27-b1efa144fd48"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-2273362d-8894-4f8f-8723-fa1d800b516e"
+                    },
+                    {
+                      "name": "update knowledge group",
+                      "id": "1e6c859a-5164-43cc-8cdf-4271a7b9ded6",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "eef6a149-a669-4d2d-9904-c9bc7e79940b",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the knowledge group"
+                            }
+                          ]
+                        },
+                        "description": "Update a RAG group"
+                      },
+                      "response": [
+                        {
+                          "id": "08ea2ae6-35b0-47ec-9ecb-80c313110718",
+                          "name": "Successfully updated RAG group",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"documentCount\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-08ea2ae6-35b0-47ec-9ecb-80c313110718"
+                        },
+                        {
+                          "id": "24d57ede-71ff-44fa-b60b-426b4d9c48c4",
+                          "name": "Bad request - Invalid data",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-24d57ede-71ff-44fa-b60b-426b4d9c48c4"
+                        },
+                        {
+                          "id": "f201e099-b016-4752-98f0-256faf2f1cf7",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-f201e099-b016-4752-98f0-256faf2f1cf7"
+                        },
+                        {
+                          "id": "8bcb524f-4c3a-48f6-a68e-82d7e6a7988b",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-8bcb524f-4c3a-48f6-a68e-82d7e6a7988b"
+                        },
+                        {
+                          "id": "02bf6f62-276e-4e7d-8a95-b4b970aad2bd",
+                          "name": "RAG group not found",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-02bf6f62-276e-4e7d-8a95-b4b970aad2bd"
+                        },
+                        {
+                          "id": "c2f704bc-6eef-47c3-b31b-be069304c891",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-c2f704bc-6eef-47c3-b31b-be069304c891"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-1e6c859a-5164-43cc-8cdf-4271a7b9ded6"
+                    },
+                    {
+                      "name": "delete knowledge group",
+                      "id": "184ceba6-ed76-434d-b026-aa1464e742f0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "072baf1c-34b9-4b67-9ff6-b8a743bc1ed6",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the knowledge group"
+                            }
+                          ]
+                        },
+                        "description": "Delete a RAG group"
+                      },
+                      "response": [
+                        {
+                          "id": "0254d39a-3c1a-4077-bcb5-493f43ceb80b",
+                          "name": "Successfully deleted RAG group",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-0254d39a-3c1a-4077-bcb5-493f43ceb80b"
+                        },
+                        {
+                          "id": "d07cf881-3e9f-462f-aef5-19fece5ead30",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-d07cf881-3e9f-462f-aef5-19fece5ead30"
+                        },
+                        {
+                          "id": "7b2f632d-c6b8-43a3-a956-82b0c5bb8934",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-7b2f632d-c6b8-43a3-a956-82b0c5bb8934"
+                        },
+                        {
+                          "id": "d2a5c99b-e27e-49da-a6ef-55e57975f10b",
+                          "name": "RAG group not found",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-d2a5c99b-e27e-49da-a6ef-55e57975f10b"
+                        },
+                        {
+                          "id": "74da37d6-f7cd-44ef-89ae-be789db2ddd2",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/groups/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "groups",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-74da37d6-f7cd-44ef-89ae-be789db2ddd2"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-184ceba6-ed76-434d-b026-aa1464e742f0"
+                    }
+                  ],
+                  "id": "db188306-da52-43a0-9693-af52dfc3fe90",
+                  "createdAt": "2026-07-28T01:00:42.000Z",
+                  "updatedAt": "2026-07-28T01:00:42.000Z",
+                  "uid": "35240-db188306-da52-43a0-9693-af52dfc3fe90"
+                },
+                {
+                  "name": "list knowledge groups",
+                  "id": "b391dbc6-492d-493e-8631-556ddd1b7713",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/knowledge/groups",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "knowledge",
+                        "groups"
+                      ]
+                    },
+                    "description": "Returns a list of all knowledge groups for the organization"
+                  },
+                  "response": [
+                    {
+                      "id": "fc2f6835-be0f-45e7-a2ca-c1d23bfd6730",
+                      "name": "Successfully retrieved knowledge groups",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string,null>\",\n    \"documentCount\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<string,null-date-time>\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"description\": \"<string,null>\",\n    \"documentCount\": \"<integer>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<string,null-date-time>\"\n  }\n]",
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-fc2f6835-be0f-45e7-a2ca-c1d23bfd6730"
+                    },
+                    {
+                      "id": "a57b32d7-22ae-4aca-998f-66634726e96d",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-a57b32d7-22ae-4aca-998f-66634726e96d"
+                    },
+                    {
+                      "id": "03201141-b090-4486-b854-b4c258e3b634",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-03201141-b090-4486-b854-b4c258e3b634"
+                    },
+                    {
+                      "id": "c459d217-a622-4f5a-81f7-80b7fb7f2c7e",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-c459d217-a622-4f5a-81f7-80b7fb7f2c7e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:42.000Z",
+                  "updatedAt": "2026-07-28T01:00:42.000Z",
+                  "uid": "35240-b391dbc6-492d-493e-8631-556ddd1b7713"
+                },
+                {
+                  "name": "create knowledge group",
+                  "id": "e74d6434-1a0c-47fe-bee6-7e84f3e2ab86",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/knowledge/groups",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "knowledge",
+                        "groups"
+                      ]
+                    },
+                    "description": "Create a new knowledge group"
+                  },
+                  "response": [
+                    {
+                      "id": "f7e008e7-1901-44de-9815-54fe3b0ad5e2",
+                      "name": "Successfully created knowledge group",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"documentCount\": \"<integer>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-f7e008e7-1901-44de-9815-54fe3b0ad5e2"
+                    },
+                    {
+                      "id": "caefd3ec-b9f4-4b5e-b8de-62936e3fe614",
+                      "name": "Bad request - Invalid data",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-caefd3ec-b9f4-4b5e-b8de-62936e3fe614"
+                    },
+                    {
+                      "id": "6b125b91-cd4f-4237-b397-ae4f0cf9c81e",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-6b125b91-cd4f-4237-b397-ae4f0cf9c81e"
+                    },
+                    {
+                      "id": "05dffe38-1f83-4170-89db-944ddae8098e",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-05dffe38-1f83-4170-89db-944ddae8098e"
+                    },
+                    {
+                      "id": "31313969-1ee8-4e15-b40e-060755b47bcd",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/groups",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "groups"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:43.000Z",
+                      "updatedAt": "2026-07-28T01:00:43.000Z",
+                      "uid": "35240-31313969-1ee8-4e15-b40e-060755b47bcd"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:42.000Z",
+                  "updatedAt": "2026-07-28T01:00:42.000Z",
+                  "uid": "35240-e74d6434-1a0c-47fe-bee6-7e84f3e2ab86"
+                }
+              ],
+              "id": "debcdcfb-74a2-49a6-a695-b4a153b32003",
+              "createdAt": "2026-07-28T01:00:42.000Z",
+              "updatedAt": "2026-07-28T01:00:42.000Z",
+              "uid": "35240-debcdcfb-74a2-49a6-a695-b4a153b32003"
+            },
+            {
+              "name": "documents",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "download",
+                      "item": [
+                        {
+                          "name": "get knowledge document download",
+                          "id": "5c1a3638-ec53-4eb9-8905-6f0c514dc512",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id/download",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id",
+                                "download"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "9ec0acf8-0281-4038-9a57-65d13e4ead3f",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) Unique identifier of the knowledge document"
+                                }
+                              ]
+                            },
+                            "description": "Get a presigned download URL for a knowledge document"
+                          },
+                          "response": [
+                            {
+                              "id": "61935afe-0b84-4b29-aff5-641816b3e3c3",
+                              "name": "Successfully generated download URL",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/documents/:id/download",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "documents",
+                                    ":id",
+                                    "download"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"downloadUrl\": \"<string>\",\n  \"filename\": \"<string>\"\n}",
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-61935afe-0b84-4b29-aff5-641816b3e3c3"
+                            },
+                            {
+                              "id": "1221ea1d-6f10-45d5-acd7-d740dc9bbee7",
+                              "name": "Unauthorized - Invalid or missing API key",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/documents/:id/download",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "documents",
+                                    ":id",
+                                    "download"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-1221ea1d-6f10-45d5-acd7-d740dc9bbee7"
+                            },
+                            {
+                              "id": "c2a57c7e-d326-4ee2-8904-e87fddf9b8e6",
+                              "name": "Forbidden - API key lacks the required permission",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/documents/:id/download",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "documents",
+                                    ":id",
+                                    "download"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-c2a57c7e-d326-4ee2-8904-e87fddf9b8e6"
+                            },
+                            {
+                              "id": "ea586ba2-d8af-4636-a243-b43ce3d3d807",
+                              "name": "Document not found",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/documents/:id/download",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "documents",
+                                    ":id",
+                                    "download"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-ea586ba2-d8af-4636-a243-b43ce3d3d807"
+                            },
+                            {
+                              "id": "b22e36de-427a-441a-bafd-387828bf6685",
+                              "name": "Server error",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/knowledge/documents/:id/download",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "knowledge",
+                                    "documents",
+                                    ":id",
+                                    "download"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Internal Server Error",
+                              "code": 500,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:00:43.000Z",
+                              "updatedAt": "2026-07-28T01:00:43.000Z",
+                              "uid": "35240-b22e36de-427a-441a-bafd-387828bf6685"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:00:42.000Z",
+                          "updatedAt": "2026-07-28T01:00:42.000Z",
+                          "uid": "35240-5c1a3638-ec53-4eb9-8905-6f0c514dc512"
+                        }
+                      ],
+                      "id": "d32665f9-656c-478b-92e6-c03fdbf674db",
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-d32665f9-656c-478b-92e6-c03fdbf674db"
+                    },
+                    {
+                      "name": "get knowledge document",
+                      "id": "efe20241-1db0-4524-a28b-0a7fef48303b",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "documents",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "f41fa0d6-70a5-47d5-8827-aa7c923a0461",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the knowledge document"
+                            }
+                          ]
+                        },
+                        "description": "Get a single document by ID"
+                      },
+                      "response": [
+                        {
+                          "id": "c7f74d3d-f9c6-4711-8d66-ca79f3684816",
+                          "name": "Successfully retrieved document",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<uuid>\",\n  \"knowledgeFolderId\": \"<uuid>\",\n  \"filename\": \"<string>\",\n  \"fileType\": \"<string>\",\n  \"fileSize\": \"<integer>\",\n  \"fileUrl\": \"<uri>\",\n  \"status\": \"UPLOADED\",\n  \"errorMessage\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-c7f74d3d-f9c6-4711-8d66-ca79f3684816"
+                        },
+                        {
+                          "id": "f42b7e30-ff59-4864-ac9f-77cf1dbe27df",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-f42b7e30-ff59-4864-ac9f-77cf1dbe27df"
+                        },
+                        {
+                          "id": "dea4ffe3-5a4e-4230-acd3-1810797b2c62",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-dea4ffe3-5a4e-4230-acd3-1810797b2c62"
+                        },
+                        {
+                          "id": "45e303dd-e031-458e-9301-ed840b65ede5",
+                          "name": "Document not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-45e303dd-e031-458e-9301-ed840b65ede5"
+                        },
+                        {
+                          "id": "f04a2d7e-53e1-408a-9760-d52129083396",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-f04a2d7e-53e1-408a-9760-d52129083396"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-efe20241-1db0-4524-a28b-0a7fef48303b"
+                    },
+                    {
+                      "name": "update knowledge document",
+                      "id": "b11f18e9-6a34-4ff1-aa24-35a1d0e184c1",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filename\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "documents",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "1ae7ba99-951e-4f9a-8abe-ce094cc777d3",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the knowledge document"
+                            }
+                          ]
+                        },
+                        "description": "Update a document (rename)"
+                      },
+                      "response": [
+                        {
+                          "id": "32f5a445-9787-470f-afce-ea8962029132",
+                          "name": "Successfully updated document",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filename\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<uuid>\",\n  \"knowledgeFolderId\": \"<uuid>\",\n  \"filename\": \"<string>\",\n  \"fileType\": \"<string>\",\n  \"fileSize\": \"<integer>\",\n  \"fileUrl\": \"<uri>\",\n  \"status\": \"UPLOADED\",\n  \"errorMessage\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-32f5a445-9787-470f-afce-ea8962029132"
+                        },
+                        {
+                          "id": "5b8b0795-a887-45c3-bf5d-614d4758bc84",
+                          "name": "Bad request - Invalid data",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filename\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-5b8b0795-a887-45c3-bf5d-614d4758bc84"
+                        },
+                        {
+                          "id": "a741b508-fe56-4d9a-8235-f08b855a6429",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filename\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-a741b508-fe56-4d9a-8235-f08b855a6429"
+                        },
+                        {
+                          "id": "1f3cb638-8516-42ae-a24d-5d86e563c68b",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filename\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-1f3cb638-8516-42ae-a24d-5d86e563c68b"
+                        },
+                        {
+                          "id": "b4eb453e-00bc-4ab9-93f2-b1f6f8fb4e72",
+                          "name": "Document not found",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filename\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-b4eb453e-00bc-4ab9-93f2-b1f6f8fb4e72"
+                        },
+                        {
+                          "id": "b75a8433-0c31-4bc4-9d73-a4e9c04f0540",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"filename\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-b75a8433-0c31-4bc4-9d73-a4e9c04f0540"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-b11f18e9-6a34-4ff1-aa24-35a1d0e184c1"
+                    },
+                    {
+                      "name": "delete knowledge document",
+                      "id": "6d86e0b4-3d32-4a97-9693-f2c8f2c0d959",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "knowledge",
+                            "documents",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "5cd3d2c4-6efe-430c-8682-002884b2aa4f",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Unique identifier of the knowledge document"
+                            }
+                          ]
+                        },
+                        "description": "Delete a document from a RAG group"
+                      },
+                      "response": [
+                        {
+                          "id": "7707ac63-7974-4b25-9e98-1746d7148a27",
+                          "name": "Successfully deleted document",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-7707ac63-7974-4b25-9e98-1746d7148a27"
+                        },
+                        {
+                          "id": "4dd0da2d-75be-4c20-90dd-be774f133fd2",
+                          "name": "Unauthorized - Invalid or missing API key",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-4dd0da2d-75be-4c20-90dd-be774f133fd2"
+                        },
+                        {
+                          "id": "83747edd-b853-4874-850c-3717d7c1c8d3",
+                          "name": "Forbidden - API key lacks the required permission",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-83747edd-b853-4874-850c-3717d7c1c8d3"
+                        },
+                        {
+                          "id": "72bf64b0-ffbb-4229-8575-769607d58b41",
+                          "name": "Document not found",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-72bf64b0-ffbb-4229-8575-769607d58b41"
+                        },
+                        {
+                          "id": "9513055d-c5c2-46c3-99ee-20e15923bd9e",
+                          "name": "Server error",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/knowledge/documents/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "knowledge",
+                                "documents",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:43.000Z",
+                          "updatedAt": "2026-07-28T01:00:43.000Z",
+                          "uid": "35240-9513055d-c5c2-46c3-99ee-20e15923bd9e"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:42.000Z",
+                      "updatedAt": "2026-07-28T01:00:42.000Z",
+                      "uid": "35240-6d86e0b4-3d32-4a97-9693-f2c8f2c0d959"
+                    }
+                  ],
+                  "id": "5d18e555-5b22-45b4-8216-d9bb437476c3",
+                  "createdAt": "2026-07-28T01:00:42.000Z",
+                  "updatedAt": "2026-07-28T01:00:42.000Z",
+                  "uid": "35240-5d18e555-5b22-45b4-8216-d9bb437476c3"
+                }
+              ],
+              "id": "aa8e1247-2035-4347-ad05-5bbe63c786e4",
+              "createdAt": "2026-07-28T01:00:42.000Z",
+              "updatedAt": "2026-07-28T01:00:42.000Z",
+              "uid": "35240-aa8e1247-2035-4347-ad05-5bbe63c786e4"
+            }
+          ],
+          "id": "9f1388ae-8c61-4556-a0e9-201565c08c12",
+          "createdAt": "2026-07-28T01:00:42.000Z",
+          "updatedAt": "2026-07-28T01:00:42.000Z",
+          "uid": "35240-9f1388ae-8c61-4556-a0e9-201565c08c12"
+        }
+      ],
+      "id": "ae4f7ea9-8f8c-4438-8b29-ad01cf471a71",
+      "createdAt": "2026-07-28T01:00:42.000Z",
+      "updatedAt": "2026-07-28T01:00:42.000Z",
+      "uid": "35240-ae4f7ea9-8f8c-4438-8b29-ad01cf471a71"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

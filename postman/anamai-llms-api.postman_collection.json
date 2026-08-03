@@ -1,0 +1,1512 @@
+{
+  "info": {
+    "_postman_id": "400f6159-d017-444f-8bad-8d2f63d9742e",
+    "name": "Anam AI Avatars LLMs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:43.000Z",
+    "updatedAt": "2026-07-28T01:00:43.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-400f6159-d017-444f-8bad-8d2f63d9742e"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "llms",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get llm",
+                  "id": "a21d4fe1-3f0d-4e21-83e5-afc9a8054fd1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "10714c54-6a1d-479e-b42e-7e85ec18a069",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) The LLM ID"
+                        }
+                      ]
+                    },
+                    "description": "Get a specific LLM by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "bc81716f-ae37-47f1-8b4a-ebebcfc8d7b3",
+                      "name": "Successfully retrieved LLM",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"llmFormat\": \"advanced_voice\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\",\n      \"region\": \"<string>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"region\": \"<string>\"\n    }\n  ],\n  \"modelName\": \"<string,null>\",\n  \"temperature\": \"<number,null>\",\n  \"maxTokens\": \"<integer,null>\",\n  \"deploymentName\": \"<string,null>\",\n  \"apiVersion\": \"<string,null>\",\n  \"metadata\": {},\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"isDefault\": \"<boolean>\",\n  \"isGlobal\": \"<boolean>\",\n  \"isZdr\": \"<boolean>\",\n  \"reasoningEffort\": \"medium\",\n  \"reasoningFormat\": \"raw\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-bc81716f-ae37-47f1-8b4a-ebebcfc8d7b3"
+                    },
+                    {
+                      "id": "25aa308f-6b62-4c27-ad08-8ce6c823649f",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-25aa308f-6b62-4c27-ad08-8ce6c823649f"
+                    },
+                    {
+                      "id": "e0ca906c-f52b-4efe-bfc3-55abaea6c2c6",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-e0ca906c-f52b-4efe-bfc3-55abaea6c2c6"
+                    },
+                    {
+                      "id": "e89fd0bf-709d-4c84-bfd4-63b8c673c218",
+                      "name": "LLM not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-e89fd0bf-709d-4c84-bfd4-63b8c673c218"
+                    },
+                    {
+                      "id": "00201ded-c7dd-4bd8-bac5-5a28b85cab00",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-00201ded-c7dd-4bd8-bac5-5a28b85cab00"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-a21d4fe1-3f0d-4e21-83e5-afc9a8054fd1"
+                },
+                {
+                  "name": "update llm",
+                  "id": "246a08e0-cd10-4698-960e-5da767f25654",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "9fd3fd9c-248f-4121-8e1f-b6e27d69faff",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) The LLM ID"
+                        }
+                      ]
+                    },
+                    "description": "Update an LLM configuration"
+                  },
+                  "response": [
+                    {
+                      "id": "c8d8b5a6-ffa5-41fb-a512-36ad2da7ba6a",
+                      "name": "Successfully updated LLM",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"llmFormat\": \"advanced_voice\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\",\n      \"region\": \"<string>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"region\": \"<string>\"\n    }\n  ],\n  \"modelName\": \"<string,null>\",\n  \"temperature\": \"<number,null>\",\n  \"maxTokens\": \"<integer,null>\",\n  \"deploymentName\": \"<string,null>\",\n  \"apiVersion\": \"<string,null>\",\n  \"metadata\": {},\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"isDefault\": \"<boolean>\",\n  \"isGlobal\": \"<boolean>\",\n  \"isZdr\": \"<boolean>\",\n  \"reasoningEffort\": \"medium\",\n  \"reasoningFormat\": \"raw\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-c8d8b5a6-ffa5-41fb-a512-36ad2da7ba6a"
+                    },
+                    {
+                      "id": "c586a2fa-6d16-47c5-9bea-b117ecbf6fa4",
+                      "name": "Bad request - Invalid LLM data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-c586a2fa-6d16-47c5-9bea-b117ecbf6fa4"
+                    },
+                    {
+                      "id": "c503db0d-cd1a-4274-b16b-9ff42bd50865",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-c503db0d-cd1a-4274-b16b-9ff42bd50865"
+                    },
+                    {
+                      "id": "f9e92c25-b9fb-4f90-9335-447576a2adfa",
+                      "name": "Forbidden - Cannot update default LLMs or API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-f9e92c25-b9fb-4f90-9335-447576a2adfa"
+                    },
+                    {
+                      "id": "0d2946ab-1abb-4f68-81af-019ce94b5707",
+                      "name": "LLM not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-0d2946ab-1abb-4f68-81af-019ce94b5707"
+                    },
+                    {
+                      "id": "cb8f3f11-c925-42dc-96d3-3ee2b29a2ec3",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"description\": \"<string>\",\n  \"url\": \"<string>\",\n  \"llmFormat\": \"anthropic\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"raw\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-cb8f3f11-c925-42dc-96d3-3ee2b29a2ec3"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-246a08e0-cd10-4698-960e-5da767f25654"
+                },
+                {
+                  "name": "delete llm",
+                  "id": "922c6a76-a6bf-4142-9209-432b9abb428d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "75b1120d-ccbb-4953-9931-34c7f3b5d8e7",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) The LLM ID"
+                        }
+                      ]
+                    },
+                    "description": "Delete an LLM configuration"
+                  },
+                  "response": [
+                    {
+                      "id": "2e9fc255-e190-4959-9891-24ce1337aa12",
+                      "name": "Successfully deleted LLM",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "No Content",
+                      "code": 204,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-2e9fc255-e190-4959-9891-24ce1337aa12"
+                    },
+                    {
+                      "id": "9371dcc9-4c38-47a0-9f73-1f8915cd89c6",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-9371dcc9-4c38-47a0-9f73-1f8915cd89c6"
+                    },
+                    {
+                      "id": "f137d852-09c4-4e6a-ba1f-41250acd9e92",
+                      "name": "Forbidden - Cannot delete default LLMs or API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-f137d852-09c4-4e6a-ba1f-41250acd9e92"
+                    },
+                    {
+                      "id": "06ab722e-c3f2-40dc-9eee-cbfafd349354",
+                      "name": "LLM not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-06ab722e-c3f2-40dc-9eee-cbfafd349354"
+                    },
+                    {
+                      "id": "0ee1fe41-08c4-49e1-a952-c87c2d07e307",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/llms/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "llms",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:44.000Z",
+                      "updatedAt": "2026-07-28T01:00:44.000Z",
+                      "uid": "35240-0ee1fe41-08c4-49e1-a952-c87c2d07e307"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-922c6a76-a6bf-4142-9209-432b9abb428d"
+                }
+              ],
+              "id": "235d85ab-f857-4be7-baba-9e7b98cc2552",
+              "createdAt": "2026-07-28T01:00:44.000Z",
+              "updatedAt": "2026-07-28T01:00:44.000Z",
+              "uid": "35240-235d85ab-f857-4be7-baba-9e7b98cc2552"
+            },
+            {
+              "name": "list llms",
+              "id": "27962b40-8aab-4974-8b42-eed5a6c63939",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/llms?page=<integer>&perPage=<integer>&search=<string>&includeDefaults=<boolean>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "llms"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Number of items per page",
+                      "key": "perPage",
+                      "value": "<integer>"
+                    },
+                    {
+                      "description": "Search term to filter LLMs",
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Include default LLMs in the response",
+                      "key": "includeDefaults",
+                      "value": "<boolean>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all LLMs available to the organization"
+              },
+              "response": [
+                {
+                  "id": "e92f5e01-745c-4db6-80a6-083108f30dae",
+                  "name": "Successfully retrieved LLMs",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms?page=<integer>&perPage=<integer>&search=<string>&includeDefaults=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Search term to filter LLMs",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Include default LLMs in the response",
+                          "key": "includeDefaults",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"displayName\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"llmFormat\": \"none\",\n      \"urls\": [\n        {\n          \"url\": \"<uri>\",\n          \"region\": \"<string>\"\n        },\n        {\n          \"url\": \"<uri>\",\n          \"region\": \"<string>\"\n        }\n      ],\n      \"modelName\": \"<string,null>\",\n      \"temperature\": \"<number,null>\",\n      \"maxTokens\": \"<integer,null>\",\n      \"deploymentName\": \"<string,null>\",\n      \"apiVersion\": \"<string,null>\",\n      \"metadata\": {},\n      \"displayTags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"isDefault\": \"<boolean>\",\n      \"isGlobal\": \"<boolean>\",\n      \"isZdr\": \"<boolean>\",\n      \"reasoningEffort\": \"low\",\n      \"reasoningFormat\": \"parsed\",\n      \"createdByOrganizationId\": \"<string,null>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<string,null-date-time>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"displayName\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"llmFormat\": \"none\",\n      \"urls\": [\n        {\n          \"url\": \"<uri>\",\n          \"region\": \"<string>\"\n        },\n        {\n          \"url\": \"<uri>\",\n          \"region\": \"<string>\"\n        }\n      ],\n      \"modelName\": \"<string,null>\",\n      \"temperature\": \"<number,null>\",\n      \"maxTokens\": \"<integer,null>\",\n      \"deploymentName\": \"<string,null>\",\n      \"apiVersion\": \"<string,null>\",\n      \"metadata\": {},\n      \"displayTags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"isDefault\": \"<boolean>\",\n      \"isGlobal\": \"<boolean>\",\n      \"isZdr\": \"<boolean>\",\n      \"reasoningEffort\": \"high\",\n      \"reasoningFormat\": \"raw\",\n      \"createdByOrganizationId\": \"<string,null>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<string,null-date-time>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-e92f5e01-745c-4db6-80a6-083108f30dae"
+                },
+                {
+                  "id": "ec8000cf-0f4e-48ce-857c-e1246a328c0a",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms?page=<integer>&perPage=<integer>&search=<string>&includeDefaults=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Search term to filter LLMs",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Include default LLMs in the response",
+                          "key": "includeDefaults",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-ec8000cf-0f4e-48ce-857c-e1246a328c0a"
+                },
+                {
+                  "id": "b657cdd8-1b7c-4aef-aabb-b8127d4d3940",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms?page=<integer>&perPage=<integer>&search=<string>&includeDefaults=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Search term to filter LLMs",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Include default LLMs in the response",
+                          "key": "includeDefaults",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-b657cdd8-1b7c-4aef-aabb-b8127d4d3940"
+                },
+                {
+                  "id": "47bb9633-5a44-49a6-bae0-69deade01b6b",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms?page=<integer>&perPage=<integer>&search=<string>&includeDefaults=<boolean>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "Search term to filter LLMs",
+                          "key": "search",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Include default LLMs in the response",
+                          "key": "includeDefaults",
+                          "value": "<boolean>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-47bb9633-5a44-49a6-bae0-69deade01b6b"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:44.000Z",
+              "updatedAt": "2026-07-28T01:00:44.000Z",
+              "uid": "35240-27962b40-8aab-4974-8b42-eed5a6c63939"
+            },
+            {
+              "name": "create llm",
+              "id": "840732c7-c5a2-4df7-adaa-21e56959d929",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"<string>\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\"\n    },\n    {\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"llmFormat\": \"gemini\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"description\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"parsed\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/llms",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "llms"
+                  ]
+                },
+                "description": "Create a new LLM configuration"
+              },
+              "response": [
+                {
+                  "id": "64860fd5-8510-48f5-8a0d-b3bf1586acc7",
+                  "name": "Successfully created LLM",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\"\n    },\n    {\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"llmFormat\": \"gemini\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"description\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"parsed\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"llmFormat\": \"advanced_voice\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\",\n      \"region\": \"<string>\"\n    },\n    {\n      \"url\": \"<uri>\",\n      \"region\": \"<string>\"\n    }\n  ],\n  \"modelName\": \"<string,null>\",\n  \"temperature\": \"<number,null>\",\n  \"maxTokens\": \"<integer,null>\",\n  \"deploymentName\": \"<string,null>\",\n  \"apiVersion\": \"<string,null>\",\n  \"metadata\": {},\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"isDefault\": \"<boolean>\",\n  \"isGlobal\": \"<boolean>\",\n  \"isZdr\": \"<boolean>\",\n  \"reasoningEffort\": \"medium\",\n  \"reasoningFormat\": \"raw\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<string,null-date-time>\"\n}",
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-64860fd5-8510-48f5-8a0d-b3bf1586acc7"
+                },
+                {
+                  "id": "f1ca8404-5da7-4a82-9231-3c63ca281661",
+                  "name": "Bad request - Invalid LLM data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\"\n    },\n    {\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"llmFormat\": \"gemini\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"description\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"parsed\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-f1ca8404-5da7-4a82-9231-3c63ca281661"
+                },
+                {
+                  "id": "6b1d3653-490b-4dbf-94aa-6246a72001e3",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\"\n    },\n    {\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"llmFormat\": \"gemini\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"description\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"parsed\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-6b1d3653-490b-4dbf-94aa-6246a72001e3"
+                },
+                {
+                  "id": "e2a2a9e1-a4e8-41c7-8333-5ffb516598f5",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\"\n    },\n    {\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"llmFormat\": \"gemini\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"description\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"parsed\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-e2a2a9e1-a4e8-41c7-8333-5ffb516598f5"
+                },
+                {
+                  "id": "6607d3dd-7951-42d0-88f3-3b22a9dedb03",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"urls\": [\n    {\n      \"url\": \"<uri>\"\n    },\n    {\n      \"url\": \"<uri>\"\n    }\n  ],\n  \"llmFormat\": \"gemini\",\n  \"modelName\": \"<string>\",\n  \"secret\": \"<string>\",\n  \"description\": \"<string>\",\n  \"metadata\": {},\n  \"reasoningEffort\": \"high\",\n  \"reasoningFormat\": \"parsed\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/llms",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "llms"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:44.000Z",
+                  "updatedAt": "2026-07-28T01:00:44.000Z",
+                  "uid": "35240-6607d3dd-7951-42d0-88f3-3b22a9dedb03"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:44.000Z",
+              "updatedAt": "2026-07-28T01:00:44.000Z",
+              "uid": "35240-840732c7-c5a2-4df7-adaa-21e56959d929"
+            }
+          ],
+          "id": "4fd03b6b-6b4d-4312-86d8-752bf8ac3bfd",
+          "createdAt": "2026-07-28T01:00:44.000Z",
+          "updatedAt": "2026-07-28T01:00:44.000Z",
+          "uid": "35240-4fd03b6b-6b4d-4312-86d8-752bf8ac3bfd"
+        }
+      ],
+      "id": "d872c560-80a1-4687-85a5-89fe6d6789e7",
+      "createdAt": "2026-07-28T01:00:44.000Z",
+      "updatedAt": "2026-07-28T01:00:44.000Z",
+      "uid": "35240-d872c560-80a1-4687-85a5-89fe6d6789e7"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

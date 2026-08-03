@@ -1,0 +1,1731 @@
+{
+  "info": {
+    "_postman_id": "137eb6e4-18c2-4936-9cd3-516a3ffc03ce",
+    "name": "Anam AI Avatars Meetings API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:45.000Z",
+    "updatedAt": "2026-07-28T01:00:45.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-137eb6e4-18c2-4936-9cd3-516a3ffc03ce"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "meetings",
+          "item": [
+            {
+              "name": "invites",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "Get meeting invite",
+                      "id": "9e813be6-5206-4caa-95fb-ce5f24e9af7a",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "1d301c69-461a-495a-bcb0-5c913c59e552",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Meeting invite ID."
+                            }
+                          ]
+                        },
+                        "description": "Get a meeting invite by ID for the authenticated organization."
+                      },
+                      "response": [
+                        {
+                          "id": "2e5293bc-6acc-4903-a4ec-805a9399464e",
+                          "name": "Successfully retrieved meeting invite",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<uuid>\",\n  \"provider\": \"google_meet\",\n  \"meetingUrl\": \"<uri>\",\n  \"displayName\": \"<string>\",\n  \"status\": \"failed\",\n  \"createdAt\": \"<dateTime>\",\n  \"joinAt\": \"<string,null-date-time>\",\n  \"groupCall\": \"<boolean>\",\n  \"sessionId\": \"<string,null>\",\n  \"region\": \"eu\",\n  \"joinState\": \"media_granted\",\n  \"statusReason\": \"<string,null>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-2e5293bc-6acc-4903-a4ec-805a9399464e"
+                        },
+                        {
+                          "id": "09d224c0-671e-48ef-8cca-9a8820337fde",
+                          "name": "Unauthorized - missing or invalid API key.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-09d224c0-671e-48ef-8cca-9a8820337fde"
+                        },
+                        {
+                          "id": "32c63c02-50c0-4b84-ac0d-3170612f74c8",
+                          "name": "Forbidden - API key lacks the required permission.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-32c63c02-50c0-4b84-ac0d-3170612f74c8"
+                        },
+                        {
+                          "id": "4bb05341-5a6f-48e3-8668-10966131fa0d",
+                          "name": "Not Found - meeting invite was not found in the organization.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-4bb05341-5a6f-48e3-8668-10966131fa0d"
+                        },
+                        {
+                          "id": "d06ff42b-076e-4a42-b267-d4295927d526",
+                          "name": "Server error.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-d06ff42b-076e-4a42-b267-d4295927d526"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-9e813be6-5206-4caa-95fb-ce5f24e9af7a"
+                    },
+                    {
+                      "name": "Cancel meeting invite",
+                      "id": "ae7e157e-b26f-489c-91a9-e8582676d423",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "6da6289e-d269-4ab0-84c2-eefa09331d62",
+                              "key": "id",
+                              "value": "<uuid>",
+                              "description": "(Required) Meeting invite ID."
+                            }
+                          ]
+                        },
+                        "description": "Cancel a pending meeting invite by ID for the authenticated organization.\n\nCancellation is idempotent for invites that are already `cancelled`,\n`ended`, or `failed`. A successful cancellation returns no response body.\n"
+                      },
+                      "response": [
+                        {
+                          "id": "3dd6594e-b055-4478-ac06-c6e13ea75e78",
+                          "name": "Successfully cancelled meeting invite. No response body is returned.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-3dd6594e-b055-4478-ac06-c6e13ea75e78"
+                        },
+                        {
+                          "id": "74b7c0b6-c2b1-4f3a-8604-590821b6e9da",
+                          "name": "Unauthorized - missing or invalid API key.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-74b7c0b6-c2b1-4f3a-8604-590821b6e9da"
+                        },
+                        {
+                          "id": "1e595482-825a-45ac-96ae-ca1324047288",
+                          "name": "Forbidden - API key lacks the required permission.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-1e595482-825a-45ac-96ae-ca1324047288"
+                        },
+                        {
+                          "id": "ed083c82-aca7-4fc7-a50d-fafe4964b7c3",
+                          "name": "Not Found - meeting invite was not found in the organization.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-ed083c82-aca7-4fc7-a50d-fafe4964b7c3"
+                        },
+                        {
+                          "id": "7bfd211e-f6fb-4681-b912-a520489dbbc3",
+                          "name": "Server error.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-7bfd211e-f6fb-4681-b912-a520489dbbc3"
+                        },
+                        {
+                          "id": "fbfbf68f-b3f6-486b-8c9e-9ffc51288709",
+                          "name": "Bad Gateway - meeting service is unavailable.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/meetings/invites/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "meetings",
+                                "invites",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Gateway",
+                          "code": 502,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": \"<string>\"\n}",
+                          "createdAt": "2026-07-28T01:00:45.000Z",
+                          "updatedAt": "2026-07-28T01:00:45.000Z",
+                          "uid": "35240-fbfbf68f-b3f6-486b-8c9e-9ffc51288709"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-ae7e157e-b26f-489c-91a9-e8582676d423"
+                    }
+                  ],
+                  "id": "bddda39c-62da-45e0-8986-2320aef0358c",
+                  "createdAt": "2026-07-28T01:00:45.000Z",
+                  "updatedAt": "2026-07-28T01:00:45.000Z",
+                  "uid": "35240-bddda39c-62da-45e0-8986-2320aef0358c"
+                },
+                {
+                  "name": "List meeting invites",
+                  "id": "4d8771dc-e3d7-4c67-877d-7bd986ef6265",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/meetings/invites?page=1&perPage=10&status=pending",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "meetings",
+                        "invites"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Filter invites by status",
+                          "key": "status",
+                          "value": "pending"
+                        }
+                      ]
+                    },
+                    "description": "List meeting invites for the authenticated organization, most recent\nfirst. Filter by `status` to find invites in a particular lifecycle\nstate \u2014 for example `pending` invites that have not joined yet, or\n`active` invites currently in a call.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "498d4df3-2f6c-423a-87c9-59139f3358a1",
+                      "name": "Successfully retrieved meeting invites",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites?page=1&perPage=10&status=pending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of items per page (max 100)",
+                              "key": "perPage",
+                              "value": "10"
+                            },
+                            {
+                              "description": "Filter invites by status",
+                              "key": "status",
+                              "value": "pending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"provider\": \"google_meet\",\n      \"meetingUrl\": \"<uri>\",\n      \"displayName\": \"<string>\",\n      \"status\": \"ended\",\n      \"createdAt\": \"<dateTime>\",\n      \"joinAt\": \"<string,null-date-time>\",\n      \"groupCall\": \"<boolean>\",\n      \"sessionId\": \"<string,null>\",\n      \"region\": null,\n      \"joinState\": \"left\",\n      \"statusReason\": \"<string,null>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"provider\": \"google_meet\",\n      \"meetingUrl\": \"<uri>\",\n      \"displayName\": \"<string>\",\n      \"status\": \"cancelled\",\n      \"createdAt\": \"<dateTime>\",\n      \"joinAt\": \"<string,null-date-time>\",\n      \"groupCall\": \"<boolean>\",\n      \"sessionId\": \"<string,null>\",\n      \"region\": \"us-west\",\n      \"joinState\": null,\n      \"statusReason\": \"<string,null>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-498d4df3-2f6c-423a-87c9-59139f3358a1"
+                    },
+                    {
+                      "id": "96265ac0-ef9a-4217-9cfe-ae59aafba0f0",
+                      "name": "Bad request - invalid query parameters.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites?page=1&perPage=10&status=pending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of items per page (max 100)",
+                              "key": "perPage",
+                              "value": "10"
+                            },
+                            {
+                              "description": "Filter invites by status",
+                              "key": "status",
+                              "value": "pending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\",\n  \"details\": [\n    {\n      \"path\": \"<string>\",\n      \"message\": \"<string>\",\n      \"code\": \"<string>\"\n    },\n    {\n      \"path\": \"<string>\",\n      \"message\": \"<string>\",\n      \"code\": \"<string>\"\n    }\n  ],\n  \"summary\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-96265ac0-ef9a-4217-9cfe-ae59aafba0f0"
+                    },
+                    {
+                      "id": "88b6cf38-297b-46de-9cc3-85beae6abaaf",
+                      "name": "Unauthorized - missing or invalid API key.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites?page=1&perPage=10&status=pending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of items per page (max 100)",
+                              "key": "perPage",
+                              "value": "10"
+                            },
+                            {
+                              "description": "Filter invites by status",
+                              "key": "status",
+                              "value": "pending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-88b6cf38-297b-46de-9cc3-85beae6abaaf"
+                    },
+                    {
+                      "id": "a52bee0e-d3e8-455d-8257-8c9895ba9f85",
+                      "name": "Forbidden - API key lacks the required permission.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites?page=1&perPage=10&status=pending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of items per page (max 100)",
+                              "key": "perPage",
+                              "value": "10"
+                            },
+                            {
+                              "description": "Filter invites by status",
+                              "key": "status",
+                              "value": "pending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-a52bee0e-d3e8-455d-8257-8c9895ba9f85"
+                    },
+                    {
+                      "id": "90eff79f-5d25-4d63-a459-25642be08e31",
+                      "name": "Server error.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites?page=1&perPage=10&status=pending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ],
+                          "query": [
+                            {
+                              "description": "Page number for pagination",
+                              "key": "page",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Number of items per page (max 100)",
+                              "key": "perPage",
+                              "value": "10"
+                            },
+                            {
+                              "description": "Filter invites by status",
+                              "key": "status",
+                              "value": "pending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-90eff79f-5d25-4d63-a459-25642be08e31"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:45.000Z",
+                  "updatedAt": "2026-07-28T01:00:45.000Z",
+                  "uid": "35240-4d8771dc-e3d7-4c67-877d-7bd986ef6265"
+                },
+                {
+                  "name": "Create meeting invite",
+                  "id": "3f4c32ec-e62e-4877-873e-1cb506bc548a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"personaId\": false\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/meetings/invites",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "meetings",
+                        "invites"
+                      ]
+                    },
+                    "description": "Invite a persona to join a Google Meet, Zoom, or Microsoft Teams meeting.\n\nProvide exactly one of `personaId` for a saved persona, or `personaConfig`\nfor a runtime persona configuration. The runtime persona configuration is\nused to start the meeting session but is not stored on the meeting invite.\n\nThe invite is created in `pending` status. `displayName` is normalized to\ninclude an AI disclosure suffix before the persona joins the meeting.\n\nBy default the persona joins immediately. Provide `joinAt` to schedule\nthe join for a future time; scheduling at least 10 minutes ahead\nreserves the persona a guaranteed place on the call, which is the most\nreliable way to join meetings that are planned in advance.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "7ca7d6f6-f6d7-4d7a-ad28-59f8fc83f1b2",
+                      "name": "Successfully created meeting invite",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Maximum create requests allowed per requester per minute.",
+                            "type": "text/plain"
+                          },
+                          "key": "RateLimit-Limit",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Remaining create requests in the most constrained active window after this request.",
+                            "type": "text/plain"
+                          },
+                          "key": "RateLimit-Remaining",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Seconds until the per-minute requester window resets.",
+                            "type": "text/plain"
+                          },
+                          "key": "RateLimit-Reset",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Maximum create requests allowed per organization per hour.",
+                            "type": "text/plain"
+                          },
+                          "key": "X-RateLimit-Org-Hour-Limit",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Remaining create requests for the organization in the current hour after this request.",
+                            "type": "text/plain"
+                          },
+                          "key": "X-RateLimit-Org-Hour-Remaining",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Seconds until the per-hour organization window resets.",
+                            "type": "text/plain"
+                          },
+                          "key": "X-RateLimit-Org-Hour-Reset",
+                          "value": "<string>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"provider\": \"google_meet\",\n  \"meetingUrl\": \"<uri>\",\n  \"displayName\": \"<string>\",\n  \"status\": \"failed\",\n  \"createdAt\": \"<dateTime>\",\n  \"joinAt\": \"<string,null-date-time>\",\n  \"groupCall\": \"<boolean>\",\n  \"sessionId\": \"<string,null>\",\n  \"region\": \"eu\",\n  \"joinState\": \"media_granted\",\n  \"statusReason\": \"<string,null>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-7ca7d6f6-f6d7-4d7a-ad28-59f8fc83f1b2"
+                    },
+                    {
+                      "id": "8d1a0959-d194-433e-a37b-e15e090c89df",
+                      "name": "Bad request - invalid JSON, request validation failed, or an unsupported meeting URL.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-8d1a0959-d194-433e-a37b-e15e090c89df"
+                    },
+                    {
+                      "id": "ed886a8f-bc28-4a29-99a7-858c3cfc2a89",
+                      "name": "Unauthorized - missing or invalid API key.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-ed886a8f-bc28-4a29-99a7-858c3cfc2a89"
+                    },
+                    {
+                      "id": "df7cf403-c460-44a5-8d12-91aa10b5e989",
+                      "name": "Forbidden - API key lacks the required permission, or the saved persona is not available to the authenticated organization.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-df7cf403-c460-44a5-8d12-91aa10b5e989"
+                    },
+                    {
+                      "id": "71861e7a-0a06-4c9e-affd-273033dadb93",
+                      "name": "Unprocessable Entity - the meeting service rejected the invite (customer-correctable).",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+                      "code": 422,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-71861e7a-0a06-4c9e-affd-273033dadb93"
+                    },
+                    {
+                      "id": "3d3c87b1-049a-4108-9d8a-48ff0dc3dba6",
+                      "name": "Too Many Requests - create invite rate limit exceeded.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Maximum create requests allowed per requester per minute.",
+                            "type": "text/plain"
+                          },
+                          "key": "RateLimit-Limit",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Remaining create requests in the most constrained active window.",
+                            "type": "text/plain"
+                          },
+                          "key": "RateLimit-Remaining",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Seconds until the per-minute requester window resets.",
+                            "type": "text/plain"
+                          },
+                          "key": "RateLimit-Reset",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Maximum create requests allowed per organization per hour.",
+                            "type": "text/plain"
+                          },
+                          "key": "X-RateLimit-Org-Hour-Limit",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Remaining create requests for the organization in the current hour.",
+                            "type": "text/plain"
+                          },
+                          "key": "X-RateLimit-Org-Hour-Remaining",
+                          "value": "<string>"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Seconds until the per-hour organization window resets.",
+                            "type": "text/plain"
+                          },
+                          "key": "X-RateLimit-Org-Hour-Reset",
+                          "value": "<string>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-3d3c87b1-049a-4108-9d8a-48ff0dc3dba6"
+                    },
+                    {
+                      "id": "69a3bbbd-13f9-4f7d-9302-2dd927afe50d",
+                      "name": "Server error.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-69a3bbbd-13f9-4f7d-9302-2dd927afe50d"
+                    },
+                    {
+                      "id": "eb2e57d8-96c0-4ea3-9fa0-00907a68bb71",
+                      "name": "Bad Gateway - meeting service is unavailable.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Bad Gateway",
+                      "code": 502,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-eb2e57d8-96c0-4ea3-9fa0-00907a68bb71"
+                    },
+                    {
+                      "id": "d83972db-2194-49c9-b5e4-ae977178a2f5",
+                      "name": "Service Unavailable - meeting invites are disabled, not configured, or temporarily at capacity. Capacity responses include a Retry-After header.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"personaId\": false\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/meetings/invites",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "meetings",
+                            "invites"
+                          ]
+                        }
+                      },
+                      "status": "Service Unavailable",
+                      "code": 503,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        },
+                        {
+                          "disabled": false,
+                          "description": {
+                            "content": "Seconds to wait before retrying. Only present on capacity responses.",
+                            "type": "text/plain"
+                          },
+                          "key": "Retry-After",
+                          "value": "<string>"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:45.000Z",
+                      "updatedAt": "2026-07-28T01:00:45.000Z",
+                      "uid": "35240-d83972db-2194-49c9-b5e4-ae977178a2f5"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:45.000Z",
+                  "updatedAt": "2026-07-28T01:00:45.000Z",
+                  "uid": "35240-3f4c32ec-e62e-4877-873e-1cb506bc548a"
+                }
+              ],
+              "id": "7bd9c360-1221-457b-aa64-6f90c81c18af",
+              "createdAt": "2026-07-28T01:00:45.000Z",
+              "updatedAt": "2026-07-28T01:00:45.000Z",
+              "uid": "35240-7bd9c360-1221-457b-aa64-6f90c81c18af"
+            }
+          ],
+          "id": "4da1675b-2de9-40a0-b6cd-fe8f2bf90e58",
+          "createdAt": "2026-07-28T01:00:45.000Z",
+          "updatedAt": "2026-07-28T01:00:45.000Z",
+          "uid": "35240-4da1675b-2de9-40a0-b6cd-fe8f2bf90e58"
+        }
+      ],
+      "id": "2cec800a-e25c-4c23-9738-4590f7c20763",
+      "createdAt": "2026-07-28T01:00:45.000Z",
+      "updatedAt": "2026-07-28T01:00:45.000Z",
+      "uid": "35240-2cec800a-e25c-4c23-9738-4590f7c20763"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

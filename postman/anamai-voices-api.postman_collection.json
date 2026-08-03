@@ -1,0 +1,2087 @@
+{
+  "info": {
+    "_postman_id": "4b3cd2bc-4480-4197-8426-c785a2e243b2",
+    "name": "Anam AI Avatars Voices API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:51.000Z",
+    "updatedAt": "2026-07-28T01:00:51.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4b3cd2bc-4480-4197-8426-c785a2e243b2"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "voices",
+          "item": [
+            {
+              "name": "presigned-upload",
+              "item": [
+                {
+                  "name": "create voice presigned upload",
+                  "id": "f0bc8736-efc1-45ad-9069-bed1c7e93ec7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"filename\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileSize\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices/presigned-upload",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices",
+                        "presigned-upload"
+                      ]
+                    },
+                    "description": "Request a presigned URL for uploading a voice-clone audio clip directly to storage. Use this for clips larger than the ~4.5MB request-body limit of the multipart `POST /v1/voices` endpoint. Flow: (1) call this endpoint to get an `uploadUrl` and `audioKey`; (2) `PUT` the raw audio bytes to `uploadUrl` with the same `Content-Type`; (3) call `POST /v1/voices` with a JSON body referencing the `audioKey` to perform the clone."
+                  },
+                  "response": [
+                    {
+                      "id": "232efb9d-4501-405c-98ad-fc71e93646cd",
+                      "name": "Presigned upload URL generated",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filename\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileSize\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/presigned-upload",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            "presigned-upload"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"uploadUrl\": \"<string>\",\n  \"audioKey\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-232efb9d-4501-405c-98ad-fc71e93646cd"
+                    },
+                    {
+                      "id": "440c9276-e56f-4172-a6e7-faa87eac40bc",
+                      "name": "Bad request - Invalid body or file too large",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filename\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileSize\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/presigned-upload",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            "presigned-upload"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-440c9276-e56f-4172-a6e7-faa87eac40bc"
+                    },
+                    {
+                      "id": "258984c2-c109-4c44-9b77-fdf5e06e1a9e",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filename\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileSize\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/presigned-upload",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            "presigned-upload"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-258984c2-c109-4c44-9b77-fdf5e06e1a9e"
+                    },
+                    {
+                      "id": "33e25764-06c5-4573-a74a-74a48399dbfa",
+                      "name": "Forbidden - Voice cloning not available on the current plan, or API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filename\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileSize\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/presigned-upload",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            "presigned-upload"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-33e25764-06c5-4573-a74a-74a48399dbfa"
+                    },
+                    {
+                      "id": "7a896c99-271b-4242-961b-525c38aa330b",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"filename\": \"<string>\",\n  \"contentType\": \"<string>\",\n  \"fileSize\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/presigned-upload",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            "presigned-upload"
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-7a896c99-271b-4242-961b-525c38aa330b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-f0bc8736-efc1-45ad-9069-bed1c7e93ec7"
+                }
+              ],
+              "id": "c645f051-5f88-4cc5-b915-b03f48f9e5d2",
+              "createdAt": "2026-07-28T01:00:51.000Z",
+              "updatedAt": "2026-07-28T01:00:51.000Z",
+              "uid": "35240-c645f051-5f88-4cc5-b915-b03f48f9e5d2"
+            },
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get voice",
+                  "id": "acc4d0e9-ec1d-415f-a6cb-c1aaa8cdfbb9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "d0f91ee0-480b-4b57-99a5-397b242077ed",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Voice ID"
+                        }
+                      ]
+                    },
+                    "description": "Returns a voice by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "79caaa4f-a1e0-4ea5-8bb4-64308512da3b",
+                      "name": "Successfully retrieved voice",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"provider\": \"FISH_AUDIO\",\n  \"providerVoiceId\": \"<string,null>\",\n  \"providerModelId\": \"<string,null>\",\n  \"sampleUrl\": \"<string,null-uri>\",\n  \"previewSampleUrl\": \"<string,null-uri>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"isZdr\": \"<boolean>\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-79caaa4f-a1e0-4ea5-8bb4-64308512da3b"
+                    },
+                    {
+                      "id": "0506c78d-e23f-4eb9-af55-fe5591640d03",
+                      "name": "Bad request - Invalid voice ID",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-0506c78d-e23f-4eb9-af55-fe5591640d03"
+                    },
+                    {
+                      "id": "85d16224-0234-42a5-9668-e3aaaf23e7eb",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-85d16224-0234-42a5-9668-e3aaaf23e7eb"
+                    },
+                    {
+                      "id": "d8af0631-04f9-400e-919f-1cb19c9d84a2",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-d8af0631-04f9-400e-919f-1cb19c9d84a2"
+                    },
+                    {
+                      "id": "c733c615-af7c-4a5a-baca-916e3400e949",
+                      "name": "Not Found - Voice not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-c733c615-af7c-4a5a-baca-916e3400e949"
+                    },
+                    {
+                      "id": "c0f585b0-9335-48ec-812d-24aa95f8cf6f",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-c0f585b0-9335-48ec-812d-24aa95f8cf6f"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-acc4d0e9-ec1d-415f-a6cb-c1aaa8cdfbb9"
+                },
+                {
+                  "name": "update voice",
+                  "id": "9da84ac3-279f-4e2f-b24c-79f166c6b957",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "651239ab-dbf4-41d6-ad6a-f62c1d5a0d0f",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Voice ID"
+                        }
+                      ]
+                    },
+                    "description": "Update a voice by ID (display name and provider model ID can be updated)"
+                  },
+                  "response": [
+                    {
+                      "id": "c24246f8-4bd9-4746-8c38-3837630c9b02",
+                      "name": "Successfully updated voice",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"provider\": \"FISH_AUDIO\",\n  \"providerVoiceId\": \"<string,null>\",\n  \"providerModelId\": \"<string,null>\",\n  \"sampleUrl\": \"<string,null-uri>\",\n  \"previewSampleUrl\": \"<string,null-uri>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"isZdr\": \"<boolean>\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-c24246f8-4bd9-4746-8c38-3837630c9b02"
+                    },
+                    {
+                      "id": "8828b950-b9e8-4184-93fb-ce9886785f6d",
+                      "name": "Bad request - Invalid voice data",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-8828b950-b9e8-4184-93fb-ce9886785f6d"
+                    },
+                    {
+                      "id": "4a025bbf-11df-4c9a-9d5f-9f2028f23fd1",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-4a025bbf-11df-4c9a-9d5f-9f2028f23fd1"
+                    },
+                    {
+                      "id": "41ae4409-e679-4b03-ba75-b955379c0958",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-41ae4409-e679-4b03-ba75-b955379c0958"
+                    },
+                    {
+                      "id": "70a2a25b-2d89-4ceb-b9da-bf3e0ca9253a",
+                      "name": "Not Found - Voice not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-70a2a25b-2d89-4ceb-b9da-bf3e0ca9253a"
+                    },
+                    {
+                      "id": "648fcdcc-84dd-4f33-b895-026f4899e328",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"displayName\": \"<string>\",\n  \"providerModelId\": \"<string>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-648fcdcc-84dd-4f33-b895-026f4899e328"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-9da84ac3-279f-4e2f-b24c-79f166c6b957"
+                },
+                {
+                  "name": "delete voice",
+                  "id": "3d7b28a8-625b-4de1-b441-244e30f81818",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "546ad38f-a849-47c7-afd3-d68a31e8fda4",
+                          "key": "id",
+                          "value": "<uuid>",
+                          "description": "(Required) Voice ID"
+                        }
+                      ]
+                    },
+                    "description": "Delete a voice by ID"
+                  },
+                  "response": [
+                    {
+                      "id": "696a5bf2-52d3-4d38-b349-64f25b8c8ff8",
+                      "name": "Successfully deleted voice",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-696a5bf2-52d3-4d38-b349-64f25b8c8ff8"
+                    },
+                    {
+                      "id": "7d464559-1259-4c67-82a7-0cfee30c99a0",
+                      "name": "Bad request - Invalid voice ID",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-7d464559-1259-4c67-82a7-0cfee30c99a0"
+                    },
+                    {
+                      "id": "637226f3-f5ee-4004-8812-c8c1e29bdfc2",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-637226f3-f5ee-4004-8812-c8c1e29bdfc2"
+                    },
+                    {
+                      "id": "79fb59fe-8e52-4902-9476-d47f17d57bfc",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-79fb59fe-8e52-4902-9476-d47f17d57bfc"
+                    },
+                    {
+                      "id": "0a6a764f-669e-494d-b18c-95984ef8c77c",
+                      "name": "Not Found - Voice not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-0a6a764f-669e-494d-b18c-95984ef8c77c"
+                    },
+                    {
+                      "id": "c519aac2-5e66-4803-a458-da7522c7a023",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/voices/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "voices",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:51.000Z",
+                      "updatedAt": "2026-07-28T01:00:51.000Z",
+                      "uid": "35240-c519aac2-5e66-4803-a458-da7522c7a023"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-3d7b28a8-625b-4de1-b441-244e30f81818"
+                }
+              ],
+              "id": "c137cc40-58bb-462f-9a3b-6ae85a7d3c99",
+              "createdAt": "2026-07-28T01:00:51.000Z",
+              "updatedAt": "2026-07-28T01:00:51.000Z",
+              "uid": "35240-c137cc40-58bb-462f-9a3b-6ae85a7d3c99"
+            },
+            {
+              "name": "list voices",
+              "id": "59cbefdd-031c-4900-a692-627900b92eea",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/voices?page=1&perPage=10&search=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "voices"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of voices per page (max 100)",
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "description": "Search term to filter voices by display name",
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all voices"
+              },
+              "response": [
+                {
+                  "id": "a555ad5d-7ced-4afd-996f-e503ed9268dd",
+                  "name": "Successfully retrieved voices",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of voices per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter voices by display name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"displayName\": \"<string>\",\n      \"provider\": \"CARTESIA\",\n      \"providerVoiceId\": \"<string,null>\",\n      \"providerModelId\": \"<string,null>\",\n      \"sampleUrl\": \"<string,null-uri>\",\n      \"previewSampleUrl\": \"<string,null-uri>\",\n      \"gender\": \"MALE\",\n      \"country\": \"<string,null>\",\n      \"description\": \"<string,null>\",\n      \"displayTags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"isZdr\": \"<boolean>\",\n      \"createdByOrganizationId\": \"<string,null>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"displayName\": \"<string>\",\n      \"provider\": \"ELEVENLABS\",\n      \"providerVoiceId\": \"<string,null>\",\n      \"providerModelId\": \"<string,null>\",\n      \"sampleUrl\": \"<string,null-uri>\",\n      \"previewSampleUrl\": \"<string,null-uri>\",\n      \"gender\": \"FEMALE\",\n      \"country\": \"<string,null>\",\n      \"description\": \"<string,null>\",\n      \"displayTags\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"isZdr\": \"<boolean>\",\n      \"createdByOrganizationId\": \"<string,null>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-a555ad5d-7ced-4afd-996f-e503ed9268dd"
+                },
+                {
+                  "id": "58be08eb-72fb-43b1-9e50-b621f2695d0f",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of voices per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter voices by display name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-58be08eb-72fb-43b1-9e50-b621f2695d0f"
+                },
+                {
+                  "id": "ce79db77-a70f-420c-bdf6-0c4e69a8d9d9",
+                  "name": "Forbidden - Account does not have access or API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of voices per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter voices by display name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-ce79db77-a70f-420c-bdf6-0c4e69a8d9d9"
+                },
+                {
+                  "id": "ae07c6b8-84f2-432d-b7ac-0392b37c3637",
+                  "name": "Not Found - No voices found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of voices per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter voices by display name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-ae07c6b8-84f2-432d-b7ac-0392b37c3637"
+                },
+                {
+                  "id": "d31361ed-a6e4-423b-a452-3adddab5224f",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of voices per page (max 100)",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "Search term to filter voices by display name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-d31361ed-a6e4-423b-a452-3adddab5224f"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:51.000Z",
+              "updatedAt": "2026-07-28T01:00:51.000Z",
+              "uid": "35240-59cbefdd-031c-4900-a692-627900b92eea"
+            },
+            {
+              "name": "create voice",
+              "id": "581e8db3-27dd-463f-ac89-b47e593a0f8e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": "(Required) Display name for the cloned voice",
+                      "key": "name",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "(Required) Audio file to clone the voice from",
+                      "key": "audioFile",
+                      "type": "file",
+                      "value": null
+                    },
+                    {
+                      "description": "Optional description of the voice",
+                      "key": "description",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Language code for the voice",
+                      "key": "language",
+                      "value": "en",
+                      "type": "text"
+                    },
+                    {
+                      "description": "Whether to enhance the voice quality",
+                      "key": "enhance",
+                      "value": "true",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/voices",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "voices"
+                  ]
+                },
+                "description": "Create a new voice by cloning from an audio file. Send the audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or, for larger clips, first upload via `POST /v1/voices/presigned-upload` and send a JSON body referencing the returned `audioKey`."
+              },
+              "response": [
+                {
+                  "id": "0710c01c-1a19-4d2a-8acc-630e25296cc7",
+                  "name": "Successfully created voice clone",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the cloned voice",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Audio file to clone the voice from",
+                          "key": "audioFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional description of the voice",
+                          "key": "description",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Language code for the voice",
+                          "key": "language",
+                          "value": "en",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Whether to enhance the voice quality",
+                          "key": "enhance",
+                          "value": "true",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"displayName\": \"<string>\",\n  \"provider\": \"FISH_AUDIO\",\n  \"providerVoiceId\": \"<string,null>\",\n  \"providerModelId\": \"<string,null>\",\n  \"sampleUrl\": \"<string,null-uri>\",\n  \"previewSampleUrl\": \"<string,null-uri>\",\n  \"gender\": \"NEUTRAL\",\n  \"country\": \"<string,null>\",\n  \"description\": \"<string,null>\",\n  \"displayTags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"isZdr\": \"<boolean>\",\n  \"createdByOrganizationId\": \"<string,null>\",\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-0710c01c-1a19-4d2a-8acc-630e25296cc7"
+                },
+                {
+                  "id": "50182a46-d021-4d30-97a9-d6d59081eb26",
+                  "name": "Bad request - Invalid voice data",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the cloned voice",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Audio file to clone the voice from",
+                          "key": "audioFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional description of the voice",
+                          "key": "description",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Language code for the voice",
+                          "key": "language",
+                          "value": "en",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Whether to enhance the voice quality",
+                          "key": "enhance",
+                          "value": "true",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-50182a46-d021-4d30-97a9-d6d59081eb26"
+                },
+                {
+                  "id": "009649e9-f1ac-49d2-a98e-350c3d10d7e7",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the cloned voice",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Audio file to clone the voice from",
+                          "key": "audioFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional description of the voice",
+                          "key": "description",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Language code for the voice",
+                          "key": "language",
+                          "value": "en",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Whether to enhance the voice quality",
+                          "key": "enhance",
+                          "value": "true",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-009649e9-f1ac-49d2-a98e-350c3d10d7e7"
+                },
+                {
+                  "id": "1e051506-309c-481a-8213-d1d564df082a",
+                  "name": "Forbidden - Requires enterprise plan or API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the cloned voice",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Audio file to clone the voice from",
+                          "key": "audioFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional description of the voice",
+                          "key": "description",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Language code for the voice",
+                          "key": "language",
+                          "value": "en",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Whether to enhance the voice quality",
+                          "key": "enhance",
+                          "value": "true",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-1e051506-309c-481a-8213-d1d564df082a"
+                },
+                {
+                  "id": "1fe72825-c7ee-456b-a701-8677d3b0a723",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "description": "(Required) Display name for the cloned voice",
+                          "key": "name",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "(Required) Audio file to clone the voice from",
+                          "key": "audioFile",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Optional description of the voice",
+                          "key": "description",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Language code for the voice",
+                          "key": "language",
+                          "value": "en",
+                          "type": "text"
+                        },
+                        {
+                          "description": "Whether to enhance the voice quality",
+                          "key": "enhance",
+                          "value": "true",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/voices",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "voices"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:51.000Z",
+                  "updatedAt": "2026-07-28T01:00:51.000Z",
+                  "uid": "35240-1fe72825-c7ee-456b-a701-8677d3b0a723"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:51.000Z",
+              "updatedAt": "2026-07-28T01:00:51.000Z",
+              "uid": "35240-581e8db3-27dd-463f-ac89-b47e593a0f8e"
+            }
+          ],
+          "id": "49c807b6-82ae-4922-b096-79e328be4f78",
+          "createdAt": "2026-07-28T01:00:51.000Z",
+          "updatedAt": "2026-07-28T01:00:51.000Z",
+          "uid": "35240-49c807b6-82ae-4922-b096-79e328be4f78"
+        }
+      ],
+      "id": "ff59a8b5-929a-4554-992f-c961998fe2b9",
+      "createdAt": "2026-07-28T01:00:51.000Z",
+      "updatedAt": "2026-07-28T01:00:51.000Z",
+      "uid": "35240-ff59a8b5-929a-4554-992f-c961998fe2b9"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}

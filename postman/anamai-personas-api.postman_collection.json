@@ -1,0 +1,1501 @@
+{
+  "info": {
+    "_postman_id": "4f99cbf3-8464-434c-80b5-f12400c329f6",
+    "name": "Anam AI Avatars Personas API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:00:46.000Z",
+    "updatedAt": "2026-07-28T01:00:46.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4f99cbf3-8464-434c-80b5-f12400c329f6"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "personas",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "get persona",
+                  "id": "53099bd1-33d7-457d-ad93-9eb578bdcd67",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "c772e2f3-d5db-4b81-9566-417a0e6e6c17",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Persona id"
+                        }
+                      ]
+                    },
+                    "description": "Returns a persona by id"
+                  },
+                  "response": [
+                    {
+                      "id": "1ef0326c-be3c-44e3-876e-63e056ff5a9f",
+                      "name": "Successfully retrieved persona",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"personaPreset\": \"<string>\",\n  \"avatar\": {\n    \"id\": \"<uuid>\",\n    \"displayName\": \"<string>\",\n    \"variantName\": \"<string>\",\n    \"imageUrl\": \"<uri>\",\n    \"landscapeImageUrl\": \"<string,null-uri>\",\n    \"portraitImageUrl\": \"<string,null-uri>\",\n    \"videoUrl\": \"<string,null-uri>\",\n    \"idleVideoUrl\": \"<string,null-uri>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\",\n    \"createdByOrganizationId\": \"<string,null>\",\n    \"availableVersions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"activeVersion\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"displayTags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"renderStyle\": \"realistic\"\n  },\n  \"avatarModel\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"<uuid>\",\n    \"displayName\": \"<string>\",\n    \"provider\": \"OPENAI_ADVANCED_VOICE\",\n    \"providerVoiceId\": \"<string,null>\",\n    \"providerModelId\": \"<string,null>\",\n    \"sampleUrl\": \"<string,null-uri>\",\n    \"previewSampleUrl\": \"<string,null-uri>\",\n    \"gender\": \"NEUTRAL\",\n    \"country\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"displayTags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"isZdr\": \"<boolean>\",\n    \"createdByOrganizationId\": \"<string,null>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\"\n  },\n  \"voiceSpeed\": \"<number,null>\",\n  \"llmId\": \"<string,null-uuid>\",\n  \"brain\": {\n    \"personality\": \"<string,null>\",\n    \"systemPrompt\": \"<string,null>\"\n  },\n  \"shareLinks\": null,\n  \"primaryShareLink\": null,\n  \"enableAudioPassthrough\": \"<boolean>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"widgetConfig\": {},\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-1ef0326c-be3c-44e3-876e-63e056ff5a9f"
+                    },
+                    {
+                      "id": "6e40e963-0c14-4e69-a06c-4d42e1e13421",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-6e40e963-0c14-4e69-a06c-4d42e1e13421"
+                    },
+                    {
+                      "id": "f3736787-af8e-4822-ad15-160400ee8149",
+                      "name": "Forbidden - API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-f3736787-af8e-4822-ad15-160400ee8149"
+                    },
+                    {
+                      "id": "d89cc7e4-36bb-47c4-ae8a-4642af99ace8",
+                      "name": "Not Found - No personas found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-d89cc7e4-36bb-47c4-ae8a-4642af99ace8"
+                    },
+                    {
+                      "id": "b215f225-1edf-439e-80c4-b005b6e7a78e",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-b215f225-1edf-439e-80c4-b005b6e7a78e"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:46.000Z",
+                  "updatedAt": "2026-07-28T01:00:46.000Z",
+                  "uid": "35240-53099bd1-33d7-457d-ad93-9eb578bdcd67"
+                },
+                {
+                  "name": "update persona",
+                  "id": "b8b2ba83-a7b6-47aa-8356-6476f1d9802b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "b315b176-6671-42e4-b4e5-df1b565acc83",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Persona id"
+                        }
+                      ]
+                    },
+                    "description": "Update a persona by id"
+                  },
+                  "response": [
+                    {
+                      "id": "3accff55-e32f-46dc-8d27-c40915b954a8",
+                      "name": "Successfully updated persona",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"personaPreset\": \"<string>\",\n  \"avatar\": {\n    \"id\": \"<uuid>\",\n    \"displayName\": \"<string>\",\n    \"variantName\": \"<string>\",\n    \"imageUrl\": \"<uri>\",\n    \"landscapeImageUrl\": \"<string,null-uri>\",\n    \"portraitImageUrl\": \"<string,null-uri>\",\n    \"videoUrl\": \"<string,null-uri>\",\n    \"idleVideoUrl\": \"<string,null-uri>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\",\n    \"createdByOrganizationId\": \"<string,null>\",\n    \"availableVersions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"activeVersion\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"displayTags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"renderStyle\": \"realistic\"\n  },\n  \"avatarModel\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"<uuid>\",\n    \"displayName\": \"<string>\",\n    \"provider\": \"OPENAI_ADVANCED_VOICE\",\n    \"providerVoiceId\": \"<string,null>\",\n    \"providerModelId\": \"<string,null>\",\n    \"sampleUrl\": \"<string,null-uri>\",\n    \"previewSampleUrl\": \"<string,null-uri>\",\n    \"gender\": \"NEUTRAL\",\n    \"country\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"displayTags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"isZdr\": \"<boolean>\",\n    \"createdByOrganizationId\": \"<string,null>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\"\n  },\n  \"voiceSpeed\": \"<number,null>\",\n  \"llmId\": \"<string,null-uuid>\",\n  \"brain\": {\n    \"personality\": \"<string,null>\",\n    \"systemPrompt\": \"<string,null>\"\n  },\n  \"shareLinks\": null,\n  \"primaryShareLink\": null,\n  \"enableAudioPassthrough\": \"<boolean>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"widgetConfig\": {},\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-3accff55-e32f-46dc-8d27-c40915b954a8"
+                    },
+                    {
+                      "id": "bf532a92-1d78-429f-9b3e-fb380d2921fc",
+                      "name": "Bad request - Invalid persona data or avatarModel not supported by avatar",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-bf532a92-1d78-429f-9b3e-fb380d2921fc"
+                    },
+                    {
+                      "id": "be2ec3fa-9214-4c86-b77c-7d0e9e0e971b",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-be2ec3fa-9214-4c86-b77c-7d0e9e0e971b"
+                    },
+                    {
+                      "id": "b0ec8e02-2fa4-4c65-98da-d186720c6236",
+                      "name": "Forbidden - Account does not have access or API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-b0ec8e02-2fa4-4c65-98da-d186720c6236"
+                    },
+                    {
+                      "id": "a25bed05-37e9-4b80-ad50-cce92e4ec12b",
+                      "name": "Not Found - Persona not found",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-a25bed05-37e9-4b80-ad50-cce92e4ec12b"
+                    },
+                    {
+                      "id": "f706bf04-901c-4256-97d2-02e493cd8f2b",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4-latest\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"widgetConfig\": {\n    \"callToAction\": \"<string>\",\n    \"allowedOrigins\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"allowEverywhere\": \"<boolean>\",\n    \"layout\": \"inline\",\n    \"initialState\": \"minimized\",\n    \"position\": \"<string>\",\n    \"showTextInput\": \"<boolean>\",\n    \"showMuteButton\": \"<boolean>\",\n    \"showTranscript\": \"<boolean>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-f706bf04-901c-4256-97d2-02e493cd8f2b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:46.000Z",
+                  "updatedAt": "2026-07-28T01:00:46.000Z",
+                  "uid": "35240-b8b2ba83-a7b6-47aa-8356-6476f1d9802b"
+                },
+                {
+                  "name": "delete persona",
+                  "id": "0b5ec7ac-84d8-4118-a47b-ef7cdc9b7003",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "608fdef3-7841-4fbc-9267-e128460cb213",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Persona id"
+                        }
+                      ]
+                    },
+                    "description": "Delete a persona by id"
+                  },
+                  "response": [
+                    {
+                      "id": "fcea4880-d4cc-4295-8408-5f99815f388b",
+                      "name": "Successfully deleted persona",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"message\": \"<string>\"\n}",
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-fcea4880-d4cc-4295-8408-5f99815f388b"
+                    },
+                    {
+                      "id": "c9aae274-632f-4ff0-bf60-22c8ee0a2070",
+                      "name": "Unauthorized - Invalid or missing API key",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-c9aae274-632f-4ff0-bf60-22c8ee0a2070"
+                    },
+                    {
+                      "id": "73ab4411-8504-46dd-bbb8-26e3bfa15ae5",
+                      "name": "Forbidden - Account does not have access or API key lacks the required permission",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-73ab4411-8504-46dd-bbb8-26e3bfa15ae5"
+                    },
+                    {
+                      "id": "1f854115-39fc-4151-90e5-36404b30d9c6",
+                      "name": "Not Found - Persona not found",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-1f854115-39fc-4151-90e5-36404b30d9c6"
+                    },
+                    {
+                      "id": "59d6dda5-214e-4fe7-a779-4e76c6282091",
+                      "name": "Server error",
+                      "originalRequest": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/personas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "personas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Internal Server Error",
+                      "code": 500,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:00:47.000Z",
+                      "updatedAt": "2026-07-28T01:00:47.000Z",
+                      "uid": "35240-59d6dda5-214e-4fe7-a779-4e76c6282091"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:00:46.000Z",
+                  "updatedAt": "2026-07-28T01:00:46.000Z",
+                  "uid": "35240-0b5ec7ac-84d8-4118-a47b-ef7cdc9b7003"
+                }
+              ],
+              "id": "44428624-7aa3-4e6f-ae59-40e8cd57f2e7",
+              "createdAt": "2026-07-28T01:00:46.000Z",
+              "updatedAt": "2026-07-28T01:00:46.000Z",
+              "uid": "35240-44428624-7aa3-4e6f-ae59-40e8cd57f2e7"
+            },
+            {
+              "name": "list personas",
+              "id": "8e472171-6725-4004-8a04-877d521a8769",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/v1/personas?page=1&perPage=10&search=<string>",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "personas"
+                  ],
+                  "query": [
+                    {
+                      "description": "Page number for pagination",
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "description": "Number of items per page",
+                      "key": "perPage",
+                      "value": "10"
+                    },
+                    {
+                      "description": "filter personas by name",
+                      "key": "search",
+                      "value": "<string>"
+                    }
+                  ]
+                },
+                "description": "Returns a list of all personas"
+              },
+              "response": [
+                {
+                  "id": "7b4c85ec-cf28-4e31-affc-27c867280a2b",
+                  "name": "Successfully retrieved personas",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "filter personas by name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"personaPreset\": \"<string>\",\n      \"avatar\": {\n        \"id\": \"<uuid>\",\n        \"displayName\": \"<string>\",\n        \"variantName\": \"<string>\",\n        \"imageUrl\": \"<uri>\",\n        \"landscapeImageUrl\": \"<string,null-uri>\",\n        \"portraitImageUrl\": \"<string,null-uri>\",\n        \"videoUrl\": \"<string,null-uri>\",\n        \"idleVideoUrl\": \"<string,null-uri>\",\n        \"createdAt\": \"<dateTime>\",\n        \"updatedAt\": \"<dateTime>\",\n        \"createdByOrganizationId\": \"<string,null>\",\n        \"availableVersions\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"activeVersion\": \"<string,null>\",\n        \"description\": \"<string,null>\",\n        \"displayTags\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"renderStyle\": \"unknown\"\n      },\n      \"voice\": {\n        \"id\": \"<uuid>\",\n        \"displayName\": \"<string>\",\n        \"provider\": \"OPENAI_ADVANCED_VOICE\",\n        \"providerVoiceId\": \"<string,null>\",\n        \"providerModelId\": \"<string,null>\",\n        \"sampleUrl\": \"<string,null-uri>\",\n        \"previewSampleUrl\": \"<string,null-uri>\",\n        \"gender\": null,\n        \"country\": \"<string,null>\",\n        \"description\": \"<string,null>\",\n        \"displayTags\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"isZdr\": \"<boolean>\",\n        \"createdByOrganizationId\": \"<string,null>\",\n        \"createdAt\": \"<dateTime>\",\n        \"updatedAt\": \"<dateTime>\"\n      },\n      \"voiceSpeed\": \"<number,null>\",\n      \"isDefaultPersona\": \"<boolean>\",\n      \"languageCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"personaPreset\": \"<string>\",\n      \"avatar\": {\n        \"id\": \"<uuid>\",\n        \"displayName\": \"<string>\",\n        \"variantName\": \"<string>\",\n        \"imageUrl\": \"<uri>\",\n        \"landscapeImageUrl\": \"<string,null-uri>\",\n        \"portraitImageUrl\": \"<string,null-uri>\",\n        \"videoUrl\": \"<string,null-uri>\",\n        \"idleVideoUrl\": \"<string,null-uri>\",\n        \"createdAt\": \"<dateTime>\",\n        \"updatedAt\": \"<dateTime>\",\n        \"createdByOrganizationId\": \"<string,null>\",\n        \"availableVersions\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"activeVersion\": \"<string,null>\",\n        \"description\": \"<string,null>\",\n        \"displayTags\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"renderStyle\": \"unknown\"\n      },\n      \"voice\": {\n        \"id\": \"<uuid>\",\n        \"displayName\": \"<string>\",\n        \"provider\": \"ELEVENLABS\",\n        \"providerVoiceId\": \"<string,null>\",\n        \"providerModelId\": \"<string,null>\",\n        \"sampleUrl\": \"<string,null-uri>\",\n        \"previewSampleUrl\": \"<string,null-uri>\",\n        \"gender\": \"MALE\",\n        \"country\": \"<string,null>\",\n        \"description\": \"<string,null>\",\n        \"displayTags\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"isZdr\": \"<boolean>\",\n        \"createdByOrganizationId\": \"<string,null>\",\n        \"createdAt\": \"<dateTime>\",\n        \"updatedAt\": \"<dateTime>\"\n      },\n      \"voiceSpeed\": \"<number,null>\",\n      \"isDefaultPersona\": \"<boolean>\",\n      \"languageCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\"\n    }\n  ],\n  \"meta\": {\n    \"total\": \"<integer>\",\n    \"lastPage\": \"<integer>\",\n    \"currentPage\": \"<integer>\",\n    \"perPage\": \"<integer>\",\n    \"prev\": \"<integer,null>\",\n    \"next\": \"<integer,null>\"\n  }\n}",
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-7b4c85ec-cf28-4e31-affc-27c867280a2b"
+                },
+                {
+                  "id": "38f9d7f3-83b5-44dc-aa5a-5ce72fde8b36",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "filter personas by name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-38f9d7f3-83b5-44dc-aa5a-5ce72fde8b36"
+                },
+                {
+                  "id": "207ef7a3-21a8-440a-86bf-1a11dfe69601",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "filter personas by name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-207ef7a3-21a8-440a-86bf-1a11dfe69601"
+                },
+                {
+                  "id": "6c1b8b04-cff1-4465-8231-9415fdd6f046",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas?page=1&perPage=10&search=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ],
+                      "query": [
+                        {
+                          "description": "Page number for pagination",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Number of items per page",
+                          "key": "perPage",
+                          "value": "10"
+                        },
+                        {
+                          "description": "filter personas by name",
+                          "key": "search",
+                          "value": "<string>"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-6c1b8b04-cff1-4465-8231-9415fdd6f046"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:46.000Z",
+              "updatedAt": "2026-07-28T01:00:46.000Z",
+              "uid": "35240-8e472171-6725-4004-8a04-877d521a8769"
+            },
+            {
+              "name": "create persona",
+              "id": "dc7b890a-3ba4-4d41-ac16-bebd94dd1d54",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/personas",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "personas"
+                  ]
+                },
+                "description": "Create a new persona"
+              },
+              "response": [
+                {
+                  "id": "f5b92cff-a1dd-4e96-a19c-911a23935fc2",
+                  "name": "Successfully created persona",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string,null>\",\n  \"personaPreset\": \"<string>\",\n  \"avatar\": {\n    \"id\": \"<uuid>\",\n    \"displayName\": \"<string>\",\n    \"variantName\": \"<string>\",\n    \"imageUrl\": \"<uri>\",\n    \"landscapeImageUrl\": \"<string,null-uri>\",\n    \"portraitImageUrl\": \"<string,null-uri>\",\n    \"videoUrl\": \"<string,null-uri>\",\n    \"idleVideoUrl\": \"<string,null-uri>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\",\n    \"createdByOrganizationId\": \"<string,null>\",\n    \"availableVersions\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"activeVersion\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"displayTags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"renderStyle\": \"realistic\"\n  },\n  \"avatarModel\": \"<string,null>\",\n  \"voice\": {\n    \"id\": \"<uuid>\",\n    \"displayName\": \"<string>\",\n    \"provider\": \"OPENAI_ADVANCED_VOICE\",\n    \"providerVoiceId\": \"<string,null>\",\n    \"providerModelId\": \"<string,null>\",\n    \"sampleUrl\": \"<string,null-uri>\",\n    \"previewSampleUrl\": \"<string,null-uri>\",\n    \"gender\": \"NEUTRAL\",\n    \"country\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"displayTags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"isZdr\": \"<boolean>\",\n    \"createdByOrganizationId\": \"<string,null>\",\n    \"createdAt\": \"<dateTime>\",\n    \"updatedAt\": \"<dateTime>\"\n  },\n  \"voiceSpeed\": \"<number,null>\",\n  \"llmId\": \"<string,null-uuid>\",\n  \"brain\": {\n    \"personality\": \"<string,null>\",\n    \"systemPrompt\": \"<string,null>\"\n  },\n  \"shareLinks\": null,\n  \"primaryShareLink\": null,\n  \"enableAudioPassthrough\": \"<boolean>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"widgetConfig\": {},\n  \"createdAt\": \"<dateTime>\",\n  \"updatedAt\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-f5b92cff-a1dd-4e96-a19c-911a23935fc2"
+                },
+                {
+                  "id": "d43cdeb6-4c99-49ce-8352-8b9030667bbc",
+                  "name": "Bad request - Invalid persona data or avatarModel not supported by avatar",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-d43cdeb6-4c99-49ce-8352-8b9030667bbc"
+                },
+                {
+                  "id": "927ad558-bfff-4cef-aa83-89d6ae7bac1c",
+                  "name": "Unauthorized - Invalid or missing API key",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-927ad558-bfff-4cef-aa83-89d6ae7bac1c"
+                },
+                {
+                  "id": "467b9e40-829a-40a7-a496-fc38af9f9168",
+                  "name": "Forbidden - API key lacks the required permission",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-467b9e40-829a-40a7-a496-fc38af9f9168"
+                },
+                {
+                  "id": "7d060d2f-ecec-411d-ba82-81e582bbf0b5",
+                  "name": "Server error",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"avatarId\": \"<string>\",\n  \"avatarModel\": \"cara-4\",\n  \"voiceId\": \"<string>\",\n  \"llmId\": \"<string>\",\n  \"systemPrompt\": \"<string>\",\n  \"skipGreeting\": \"<boolean>\",\n  \"uninterruptibleGreeting\": \"<boolean>\",\n  \"initialMessage\": \"<string>\",\n  \"zeroDataRetention\": \"<boolean>\",\n  \"voiceDetectionOptions\": {\n    \"endOfSpeechSensitivity\": \"<number>\",\n    \"silenceBeforeSkipTurnSeconds\": \"<number>\",\n    \"silenceBeforeSessionEndSeconds\": \"<number>\",\n    \"silenceBeforeAutoEndTurnSeconds\": \"<number>\",\n    \"speechEnhancementLevel\": \"<number>\"\n  },\n  \"languageCode\": \"<string>\",\n  \"voiceGenerationOptions\": {\n    \"stability\": \"<number>\",\n    \"similarityBoost\": \"<number>\",\n    \"speed\": \"<number>\"\n  },\n  \"toolIds\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/personas",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "personas"
+                      ]
+                    }
+                  },
+                  "status": "Internal Server Error",
+                  "code": 500,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:00:47.000Z",
+                  "updatedAt": "2026-07-28T01:00:47.000Z",
+                  "uid": "35240-7d060d2f-ecec-411d-ba82-81e582bbf0b5"
+                }
+              ],
+              "createdAt": "2026-07-28T01:00:46.000Z",
+              "updatedAt": "2026-07-28T01:00:46.000Z",
+              "uid": "35240-dc7b890a-3ba4-4d41-ac16-bebd94dd1d54"
+            }
+          ],
+          "id": "0df1ca1d-7427-432d-92ca-0c38bd486b98",
+          "createdAt": "2026-07-28T01:00:46.000Z",
+          "updatedAt": "2026-07-28T01:00:46.000Z",
+          "uid": "35240-0df1ca1d-7427-432d-92ca-0c38bd486b98"
+        }
+      ],
+      "id": "413780e7-ff90-4eec-af80-fbdc153639d5",
+      "createdAt": "2026-07-28T01:00:46.000Z",
+      "updatedAt": "2026-07-28T01:00:46.000Z",
+      "uid": "35240-413780e7-ff90-4eec-af80-fbdc153639d5"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.anam.ai"
+    }
+  ]
+}
