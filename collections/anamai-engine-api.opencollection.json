@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Anam AI Avatars Engine API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Engine",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "create engine session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/engine/session",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Start a live persona session.\n\nTwo authentication modes are supported via the `Authorization: Bearer` header:\n\n- **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.\n  The session configuration was bound to the token when it was created, so the body only carries\n  optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don't call\n  this endpoint yourself.\n- **API key** (server-side SDKs): pass your API key directly and supp"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

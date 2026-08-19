@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Anam AI Avatars Voices API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Voices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "list voices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/voices",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of voices per page (max 100)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term to filter voices by display name"
+              }
+            ]
+          },
+          "docs": "Returns a list of all voices"
+        },
+        {
+          "info": {
+            "name": "create voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/voices",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new voice by cloning from an audio file. Send the audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or, for larger clips, first upload via `POST /v1/voices/presigned-upload` and send a JSON body referencing the returned `audioKey`."
+        },
+        {
+          "info": {
+            "name": "create voice presigned upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/voices/presigned-upload",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request a presigned URL for uploading a voice-clone audio clip directly to storage. Use this for clips larger than the ~4.5MB request-body limit of the multipart `POST /v1/voices` endpoint. Flow: (1) call this endpoint to get an `uploadUrl` and `audioKey`; (2) `PUT` the raw audio bytes to `uploadUrl` with the same `Content-Type`; (3) call `POST /v1/voices` with a JSON body referencing the `audioKey` to perform the clone."
+        },
+        {
+          "info": {
+            "name": "get voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/voices/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Voice ID"
+              }
+            ]
+          },
+          "docs": "Returns a voice by ID"
+        },
+        {
+          "info": {
+            "name": "update voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.anam.ai/v1/voices/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Voice ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a voice by ID (display name and provider model ID can be updated)"
+        },
+        {
+          "info": {
+            "name": "delete voice",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anam.ai/v1/voices/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Voice ID"
+              }
+            ]
+          },
+          "docs": "Delete a voice by ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

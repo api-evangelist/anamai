@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Anam AI Avatars Tools API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "list tools",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/tools",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Filter tools by name, description, or ID"
+              }
+            ]
+          },
+          "docs": "Returns a list of all tools for the organization"
+        },
+        {
+          "info": {
+            "name": "create tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/tools",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new tool for function calling in persona sessions"
+        },
+        {
+          "info": {
+            "name": "get tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/tools/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00000000-0000-0000-0000-000000000000",
+                "type": "path",
+                "description": "Tool ID"
+              }
+            ]
+          },
+          "docs": "Get a tool by ID"
+        },
+        {
+          "info": {
+            "name": "update tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.anam.ai/v1/tools/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00000000-0000-0000-0000-000000000000",
+                "type": "path",
+                "description": "Tool ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing tool"
+        },
+        {
+          "info": {
+            "name": "delete tool",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anam.ai/v1/tools/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "00000000-0000-0000-0000-000000000000",
+                "type": "path",
+                "description": "Tool ID"
+              }
+            ]
+          },
+          "docs": "Delete a tool. The tool will be soft-deleted and no longer available."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

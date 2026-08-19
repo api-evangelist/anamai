@@ -1,0 +1,389 @@
+{
+  "item": [
+    {
+      "id": "96707441-46a4-4a6d-aedb-5779751c0e9c",
+      "name": "Engine",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b15454a8-a9b2-451f-8ac4-487d2f26f63f",
+          "name": "create engine session",
+          "request": {
+            "name": "create engine session",
+            "description": {
+              "content": "Start a live persona session.\n\nTwo authentication modes are supported via the `Authorization: Bearer` header:\n\n- **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.\n  The session configuration was bound to the token when it was created, so the body only carries\n  optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don't call\n  this endpoint yourself.\n- **API key** (server-side SDKs): pass your API key directly and supply the session configuration\n  in the request body — the same shape as the `/v1/auth/session-token` body (`personaConfig`,\n  `environment`, `sessionOptions`, plus optional `clientLabel` and `clientMetadata`; `expiresIn`\n  and `widgetConfig` do not apply). This skips the session-token exchange. Only use this from a\n  secure server-side context — never expose an API key in a browser.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "engine",
+                "session"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "33e9e065-89f1-449b-8905-90dceea6472a",
+              "name": "Session started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "engine",
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"sessionId\": \"51d3ef65-e7dc-f318-1f03-9d527ac2aa38\",\n  \"engineHost\": \"string\",\n  \"engineProtocol\": \"string\",\n  \"signallingEndpoint\": \"string\",\n  \"clientConfig\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c77dd4f-79e9-43e0-8287-9a22e4a4258a",
+              "name": "Invalid request body or persona configuration",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "engine",
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "56ff1d23-69f5-4b12-a528-c1b993421b4a",
+              "name": "Unauthorized - invalid API key, or invalid/expired session token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "engine",
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ac21fdf1-4c41-4ac0-a92a-8d765f216b58",
+              "name": "Forbidden - the API key lacks the required permission, or the organization is not entitled to a requested feature (e.g. gated avatar model, devSettings)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "engine",
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fdcedf12-460a-474b-bcff-6c999542b04a",
+              "name": "Concurrent session limit or spend cap reached",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "engine",
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f6041684-4eb8-4e0b-b733-5dad4e6ee217",
+              "name": "No engines available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "engine",
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientLabel\": \"<string>\",\n  \"personaConfig\": \"<object>\",\n  \"environment\": \"<object>\",\n  \"sessionOptions\": \"<object>\",\n  \"clientMetadata\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.anam.ai",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "dd68ca9a-2ec0-4bc9-a85b-95f037909c43",
+    "name": "Anam AI Avatars Engine API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

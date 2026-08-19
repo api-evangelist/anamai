@@ -180,3 +180,9 @@ tools:
 - name: deleteAvatar
   description: delete avatar
   source_operation: openapi/anamai-openapi-original.json#deleteAvatar
+deployment:
+  mode: none
+  verified: derived
+  tools: 57
+  checked: '2026-08-12'
+  source: catalog MCP census

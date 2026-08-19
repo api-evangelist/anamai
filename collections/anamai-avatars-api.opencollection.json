@@ -1,0 +1,155 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Anam AI Avatars API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Avatars",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "list avatars",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/avatars",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of avatars per page (max 100)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term to filter avatars by display name or generated description"
+              },
+              {
+                "name": "renderStyle",
+                "value": "",
+                "type": "query",
+                "description": "Filter avatars by render style. `unknown` includes avatars whose style has not been determined (all custom avatars, and any avatar whose metadata generation has not completed)."
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of tags to filter by (e.g. `tags=professional,studio`). Matches avatars with ANY of the given tags. Tags are generated alongside `description`/`displayTags` and are lowercase."
+              },
+              {
+                "name": "onlyOneShot",
+                "value": "",
+                "type": "query",
+                "description": "Only return one-shot avatars"
+              }
+            ]
+          },
+          "docs": "Returns a list of all avatars"
+        },
+        {
+          "info": {
+            "name": "create avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/avatars",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL."
+        },
+        {
+          "info": {
+            "name": "get avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/avatars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Avatar ID"
+              }
+            ]
+          },
+          "docs": "Returns an avatar by ID"
+        },
+        {
+          "info": {
+            "name": "update avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.anam.ai/v1/avatars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Avatar ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an avatar by ID (only display name can be updated)"
+        },
+        {
+          "info": {
+            "name": "delete avatar",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anam.ai/v1/avatars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Avatar ID"
+              },
+              {
+                "name": "hard",
+                "value": "",
+                "type": "query",
+                "description": "When `true`, permanently deletes the avatar and purges its stored source and generated assets instead of soft-deleting it."
+              }
+            ]
+          },
+          "docs": "Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

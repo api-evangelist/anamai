@@ -1,0 +1,263 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Anam AI Avatars Sessions API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "create session token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/auth/session-token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new session token used to initialise Anam client side SDKs"
+        },
+        {
+          "info": {
+            "name": "list sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page (max 100)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term to filter sessions by ID or client label"
+              },
+              {
+                "name": "apiKeyId",
+                "value": "",
+                "type": "query",
+                "description": "Filter sessions by API key ID"
+              },
+              {
+                "name": "personaId",
+                "value": "",
+                "type": "query",
+                "description": "Filter sessions by persona ID"
+              },
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "query",
+                "description": "List sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403."
+              }
+            ]
+          },
+          "docs": "Returns a list of all sessions for the organization"
+        },
+        {
+          "info": {
+            "name": "Get current concurrency status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions/concurrency",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "query",
+                "description": "Report the concurrency status of another organization. Restricted to Anam-internal admin API keys; other keys receive 403."
+              }
+            ]
+          },
+          "docs": "Returns the organization's concurrent-session limit, an approximate count of sessions currently in use, whether a new session can likely be started, and an estimated wait time until a slot frees. Intended as an advisory pre-check before starting a session (e.g. to gate a \"Start\" button or show a wait estimate). The count is the Lab's optimistic view and can briefly over-report; the authoritative limit is enforced when a session is actually created, which may still return 429."
+        },
+        {
+          "info": {
+            "name": "get aggregated session analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions/analytics",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the time range (ISO 8601). Defaults to 24 hours before `to`."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the time range (ISO 8601). Defaults to now."
+              },
+              {
+                "name": "personaId",
+                "value": "",
+                "type": "query",
+                "description": "Only include sessions for this persona."
+              },
+              {
+                "name": "apiKeyId",
+                "value": "",
+                "type": "query",
+                "description": "Only include sessions minted by this API key."
+              },
+              {
+                "name": "clientLabel",
+                "value": "",
+                "type": "query",
+                "description": "Only include sessions whose client label matches exactly."
+              },
+              {
+                "name": "sessionType",
+                "value": "",
+                "type": "query",
+                "description": "Only include sessions of this type."
+              },
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "query",
+                "description": "Aggregate sessions of another organization. Restricted to Anam-internal admin API keys; other keys receive 403."
+              }
+            ]
+          },
+          "docs": "Returns aggregated latency analytics across sessions — percentile distributions (p50/p90/p95/p99/max/avg) for each stage of the transcription → LLM → TTS → first-audio path, interruption and error rates, tool call outcomes, and a sample of the slowest turns. Only sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) produce analytics reports; LiveKit and audio-passthrough sessions count toward `sessionCount` but never carry analytics. Defaults t"
+        },
+        {
+          "info": {
+            "name": "get session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Session ID"
+              }
+            ]
+          },
+          "docs": "Returns a session by ID, including the tool calls made during the session once it has ended and the engine has delivered its session report (`toolCalls` is empty until then, and always empty for LiveKit and audio-passthrough sessions, which never produce a report). Tool call names, timing, status and errors are always included; call arguments, results and accessed-document names are only included when transcripts were enabled for the session and the session is not zero-data-retention, since they"
+        },
+        {
+          "info": {
+            "name": "get session transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions/:id/transcript",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Session ID"
+              }
+            ]
+          },
+          "docs": "Returns the conversation transcript for a session. Anam-internal admin API keys may fetch transcripts for sessions of any organization."
+        },
+        {
+          "info": {
+            "name": "stop session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/sessions/:id/stop",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Session ID"
+              }
+            ]
+          },
+          "docs": "Force-terminates a running session. The engine hosting the session\ndisconnects the client and shuts the session down immediately.\n\nTermination is asynchronous on the engine side: the session's\n`endTime`, exit status and session report are delivered through the\nnormal end-of-session flow shortly after the stop, so the session may\nbriefly still appear active on `GET /v1/sessions/{id}`.\n\nSessions that never reached an engine, or that run over the LiveKit\nor Agora integrations, have no engine host t"
+        },
+        {
+          "info": {
+            "name": "get session recording",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions/:id/recording",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Session ID"
+              }
+            ]
+          },
+          "docs": "Returns a presigned URL to download the session recording. Anam-internal admin API keys may fetch recordings for sessions of any organization."
+        },
+        {
+          "info": {
+            "name": "get session analytics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/sessions/:id/analytics",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Session ID"
+              },
+              {
+                "name": "includeMessages",
+                "value": "",
+                "type": "query",
+                "description": "When true, include the user/assistant message text on each turn. Only honoured when transcripts were enabled for the session and the session is not zero-data-retention; timing metrics are always returned."
+              }
+            ]
+          },
+          "docs": "Returns per-turn latency analytics for a session — where time was spent in the transcription → LLM → TTS → first-audio path for each conversational turn, plus session-level summary metrics. Analytics become available once the session has ended and the engine has delivered its session report; until then this endpoint returns 404. Analytics exist only for sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) — LiveKit and audio-passthrough session"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Anam AI Avatars Meetings API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Meetings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List meeting invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/meetings/invites",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page (max 100)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter invites by status"
+              }
+            ]
+          },
+          "docs": "List meeting invites for the authenticated organization, most recent\nfirst. Filter by `status` to find invites in a particular lifecycle\nstate — for example `pending` invites that have not joined yet, or\n`active` invites currently in a call.\n"
+        },
+        {
+          "info": {
+            "name": "Create meeting invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anam.ai/v1/meetings/invites",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invite a persona to join a Google Meet, Zoom, or Microsoft Teams meeting.\n\nProvide exactly one of `personaId` for a saved persona, or `personaConfig`\nfor a runtime persona configuration. The runtime persona configuration is\nused to start the meeting session but is not stored on the meeting invite.\n\nThe invite is created in `pending` status. `displayName` is normalized to\ninclude an AI disclosure suffix before the persona joins the meeting.\n\nBy default the persona joins immediately. Provide `join"
+        },
+        {
+          "info": {
+            "name": "Get meeting invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anam.ai/v1/meetings/invites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Meeting invite ID."
+              }
+            ]
+          },
+          "docs": "Get a meeting invite by ID for the authenticated organization."
+        },
+        {
+          "info": {
+            "name": "Cancel meeting invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anam.ai/v1/meetings/invites/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Meeting invite ID."
+              }
+            ]
+          },
+          "docs": "Cancel a pending meeting invite by ID for the authenticated organization.\n\nCancellation is idempotent for invites that are already `cancelled`,\n`ended`, or `failed`. A successful cancellation returns no response body.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
