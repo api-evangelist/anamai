@@ -86,16 +86,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/anamai-knowledge-api-openapi.yml
-- aid: anamai:anamai-llms-api
-  name: Anam.ai LLMs API
-  description: The LLMs API from Anam.ai — 2 operation(s) for llms.
-  humanURL: https://anam.ai/docs
-  baseURL: https://api.anam.ai/v1/
-  tags:
-  - LLMs
-  properties:
-  - type: OpenAPI
-    url: openapi/anamai-llms-api-openapi.yml
 - aid: anamai:anamai-meetings-api
   name: Anam.ai Meetings API
   description: The Meetings API from Anam.ai — 2 operation(s) for meetings.
@@ -156,6 +146,16 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/anamai-voices-api-openapi.yml
+- aid: anamai:anamai-llms-api
+  name: Anam.ai LL Ms API
+  description: The LLMs API from Anam.ai — 2 operation(s) for llms.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - LLMs
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-llms-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
