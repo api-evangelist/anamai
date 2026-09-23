@@ -1,0 +1,33 @@
+# Front Door AI Index — anamai — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: anamai
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: anam.ai
+  final_host: anam.ai
+  ownership: own
+  owner: anamai
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 32
+  host_score: 32
+  density: 41.29
+  words: 775
+  tiers:
+    agentic: 6
+    core: 17
+    model: 9
+  ambiguous: 11
+  top_terms:
+    AI: 11
+    agent: 11
+    LLMs: 6
+    Claude: 3
+    GPT: 3
+    Mistral: 3
+    AI agent: 2
+    agentic: 2
+    conversational AI: 2

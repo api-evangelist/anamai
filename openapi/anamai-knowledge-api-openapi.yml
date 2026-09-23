@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Anam AI Avatars Knowledge API
+  title: Anam AI Knowledge API
   version: '1.0'
 servers:
 - url: https://api.anam.ai
@@ -549,6 +549,10 @@ paths:
           description: Get a presigned download URL for a knowledge document
 components:
   examples:
+    KnowledgeDocumentRename:
+      summary: Rename a document
+      value:
+        filename: updated-filename.pdf
     KnowledgeDocumentArrayResponse:
       summary: All documents in a knowledge group (bare array)
       value:
@@ -571,11 +575,29 @@ components:
         documentCount: 12
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeDocumentDownloadResponse:
-      summary: A short-lived URL for downloading a knowledge document
+    KnowledgeGroupUpdate:
+      summary: Rename a knowledge group
       value:
-        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
-        filename: getting-started.pdf
+        name: Customer support
+    KnowledgeGroupResponse:
+      summary: A single knowledge group
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    KnowledgeGroupSearch:
+      summary: Find the top 5 chunks matching a query
+      value:
+        query: How do I reset my password?
+        limit: 5
+    KnowledgeGroupCreate:
+      summary: Create an empty knowledge group
+      value:
+        name: Product docs
+        description: Help-centre articles and API reference.
     KnowledgeSearchArrayResponse:
       summary: Search results (bare array, ranked by score)
       value:
@@ -586,33 +608,11 @@ components:
         chunkIndex: 3
         metadata:
           section: Account
-    KnowledgeGroupSearch:
-      summary: Find the top 5 chunks matching a query
+    KnowledgeDocumentDownloadResponse:
+      summary: A short-lived URL for downloading a knowledge document
       value:
-        query: How do I reset my password?
-        limit: 5
-    KnowledgeGroupUpdate:
-      summary: Rename a knowledge group
-      value:
-        name: Customer support
-    KnowledgeGroupCreate:
-      summary: Create an empty knowledge group
-      value:
-        name: Product docs
-        description: Help-centre articles and API reference.
-    KnowledgeGroupResponse:
-      summary: A single knowledge group
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        name: Product docs
-        description: Help-centre articles and API reference.
-        documentCount: 12
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeDocumentRename:
-      summary: Rename a document
-      value:
-        filename: updated-filename.pdf
+        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+        filename: getting-started.pdf
     KnowledgeDocumentResponse:
       summary: A single knowledge document
       value:
@@ -675,6 +675,29 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the document record was last updated.
+    KnowledgeSearchResult:
+      type: object
+      description: One matching chunk returned by a knowledge-group search.
+      properties:
+        documentId:
+          type: string
+          format: uuid
+          description: ID of the document the chunk was extracted from.
+        filename:
+          type: string
+          description: Filename of the source document.
+        content:
+          type: string
+          description: Text content of the matching chunk.
+        score:
+          type: number
+          description: Similarity score for this chunk against the query, higher is more similar.
+        chunkIndex:
+          type: integer
+          description: Zero-based index of the chunk within the source document.
+        metadata:
+          type: object
+          description: Free-form metadata attached to the chunk at ingest time.
     KnowledgeGroup:
       type: object
       description: A folder of documents that a persona can search via RAG tools.
@@ -704,29 +727,6 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the group was last updated.
-    KnowledgeSearchResult:
-      type: object
-      description: One matching chunk returned by a knowledge-group search.
-      properties:
-        documentId:
-          type: string
-          format: uuid
-          description: ID of the document the chunk was extracted from.
-        filename:
-          type: string
-          description: Filename of the source document.
-        content:
-          type: string
-          description: Text content of the matching chunk.
-        score:
-          type: number
-          description: Similarity score for this chunk against the query, higher is more similar.
-        chunkIndex:
-          type: integer
-          description: Zero-based index of the chunk within the source document.
-        metadata:
-          type: object
-          description: Free-form metadata attached to the chunk at ingest time.
   securitySchemes:
     BearerAuth:
       type: http

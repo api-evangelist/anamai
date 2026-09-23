@@ -1,16 +1,7 @@
 {
   "provider": "anamai",
   "sources": [
-    "anamai-avatars-api-openapi.yml",
-    "anamai-engine-api-openapi.yml",
-    "anamai-knowledge-api-openapi.yml",
-    "anamai-llms-api-openapi.yml",
-    "anamai-meetings-api-openapi.yml",
-    "anamai-personas-api-openapi.yml",
-    "anamai-sessions-api-openapi.yml",
-    "anamai-share-links-api-openapi.yml",
-    "anamai-tools-api-openapi.yml",
-    "anamai-voices-api-openapi.yml"
+    "_original/anamai-openapi-original.json"
   ],
   "outputs": [
     "anamai-avatars-api-openapi.yml",
@@ -24,9 +15,27 @@
     "anamai-tools-api-openapi.yml",
     "anamai-voices-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "anamai-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: anamai-ll-ms-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 10 total)"
+  ],
+  "skipped": [
+    "anamai-avatars-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-engine-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-knowledge-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-ll-ms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-meetings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-personas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-share-links-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "anamai-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

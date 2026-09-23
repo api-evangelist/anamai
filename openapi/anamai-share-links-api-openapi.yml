@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Anam AI Avatars Share Links API
+  title: Anam AI Share Links API
   version: '1.0'
 servers:
 - url: https://api.anam.ai
@@ -272,6 +272,76 @@ paths:
           name: delete-share-link
           description: Delete a share link by ID. Use with caution as this action cannot be undone.
 components:
+  examples:
+    ShareLinkCreate:
+      summary: Issue a share link valid for one week
+      value:
+        personaId: 00000000-0000-0000-0000-000000000000
+        expiresInHours: 168
+        usageLimit: 10
+    ShareLinkUpdate:
+      summary: Raise the usage limit on a share link
+      value:
+        usageLimit: 50
+    ShareLinkResponse:
+      summary: A single share link (as returned by create or update)
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        token: sh_2kL9pQxYzR4vN8mBwHfJc
+        type: LINK
+        expiresAt: '2026-04-27T10:00:00.000Z'
+        usageLimit: 10
+        usageCount: 0
+        allowedOrigins: []
+        allowAllOrigins: false
+        removeWatermark: false
+        enabled: true
+        isPrimary: false
+        createdAt: '2026-04-20T10:00:00.000Z'
+    PersonaShareLinkResponse:
+      summary: A single share link with its persona details (as returned by get)
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        token: sh_2kL9pQxYzR4vN8mBwHfJc
+        type: LINK
+        expiresAt: '2026-04-27T10:00:00.000Z'
+        usageLimit: 10
+        usageCount: 3
+        allowedOrigins: []
+        allowAllOrigins: false
+        removeWatermark: false
+        enabled: true
+        isPrimary: false
+        createdAt: '2026-04-20T10:00:00.000Z'
+        personaId: 00000000-0000-0000-0000-000000000000
+        personaName: Cara
+        organizationId: 00000000-0000-0000-0000-000000000000
+    ShareLinkListResponse:
+      summary: A paginated list of share links
+      value:
+        data:
+        - id: 00000000-0000-0000-0000-000000000000
+          token: sh_2kL9pQxYzR4vN8mBwHfJc
+          type: LINK
+          expiresAt: '2026-04-27T10:00:00.000Z'
+          usageLimit: 10
+          usageCount: 3
+          allowedOrigins: []
+          allowAllOrigins: false
+          removeWatermark: false
+          enabled: true
+          isPrimary: false
+          createdAt: '2026-04-20T10:00:00.000Z'
+          personaId: 00000000-0000-0000-0000-000000000000
+          personaName: Cara
+          organizationId: 00000000-0000-0000-0000-000000000000
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 20
+          prev: null
+          next: null
   schemas:
     PersonaShareLink:
       type: object
@@ -369,76 +439,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the share link was created.
-  examples:
-    ShareLinkListResponse:
-      summary: A paginated list of share links
-      value:
-        data:
-        - id: 00000000-0000-0000-0000-000000000000
-          token: sh_2kL9pQxYzR4vN8mBwHfJc
-          type: LINK
-          expiresAt: '2026-04-27T10:00:00.000Z'
-          usageLimit: 10
-          usageCount: 3
-          allowedOrigins: []
-          allowAllOrigins: false
-          removeWatermark: false
-          enabled: true
-          isPrimary: false
-          createdAt: '2026-04-20T10:00:00.000Z'
-          personaId: 00000000-0000-0000-0000-000000000000
-          personaName: Cara
-          organizationId: 00000000-0000-0000-0000-000000000000
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 20
-          prev: null
-          next: null
-    ShareLinkUpdate:
-      summary: Raise the usage limit on a share link
-      value:
-        usageLimit: 50
-    PersonaShareLinkResponse:
-      summary: A single share link with its persona details (as returned by get)
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        token: sh_2kL9pQxYzR4vN8mBwHfJc
-        type: LINK
-        expiresAt: '2026-04-27T10:00:00.000Z'
-        usageLimit: 10
-        usageCount: 3
-        allowedOrigins: []
-        allowAllOrigins: false
-        removeWatermark: false
-        enabled: true
-        isPrimary: false
-        createdAt: '2026-04-20T10:00:00.000Z'
-        personaId: 00000000-0000-0000-0000-000000000000
-        personaName: Cara
-        organizationId: 00000000-0000-0000-0000-000000000000
-    ShareLinkCreate:
-      summary: Issue a share link valid for one week
-      value:
-        personaId: 00000000-0000-0000-0000-000000000000
-        expiresInHours: 168
-        usageLimit: 10
-    ShareLinkResponse:
-      summary: A single share link (as returned by create or update)
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        token: sh_2kL9pQxYzR4vN8mBwHfJc
-        type: LINK
-        expiresAt: '2026-04-27T10:00:00.000Z'
-        usageLimit: 10
-        usageCount: 0
-        allowedOrigins: []
-        allowAllOrigins: false
-        removeWatermark: false
-        enabled: true
-        isPrimary: false
-        createdAt: '2026-04-20T10:00:00.000Z'
   securitySchemes:
     BearerAuth:
       type: http

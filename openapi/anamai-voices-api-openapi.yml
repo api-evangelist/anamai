@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Anam AI Avatars Voices API
+  title: Anam AI Voices API
   version: '1.0'
 servers:
 - url: https://api.anam.ai
@@ -429,32 +429,6 @@ components:
         displayName: My cloned voice
         providerModelId: sonic-3.5
   schemas:
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
     Voice:
       type: object
       description: A voice preset a persona can use for text-to-speech.
@@ -537,6 +511,32 @@ components:
           type: string
           format: date-time
           description: Timestamp when the voice was last updated.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
   securitySchemes:
     BearerAuth:
       type: http

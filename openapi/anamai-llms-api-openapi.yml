@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Anam AI Avatars LLMs API
+  title: Anam AI LL Ms API
   version: '1.0'
 servers:
 - url: https://api.anam.ai
@@ -335,10 +335,6 @@ components:
         createdByOrganizationId: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: null
-    LlmUpdate:
-      summary: Adjust the temperature on an existing LLM
-      value:
-        temperature: 0.5
     LlmCreate:
       summary: Register an OpenAI-format LLM
       value:
@@ -380,6 +376,10 @@ components:
           perPage: 10
           prev: null
           next: null
+    LlmUpdate:
+      summary: Adjust the temperature on an existing LLM
+      value:
+        temperature: 0.5
   schemas:
     LLM:
       type: object
@@ -484,6 +484,17 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the LLM was last updated.
+    LlmUrl:
+      type: object
+      description: One endpoint configured on an LLM. Multiple URLs can be specified to route different regions to different upstreams.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Upstream URL for the LLM endpoint.
+        region:
+          type: string
+          description: Region hint used to pick this URL when the persona is streamed from a specific region.
     Pagination:
       type: object
       description: Pagination metadata returned alongside the `data` array of every list endpoint.
@@ -510,17 +521,6 @@ components:
           - integer
           - 'null'
           description: Number of the next page, or null if on the last page.
-    LlmUrl:
-      type: object
-      description: One endpoint configured on an LLM. Multiple URLs can be specified to route different regions to different upstreams.
-      properties:
-        url:
-          type: string
-          format: uri
-          description: Upstream URL for the LLM endpoint.
-        region:
-          type: string
-          description: Region hint used to pick this URL when the persona is streamed from a specific region.
   securitySchemes:
     BearerAuth:
       type: http

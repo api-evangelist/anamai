@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Anam AI Avatars Engine API
+  title: Anam AI Engine API
   version: '1.0'
 servers:
 - url: https://api.anam.ai
@@ -12,7 +12,29 @@ tags:
 paths:
   /v1/engine/session:
     post:
-      description: "Start a live persona session.\n\nTwo authentication modes are supported via the `Authorization: Bearer` header:\n\n- **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.\n  The session configuration was bound to the token when it was created, so the body only carries\n  optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don't call\n  this endpoint yourself.\n- **API key** (server-side SDKs): pass your API key directly and supply the session configuration\n  in the request body — the same shape as the `/v1/auth/session-token` body (`personaConfig`,\n  `environment`, `sessionOptions`, plus optional `clientLabel` and `clientMetadata`; `expiresIn`\n  and `widgetConfig` do not apply). This skips the session-token exchange. Only use this from a\n  secure server-side context — never expose an API key in a browser.\n"
+      description: 'Start a live persona session.
+
+
+        Two authentication modes are supported via the `Authorization: Bearer` header:
+
+
+        - **Session token** (browser clients): pass a session token minted by `POST /v1/auth/session-token`.
+
+        The session configuration was bound to the token when it was created, so the body only carries
+
+        optional `clientMetadata`. This is the flow the client-side SDKs use; you normally don''t call
+
+        this endpoint yourself.
+
+        - **API key** (server-side SDKs): pass your API key directly and supply the session configuration
+
+        in the request body — the same shape as the `/v1/auth/session-token` body (`personaConfig`,
+
+        `environment`, `sessionOptions`, plus optional `clientLabel` and `clientMetadata`; `expiresIn`
+
+        and `widgetConfig` do not apply). This skips the session-token exchange. Only use this from a
+
+        secure server-side context — never expose an API key in a browser.'
       requestBody:
         required: false
         content:
