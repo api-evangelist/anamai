@@ -1060,108 +1060,6 @@ paths:
           description: Returns per-turn latency analytics for a session — where time was spent in the transcription → LLM → TTS → first-audio path for each conversational turn, plus session-level summary metrics. Analytics become available once the session has ended and the engine has delivered its session report; until then this endpoint returns 404. Analytics exist only for sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) — LiveKit and audio-passthrough sessions never produce them. Message text is omitted unless `includeMessages=true` is passed and transcripts were enabled for the session. Anam-internal admin API keys may fetch analytics for sessions of any organization.
 components:
   schemas:
-    ElevenLabsV1VoiceGenerationOptions:
-      title: ElevenLabs V1
-      type: object
-      description: Voice generation options for ElevenLabs V1 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0
-          minimum: 0
-          maximum: 1
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
-    SessionToolCallDetail:
-      type: object
-      description: One tool call made by the persona during the session.
-      properties:
-        turnIndex:
-          type: integer
-          description: Index of the conversational turn the call belongs to, matching `turns[].turnIndex` on GET /v1/sessions/{id}/analytics.
-        correlationId:
-          type:
-          - string
-          - 'null'
-          description: The user action correlation ID shared by SDK events for this turn.
-        toolCallId:
-          type:
-          - string
-          - 'null'
-          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
-        toolName:
-          type:
-          - string
-          - 'null'
-        toolType:
-          type:
-          - string
-          - 'null'
-          enum:
-          - server
-          - client
-          - system
-          - null
-        toolSubtype:
-          type:
-          - string
-          - 'null'
-          description: For server tools, distinguishes e.g. `rag` from `webhook`.
-        status:
-          type:
-          - string
-          - 'null'
-          enum:
-          - started
-          - completed
-          - failed
-          - null
-        startedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        completedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        durationSeconds:
-          type:
-          - number
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
-        arguments:
-          type:
-          - object
-          - 'null'
-          description: The arguments the LLM called the tool with. Null when the session has transcripts disabled or is zero-data-retention. Values under header- or credential-like keys are replaced with `[REDACTED]`.
-        result:
-          type:
-          - string
-          - 'null'
-          description: The result the tool returned to the LLM. Null when the session has transcripts disabled or is zero-data-retention, and for calls that produced no result (e.g. failed or fire-and-forget client calls).
-        documentsAccessed:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-          description: For knowledge (RAG) tools, the names of the documents the call read. Null under the same conditions as `arguments`.
     CartesiaSonic3VoiceGenerationOptions:
       title: Cartesia Sonic-3
       type: object
@@ -1192,214 +1090,29 @@ components:
             - content
             - sad
             - scared
-    FishAudioVoiceGenerationOptions:
-      title: Fish Audio
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
       type: object
-      description: Voice generation options for Fish Audio models.
+      description: Voice generation options for ElevenLabs V1 models.
       properties:
-        volume:
+        stability:
           type: number
-          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
-    SessionAnalyticsToolCall:
-      type: object
-      description: Timing and outcome of a tool call made during the turn. Tool call arguments and results are never exposed by this endpoint.
-      properties:
-        toolCallId:
-          type:
-          - string
-          - 'null'
-          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
-        toolName:
-          type:
-          - string
-          - 'null'
-        toolType:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-          enum:
-          - started
-          - completed
-          - failed
-          - null
-        startedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        completedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        durationSeconds:
-          type:
-          - number
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
-    SessionToken:
-      type: object
-      description: Short-lived credential used by a client to connect to a live persona. Valid for one hour.
-      properties:
-        sessionToken:
-          type: string
-          description: Signed JWT the client passes to the Anam SDK to open a WebRTC connection.
-    VoiceDetectionOptions:
-      type: object
-      description: Options for voice activity detection during user speech input.
-      properties:
-        endOfSpeechSensitivity:
-          type: number
-          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
           example: 0.5
           minimum: 0
           maximum: 1
-        silenceBeforeSkipTurnSeconds:
+        similarityBoost:
           type: number
-          description: Duration of silence (in seconds) before the current user turn is skipped.
-          example: 5
-          minimum: 0
-          maximum: 900
-        silenceBeforeSessionEndSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the session is automatically ended.
-          example: 60
-          minimum: 0
-          maximum: 7200
-        silenceBeforeAutoEndTurnSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the user turn is automatically ended.
-          example: 5
-          minimum: 0.5
-          maximum: 10
-        speechEnhancementLevel:
-          type: number
-          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
-          example: 0.8
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0
           minimum: 0
           maximum: 1
-    Session:
-      type: object
-      description: A single connection between a client and a persona. Contains metadata but not the transcript or recording — those are fetched separately.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the session.
-        personaId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the persona the client connected to, or `null` if the session was issued with an ephemeral persona config.
-        clientLabel:
-          type:
-          - string
-          - 'null'
-          description: Label supplied by the caller when minting the session token.
-        startTime:
-          type: string
-          format: date-time
-          description: Timestamp when the session started.
-        endTime:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp when the session ended, or `null` if still active.
-        sessionLengthMs:
-          type:
-          - integer
-          - 'null'
-          description: Duration of the session in milliseconds, or `null` if still active.
-        exitStatus:
-          type:
-          - string
-          - 'null'
-          description: How the session ended (e.g. `NORMAL_EXIT`, `ERROR`), or `null` if still active.
-        engineHost:
-          type:
-          - string
-          - 'null'
-          description: Hostname of the engine pod that served the session.
-        engineProtocol:
-          type:
-          - string
-          - 'null'
-          description: Protocol used to stream the session (e.g. `https`).
-        engineVersion:
-          type:
-          - string
-          - 'null'
-          description: Version of the engine pod that served the session.
-        clientMetadata:
-          type: object
-          description: Arbitrary metadata collected from the client during the session.
-        personaConfig:
-          type: object
-          additionalProperties: true
-          description: Snapshot of the persona configuration taken at the moment the session started.
-        apiKeyId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the API key that minted the session token.
-        organizationId:
-          type: string
-          description: ID of the organization that owns the session. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the session record was created.
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp when the session record was last updated.
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
     SessionAnalyticsTurn:
       type: object
       description: One conversational turn — a user utterance paired with the assistant response it triggered. Assistant-initiated turns (e.g. the greeting) have null user-side fields; user utterances that never received a response have null assistant-side fields. Timing fields are null when the engine did not record the underlying timestamps.
@@ -1525,37 +1238,32 @@ components:
         assistantMessage:
           type: string
           description: Only present with includeMessages=true and transcripts enabled.
-    LatencyStats:
+    Pagination:
       type: object
-      description: Percentile distribution of a per-turn latency metric, in seconds. Values are null when no turn produced a usable measurement.
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
       properties:
-        count:
+        total:
           type: integer
-          description: Number of turns that produced a usable value.
-        avg:
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
           type:
-          - number
+          - integer
           - 'null'
-        p50:
+          description: Number of the previous page, or null if on the first page.
+        next:
           type:
-          - number
+          - integer
           - 'null'
-        p90:
-          type:
-          - number
-          - 'null'
-        p95:
-          type:
-          - number
-          - 'null'
-        p99:
-          type:
-          - number
-          - 'null'
-        max:
-          type:
-          - number
-          - 'null'
+          description: Number of the next page, or null if on the last page.
     ConcurrencyStatus:
       type: object
       description: Advisory concurrency snapshot. The active count is approximate (it can briefly over-report, e.g. a crashed session before cleanup), so treat every field as an optimistic view rather than a guarantee.
@@ -1613,16 +1321,299 @@ components:
         model:
           type: string
           description: The ElevenLabs model ID to use for voice generation.
-  examples:
-    SessionTokenCreate:
-      summary: Mint a token for an ephemeral persona
-      value:
+    SessionToken:
+      type: object
+      description: Short-lived credential used by a client to connect to a live persona. Valid for one hour.
+      properties:
+        sessionToken:
+          type: string
+          description: Signed JWT the client passes to the Anam SDK to open a WebRTC connection.
+    SessionAnalyticsToolCall:
+      type: object
+      description: Timing and outcome of a tool call made during the turn. Tool call arguments and results are never exposed by this endpoint.
+      properties:
+        toolCallId:
+          type:
+          - string
+          - 'null'
+          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
+        toolName:
+          type:
+          - string
+          - 'null'
+        toolType:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - started
+          - completed
+          - failed
+          - null
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        durationSeconds:
+          type:
+          - number
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+    Session:
+      type: object
+      description: A single connection between a client and a persona. Contains metadata but not the transcript or recording — those are fetched separately.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the session.
+        personaId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the persona the client connected to, or `null` if the session was issued with an ephemeral persona config.
+        clientLabel:
+          type:
+          - string
+          - 'null'
+          description: Label supplied by the caller when minting the session token.
+        startTime:
+          type: string
+          format: date-time
+          description: Timestamp when the session started.
+        endTime:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the session ended, or `null` if still active.
+        sessionLengthMs:
+          type:
+          - integer
+          - 'null'
+          description: Duration of the session in milliseconds, or `null` if still active.
+        exitStatus:
+          type:
+          - string
+          - 'null'
+          description: How the session ended (e.g. `NORMAL_EXIT`, `ERROR`), or `null` if still active.
+        engineHost:
+          type:
+          - string
+          - 'null'
+          description: Hostname of the engine pod that served the session.
+        engineProtocol:
+          type:
+          - string
+          - 'null'
+          description: Protocol used to stream the session (e.g. `https`).
+        engineVersion:
+          type:
+          - string
+          - 'null'
+          description: Version of the engine pod that served the session.
+        clientMetadata:
+          type: object
+          description: Arbitrary metadata collected from the client during the session.
         personaConfig:
-          name: Cara
-          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
-          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
-          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-          systemPrompt: You are a helpful assistant.
+          type: object
+          additionalProperties: true
+          description: Snapshot of the persona configuration taken at the moment the session started.
+        apiKeyId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the API key that minted the session token.
+        organizationId:
+          type: string
+          description: ID of the organization that owns the session. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the session record was created.
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the session record was last updated.
+    LatencyStats:
+      type: object
+      description: Percentile distribution of a per-turn latency metric, in seconds. Values are null when no turn produced a usable measurement.
+      properties:
+        count:
+          type: integer
+          description: Number of turns that produced a usable value.
+        avg:
+          type:
+          - number
+          - 'null'
+        p50:
+          type:
+          - number
+          - 'null'
+        p90:
+          type:
+          - number
+          - 'null'
+        p95:
+          type:
+          - number
+          - 'null'
+        p99:
+          type:
+          - number
+          - 'null'
+        max:
+          type:
+          - number
+          - 'null'
+    VoiceDetectionOptions:
+      type: object
+      description: Options for voice activity detection during user speech input.
+      properties:
+        endOfSpeechSensitivity:
+          type: number
+          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        silenceBeforeSkipTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the current user turn is skipped.
+          example: 5
+          minimum: 0
+          maximum: 900
+        silenceBeforeSessionEndSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the session is automatically ended.
+          example: 60
+          minimum: 0
+          maximum: 7200
+        silenceBeforeAutoEndTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the user turn is automatically ended.
+          example: 5
+          minimum: 0.5
+          maximum: 10
+        speechEnhancementLevel:
+          type: number
+          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
+          example: 0.8
+          minimum: 0
+          maximum: 1
+    FishAudioVoiceGenerationOptions:
+      title: Fish Audio
+      type: object
+      description: Voice generation options for Fish Audio models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+    SessionToolCallDetail:
+      type: object
+      description: One tool call made by the persona during the session.
+      properties:
+        turnIndex:
+          type: integer
+          description: Index of the conversational turn the call belongs to, matching `turns[].turnIndex` on GET /v1/sessions/{id}/analytics.
+        correlationId:
+          type:
+          - string
+          - 'null'
+          description: The user action correlation ID shared by SDK events for this turn.
+        toolCallId:
+          type:
+          - string
+          - 'null'
+          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
+        toolName:
+          type:
+          - string
+          - 'null'
+        toolType:
+          type:
+          - string
+          - 'null'
+          enum:
+          - server
+          - client
+          - system
+          - null
+        toolSubtype:
+          type:
+          - string
+          - 'null'
+          description: For server tools, distinguishes e.g. `rag` from `webhook`.
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - started
+          - completed
+          - failed
+          - null
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        durationSeconds:
+          type:
+          - number
+          - 'null'
+        errorMessage:
+          type:
+          - string
+          - 'null'
+        arguments:
+          type:
+          - object
+          - 'null'
+          description: The arguments the LLM called the tool with. Null when the session has transcripts disabled or is zero-data-retention. Values under header- or credential-like keys are replaced with `[REDACTED]`.
+        result:
+          type:
+          - string
+          - 'null'
+          description: The result the tool returned to the LLM. Null when the session has transcripts disabled or is zero-data-retention, and for calls that produced no result (e.g. failed or fire-and-forget client calls).
+        documentsAccessed:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          description: For knowledge (RAG) tools, the names of the documents the call read. Null under the same conditions as `arguments`.
+  examples:
     SessionRecordingResponse:
       summary: A short-lived URL for downloading the session recording
       value:
@@ -1691,26 +1682,183 @@ components:
           perPage: 10
           prev: null
           next: null
-    SessionTranscriptResponse:
-      summary: The message log of a completed session
+    SessionAnalyticsResponse:
+      summary: Per-turn latency analytics for a completed session
       value:
         sessionId: 00000000-0000-0000-0000-000000000000
-        personaName: Cara
         startTime: '2026-04-20T09:00:00.000Z'
         endTime: '2026-04-20T09:12:34.000Z'
-        durationMs: 754000
-        totalMessages: 6
-        transcriptsEnabled: true
-        messages:
-        - role: persona
-          message: Hi! How can I help?
-          timestamp: '2026-04-20T09:00:01.000Z'
-          speakingDurationSeconds: 1.4
+        durationSeconds: 754
+        sessionType: turnkey
+        exitStatus: CLOSED_BY_ENGINE
+        clientLabel: js-sdk-api-key
+        clientMetadata: null
+        personaId: null
+        apiKeyId: 00000000-0000-0000-0000-000000000000
+        config:
+          llmProvider: openai
+          llmModel: gpt-4o
+          ttsProvider: ELEVENLABS
+          ttsVoice: lcMyyd2HUfFzxdCaC4Ta
+          avatarKey: cara_home
+          personaName: Cara
+          languageCode: en
+          transcriptsEnabled: true
+        summary:
+          totalTurns: 4
+          completedTurns: 1
+          interruptedTurns: 1
+          interruptionRate: 0.5
+          totalUserSpeechDurationSeconds: 9.4
+          totalUserWords: 24
+          totalAssistantWords: 61
+          totalWarnings: 0
+          totalErrors: 0
+          toolCalls:
+            total: 1
+            succeeded: 1
+            failed: 0
+            byName:
+              lookup_order: 1
+          averageLatencies:
+            transcriptionLatencySeconds: 0.31
+            llmTimeToFirstOutputSeconds: 0.58
+            ttsGenerationDurationSeconds: 1.12
+            firstAudioLatencySeconds: 1.24
+        turns:
+        - turnIndex: 0
+          correlationId: corr-0000
+          userSpeechStartTime: null
+          userSpeechEndTime: null
+          userSpeechDurationSeconds: null
+          userTranscriptionTime: null
+          transcriptionLatencySeconds: null
+          llmFirstOutputTime: '2026-04-20T09:00:02.100Z'
+          llmFinalOutputTime: '2026-04-20T09:00:03.400Z'
+          llmTimeToFirstOutputSeconds: null
+          llmGenerationDurationSeconds: 1.3
+          ttsStartTime: '2026-04-20T09:00:02.200Z'
+          ttsEndTime: '2026-04-20T09:00:03.900Z'
+          ttsGenerationDurationSeconds: 1.7
+          ttsTimeToFirstAudioSeconds: 0.42
+          personaStartSpeakingTime: '2026-04-20T09:00:02.620Z'
+          personaStopSpeakingTime: '2026-04-20T09:00:07.100Z'
+          firstAudioLatencySeconds: null
+          speakingDurationSeconds: 4.48
+          finishReason: completed
           wasInterrupted: false
-        - role: user
-          message: Can you tell me a joke?
-          timestamp: '2026-04-20T09:00:05.000Z'
-          speakingDurationSeconds: 2.1
+          interruptedStage: null
+          toolCalls: []
+        - turnIndex: 1
+          correlationId: corr-0001
+          userSpeechStartTime: '2026-04-20T09:00:09.000Z'
+          userSpeechEndTime: '2026-04-20T09:00:11.300Z'
+          userSpeechDurationSeconds: 2.3
+          userTranscriptionTime: '2026-04-20T09:00:11.640Z'
+          transcriptionLatencySeconds: 0.34
+          llmFirstOutputTime: '2026-04-20T09:00:12.210Z'
+          llmFinalOutputTime: '2026-04-20T09:00:13.760Z'
+          llmTimeToFirstOutputSeconds: 0.57
+          llmGenerationDurationSeconds: 1.55
+          ttsStartTime: '2026-04-20T09:00:12.300Z'
+          ttsEndTime: '2026-04-20T09:00:14.100Z'
+          ttsGenerationDurationSeconds: 1.8
+          ttsTimeToFirstAudioSeconds: 0.39
+          personaStartSpeakingTime: '2026-04-20T09:00:12.690Z'
+          personaStopSpeakingTime: '2026-04-20T09:00:16.200Z'
+          firstAudioLatencySeconds: 1.39
+          speakingDurationSeconds: 3.51
+          finishReason: interrupted
+          wasInterrupted: true
+          interruptedStage: while_speaking
+          toolCalls:
+          - toolCallId: tool-0001
+            toolName: lookup_order
+            toolType: SERVER_WEBHOOK
+            status: completed
+            startedAt: '2026-04-20T09:00:12.400Z'
+            completedAt: '2026-04-20T09:00:13.100Z'
+            durationSeconds: 0.7
+            errorMessage: null
+    SessionResponse:
+      summary: A single session record
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        personaId: null
+        clientLabel: anam-lab-chat
+        startTime: '2026-04-20T09:00:00.000Z'
+        endTime: '2026-04-20T09:12:34.000Z'
+        sessionLengthMs: 754000
+        exitStatus: CLOSED_BY_ENGINE
+        engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
+        engineProtocol: https
+        engineVersion: v5.1.0
+        clientMetadata:
+          userAgent: Mozilla/5.0
+        personaConfig:
+          type: ephemeral
+          name: Cara
+          metadata:
+            client: js-sdk
+          llmConfig:
+            id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+            modelName: gpt-4o
+            format: openai
+            urls:
+            - url: https://api.openai.com/v1
+              region: default
+            maxTokens: 4096
+            temperature: 0.7
+            metadata: {}
+            secret_iv: '[REDACTED]'
+            encrypted_secret: '[REDACTED]'
+            createdByOrganizationId: null
+          systemPrompt: You are a helpful assistant.
+          personality: ''
+          languageCode: en
+          skipGreeting: false
+          zeroDataRetention: false
+          ttsProvider: ELEVENLABS
+          ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
+          ttsProviderModelId: eleven_flash_v2_5
+          ttsProviderOptions: {}
+          avatarEngineKey: cara_home
+          avatarVersion: cara-3
+          disableBrains: false
+          fillerPhrases: []
+          useFillerPhrases: false
+          enableAudioPassthrough: false
+          voiceDetectionOptions: {}
+          voiceGenerationOptions: {}
+          maxSessionLengthSeconds: 1000000
+          fps: 25
+        apiKeyId: 00000000-0000-0000-0000-000000000000
+        organizationId: 00000000-0000-0000-0000-000000000000
+        createdAt: '2026-04-20T09:00:00.000Z'
+        updatedAt: '2026-04-20T09:12:34.000Z'
+        toolCalls:
+        - turnIndex: 3
+          correlationId: 0d9f6c04-3f2b-4f6e-9d4e-6a8f6f2a1b3c
+          toolCallId: fc_f98c6f4e-6441-4061-8c5f-04d6f3e4a726
+          toolName: knowledge_base
+          toolType: server
+          toolSubtype: rag
+          status: completed
+          startedAt: '2026-04-20T09:03:12.412Z'
+          completedAt: '2026-04-20T09:03:13.058Z'
+          durationSeconds: 0.646
+          errorMessage: null
+          arguments:
+            query: opening hours
+          result: '[Source 1 from "FAQs.docx", Relevance: 82%]
+
+            We are open Monday to Friday, 9am to 5pm.'
+          documentsAccessed:
+          - FAQs.docx
+    SessionTokenResponse:
+      summary: A freshly minted session token
+      value:
+        sessionToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAifQ.signature
     SessionAnalyticsAggregateResponse:
       summary: Aggregated latency percentiles across sessions
       value:
@@ -1825,183 +1973,35 @@ components:
           sessionStartTime: '2026-04-20T07:02:44.000Z'
           personaId: null
           clientLabel: js-sdk-api-key
-    SessionResponse:
-      summary: A single session record
+    SessionTokenCreate:
+      summary: Mint a token for an ephemeral persona
       value:
-        id: 00000000-0000-0000-0000-000000000000
-        personaId: null
-        clientLabel: anam-lab-chat
-        startTime: '2026-04-20T09:00:00.000Z'
-        endTime: '2026-04-20T09:12:34.000Z'
-        sessionLengthMs: 754000
-        exitStatus: CLOSED_BY_ENGINE
-        engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
-        engineProtocol: https
-        engineVersion: v5.1.0
-        clientMetadata:
-          userAgent: Mozilla/5.0
         personaConfig:
-          type: ephemeral
           name: Cara
-          metadata:
-            client: js-sdk
-          llmConfig:
-            id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-            modelName: gpt-4o
-            format: openai
-            urls:
-            - url: https://api.openai.com/v1
-              region: default
-            maxTokens: 4096
-            temperature: 0.7
-            metadata: {}
-            secret_iv: '[REDACTED]'
-            encrypted_secret: '[REDACTED]'
-            createdByOrganizationId: null
+          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
+          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
+          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
           systemPrompt: You are a helpful assistant.
-          personality: ''
-          languageCode: en
-          skipGreeting: false
-          zeroDataRetention: false
-          ttsProvider: ELEVENLABS
-          ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
-          ttsProviderModelId: eleven_flash_v2_5
-          ttsProviderOptions: {}
-          avatarEngineKey: cara_home
-          avatarVersion: cara-3
-          disableBrains: false
-          fillerPhrases: []
-          useFillerPhrases: false
-          enableAudioPassthrough: false
-          voiceDetectionOptions: {}
-          voiceGenerationOptions: {}
-          maxSessionLengthSeconds: 1000000
-          fps: 25
-        apiKeyId: 00000000-0000-0000-0000-000000000000
-        organizationId: 00000000-0000-0000-0000-000000000000
-        createdAt: '2026-04-20T09:00:00.000Z'
-        updatedAt: '2026-04-20T09:12:34.000Z'
-        toolCalls:
-        - turnIndex: 3
-          correlationId: 0d9f6c04-3f2b-4f6e-9d4e-6a8f6f2a1b3c
-          toolCallId: fc_f98c6f4e-6441-4061-8c5f-04d6f3e4a726
-          toolName: knowledge_base
-          toolType: server
-          toolSubtype: rag
-          status: completed
-          startedAt: '2026-04-20T09:03:12.412Z'
-          completedAt: '2026-04-20T09:03:13.058Z'
-          durationSeconds: 0.646
-          errorMessage: null
-          arguments:
-            query: opening hours
-          result: '[Source 1 from "FAQs.docx", Relevance: 82%]
-
-            We are open Monday to Friday, 9am to 5pm.'
-          documentsAccessed:
-          - FAQs.docx
-    SessionAnalyticsResponse:
-      summary: Per-turn latency analytics for a completed session
+    SessionTranscriptResponse:
+      summary: The message log of a completed session
       value:
         sessionId: 00000000-0000-0000-0000-000000000000
+        personaName: Cara
         startTime: '2026-04-20T09:00:00.000Z'
         endTime: '2026-04-20T09:12:34.000Z'
-        durationSeconds: 754
-        sessionType: turnkey
-        exitStatus: CLOSED_BY_ENGINE
-        clientLabel: js-sdk-api-key
-        clientMetadata: null
-        personaId: null
-        apiKeyId: 00000000-0000-0000-0000-000000000000
-        config:
-          llmProvider: openai
-          llmModel: gpt-4o
-          ttsProvider: ELEVENLABS
-          ttsVoice: lcMyyd2HUfFzxdCaC4Ta
-          avatarKey: cara_home
-          personaName: Cara
-          languageCode: en
-          transcriptsEnabled: true
-        summary:
-          totalTurns: 4
-          completedTurns: 1
-          interruptedTurns: 1
-          interruptionRate: 0.5
-          totalUserSpeechDurationSeconds: 9.4
-          totalUserWords: 24
-          totalAssistantWords: 61
-          totalWarnings: 0
-          totalErrors: 0
-          toolCalls:
-            total: 1
-            succeeded: 1
-            failed: 0
-            byName:
-              lookup_order: 1
-          averageLatencies:
-            transcriptionLatencySeconds: 0.31
-            llmTimeToFirstOutputSeconds: 0.58
-            ttsGenerationDurationSeconds: 1.12
-            firstAudioLatencySeconds: 1.24
-        turns:
-        - turnIndex: 0
-          correlationId: corr-0000
-          userSpeechStartTime: null
-          userSpeechEndTime: null
-          userSpeechDurationSeconds: null
-          userTranscriptionTime: null
-          transcriptionLatencySeconds: null
-          llmFirstOutputTime: '2026-04-20T09:00:02.100Z'
-          llmFinalOutputTime: '2026-04-20T09:00:03.400Z'
-          llmTimeToFirstOutputSeconds: null
-          llmGenerationDurationSeconds: 1.3
-          ttsStartTime: '2026-04-20T09:00:02.200Z'
-          ttsEndTime: '2026-04-20T09:00:03.900Z'
-          ttsGenerationDurationSeconds: 1.7
-          ttsTimeToFirstAudioSeconds: 0.42
-          personaStartSpeakingTime: '2026-04-20T09:00:02.620Z'
-          personaStopSpeakingTime: '2026-04-20T09:00:07.100Z'
-          firstAudioLatencySeconds: null
-          speakingDurationSeconds: 4.48
-          finishReason: completed
+        durationMs: 754000
+        totalMessages: 6
+        transcriptsEnabled: true
+        messages:
+        - role: persona
+          message: Hi! How can I help?
+          timestamp: '2026-04-20T09:00:01.000Z'
+          speakingDurationSeconds: 1.4
           wasInterrupted: false
-          interruptedStage: null
-          toolCalls: []
-        - turnIndex: 1
-          correlationId: corr-0001
-          userSpeechStartTime: '2026-04-20T09:00:09.000Z'
-          userSpeechEndTime: '2026-04-20T09:00:11.300Z'
-          userSpeechDurationSeconds: 2.3
-          userTranscriptionTime: '2026-04-20T09:00:11.640Z'
-          transcriptionLatencySeconds: 0.34
-          llmFirstOutputTime: '2026-04-20T09:00:12.210Z'
-          llmFinalOutputTime: '2026-04-20T09:00:13.760Z'
-          llmTimeToFirstOutputSeconds: 0.57
-          llmGenerationDurationSeconds: 1.55
-          ttsStartTime: '2026-04-20T09:00:12.300Z'
-          ttsEndTime: '2026-04-20T09:00:14.100Z'
-          ttsGenerationDurationSeconds: 1.8
-          ttsTimeToFirstAudioSeconds: 0.39
-          personaStartSpeakingTime: '2026-04-20T09:00:12.690Z'
-          personaStopSpeakingTime: '2026-04-20T09:00:16.200Z'
-          firstAudioLatencySeconds: 1.39
-          speakingDurationSeconds: 3.51
-          finishReason: interrupted
-          wasInterrupted: true
-          interruptedStage: while_speaking
-          toolCalls:
-          - toolCallId: tool-0001
-            toolName: lookup_order
-            toolType: SERVER_WEBHOOK
-            status: completed
-            startedAt: '2026-04-20T09:00:12.400Z'
-            completedAt: '2026-04-20T09:00:13.100Z'
-            durationSeconds: 0.7
-            errorMessage: null
-    SessionTokenResponse:
-      summary: A freshly minted session token
-      value:
-        sessionToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAifQ.signature
+        - role: user
+          message: Can you tell me a joke?
+          timestamp: '2026-04-20T09:00:05.000Z'
+          speakingDurationSeconds: 2.1
   securitySchemes:
     BearerAuth:
       type: http

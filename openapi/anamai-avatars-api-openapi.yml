@@ -325,10 +325,6 @@ paths:
           description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted.. Use with caution as this action cannot be undone.'
 components:
   examples:
-    AvatarUpdate:
-      summary: Rename an avatar
-      value:
-        displayName: Updated avatar name
     AvatarResponse:
       summary: A single avatar resource
       value:
@@ -349,11 +345,6 @@ components:
         - friendly
         - office
         renderStyle: realistic
-    AvatarCreate:
-      summary: Create a one-shot avatar from an image URL
-      value:
-        displayName: Alex
-        imageUrl: https://example.com/alex.jpg
     AvatarListResponse:
       summary: A paginated list of avatars
       value:
@@ -382,6 +373,15 @@ components:
           perPage: 10
           prev: null
           next: null
+    AvatarUpdate:
+      summary: Rename an avatar
+      value:
+        displayName: Updated avatar name
+    AvatarCreate:
+      summary: Create a one-shot avatar from an image URL
+      value:
+        displayName: Alex
+        imageUrl: https://example.com/alex.jpg
   schemas:
     Pagination:
       type: object

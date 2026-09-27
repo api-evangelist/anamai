@@ -549,36 +549,6 @@ paths:
           description: Get a presigned download URL for a knowledge document
 components:
   examples:
-    KnowledgeDocumentRename:
-      summary: Rename a document
-      value:
-        filename: updated-filename.pdf
-    KnowledgeDocumentArrayResponse:
-      summary: All documents in a knowledge group (bare array)
-      value:
-      - id: 00000000-0000-0000-0000-000000000000
-        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
-        filename: getting-started.pdf
-        fileType: application/pdf
-        fileSize: 248320
-        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
-        status: READY
-        errorMessage: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:01:12.000Z'
-    KnowledgeGroupArrayResponse:
-      summary: All knowledge groups for the organization (bare array)
-      value:
-      - id: 00000000-0000-0000-0000-000000000000
-        name: Product docs
-        description: Help-centre articles and API reference.
-        documentCount: 12
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeGroupUpdate:
-      summary: Rename a knowledge group
-      value:
-        name: Customer support
     KnowledgeGroupResponse:
       summary: A single knowledge group
       value:
@@ -588,11 +558,6 @@ components:
         documentCount: 12
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeGroupSearch:
-      summary: Find the top 5 chunks matching a query
-      value:
-        query: How do I reset my password?
-        limit: 5
     KnowledgeGroupCreate:
       summary: Create an empty knowledge group
       value:
@@ -608,11 +573,33 @@ components:
         chunkIndex: 3
         metadata:
           section: Account
-    KnowledgeDocumentDownloadResponse:
-      summary: A short-lived URL for downloading a knowledge document
+    KnowledgeDocumentArrayResponse:
+      summary: All documents in a knowledge group (bare array)
       value:
-        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+      - id: 00000000-0000-0000-0000-000000000000
+        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
         filename: getting-started.pdf
+        fileType: application/pdf
+        fileSize: 248320
+        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
+        status: READY
+        errorMessage: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:01:12.000Z'
+    KnowledgeGroupSearch:
+      summary: Find the top 5 chunks matching a query
+      value:
+        query: How do I reset my password?
+        limit: 5
+    KnowledgeGroupArrayResponse:
+      summary: All knowledge groups for the organization (bare array)
+      value:
+      - id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
     KnowledgeDocumentResponse:
       summary: A single knowledge document
       value:
@@ -626,6 +613,19 @@ components:
         errorMessage: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:01:12.000Z'
+    KnowledgeGroupUpdate:
+      summary: Rename a knowledge group
+      value:
+        name: Customer support
+    KnowledgeDocumentRename:
+      summary: Rename a document
+      value:
+        filename: updated-filename.pdf
+    KnowledgeDocumentDownloadResponse:
+      summary: A short-lived URL for downloading a knowledge document
+      value:
+        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+        filename: getting-started.pdf
   schemas:
     KnowledgeDocument:
       type: object
