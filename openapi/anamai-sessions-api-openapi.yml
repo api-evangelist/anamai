@@ -1060,59 +1060,6 @@ paths:
           description: Returns per-turn latency analytics for a session — where time was spent in the transcription → LLM → TTS → first-audio path for each conversational turn, plus session-level summary metrics. Analytics become available once the session has ended and the engine has delivered its session report; until then this endpoint returns 404. Analytics exist only for sessions where Anam runs the conversational pipeline (turnkey, custom LLM and ElevenLabs agent sessions) — LiveKit and audio-passthrough sessions never produce them. Message text is omitted unless `includeMessages=true` is passed and transcripts were enabled for the session. Anam-internal admin API keys may fetch analytics for sessions of any organization.
 components:
   schemas:
-    CartesiaSonic3VoiceGenerationOptions:
-      title: Cartesia Sonic-3
-      type: object
-      description: Voice generation options for Cartesia Sonic-3 models.
-      properties:
-        volume:
-          type: number
-          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
-          example: 1
-          minimum: 0.6
-          maximum: 1.5
-        emotion:
-          type: string
-          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
-          example: neutral
-          oneOf:
-          - type: string
-            enum:
-            - neutral
-            - calm
-            - angry
-            - content
-            - sad
-            - scared
-    ElevenLabsV1VoiceGenerationOptions:
-      title: ElevenLabs V1
-      type: object
-      description: Voice generation options for ElevenLabs V1 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0
-          minimum: 0
-          maximum: 1
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
     SessionAnalyticsTurn:
       type: object
       description: One conversational turn — a user utterance paired with the assistant response it triggered. Assistant-initiated turns (e.g. the greeting) have null user-side fields; user utterances that never received a response have null assistant-side fields. Timing fields are null when the engine did not record the underlying timestamps.
@@ -1238,140 +1185,6 @@ components:
         assistantMessage:
           type: string
           description: Only present with includeMessages=true and transcripts enabled.
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
-    ConcurrencyStatus:
-      type: object
-      description: Advisory concurrency snapshot. The active count is approximate (it can briefly over-report, e.g. a crashed session before cleanup), so treat every field as an optimistic view rather than a guarantee.
-      properties:
-        limit:
-          type: integer
-          description: The organization's concurrent-session plan limit.
-          example: 10
-        active:
-          type: integer
-          description: Approximate number of sessions currently occupying a slot.
-          example: 7
-        canStartSession:
-          type: boolean
-          description: Advisory — whether a session can likely be started now.
-          example: true
-        estimatedWaitSeconds:
-          type: integer
-          nullable: true
-          description: Estimated seconds until the next slot frees while at capacity (derived from the org's rolling 30-day average session length and the elapsed time of the longest-running session); 0 when a slot is available or expected imminently; null when no estimate is possible.
-          example: 0
-    ElevenLabsV2VoiceGenerationOptions:
-      title: ElevenLabs V2
-      type: object
-      description: Voice generation options for ElevenLabs V2 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0.75
-          minimum: 0
-          maximum: 1
-        style:
-          type: number
-          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
-          example: 0
-          minimum: 0
-          maximum: 1
-        useSpeakerBoost:
-          type: boolean
-          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
-          example: true
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
-        model:
-          type: string
-          description: The ElevenLabs model ID to use for voice generation.
-    SessionToken:
-      type: object
-      description: Short-lived credential used by a client to connect to a live persona. Valid for one hour.
-      properties:
-        sessionToken:
-          type: string
-          description: Signed JWT the client passes to the Anam SDK to open a WebRTC connection.
-    SessionAnalyticsToolCall:
-      type: object
-      description: Timing and outcome of a tool call made during the turn. Tool call arguments and results are never exposed by this endpoint.
-      properties:
-        toolCallId:
-          type:
-          - string
-          - 'null'
-          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
-        toolName:
-          type:
-          - string
-          - 'null'
-        toolType:
-          type:
-          - string
-          - 'null'
-        status:
-          type:
-          - string
-          - 'null'
-          enum:
-          - started
-          - completed
-          - failed
-          - null
-        startedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        completedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        durationSeconds:
-          type:
-          - number
-          - 'null'
-        errorMessage:
-          type:
-          - string
-          - 'null'
     Session:
       type: object
       description: A single connection between a client and a persona. Contains metadata but not the transcript or recording — those are fetched separately.
@@ -1452,36 +1265,109 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the session record was last updated.
-    LatencyStats:
+    CartesiaSonic3VoiceGenerationOptions:
+      title: Cartesia Sonic-3
       type: object
-      description: Percentile distribution of a per-turn latency metric, in seconds. Values are null when no turn produced a usable measurement.
+      description: Voice generation options for Cartesia Sonic-3 models.
       properties:
-        count:
-          type: integer
-          description: Number of turns that produced a usable value.
-        avg:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
+          example: 1
+          minimum: 0.6
+          maximum: 1.5
+        emotion:
+          type: string
+          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
+          example: neutral
+          oneOf:
+          - type: string
+            enum:
+            - neutral
+            - calm
+            - angry
+            - content
+            - sad
+            - scared
+    SessionToken:
+      type: object
+      description: Short-lived credential used by a client to connect to a live persona. Valid for one hour.
+      properties:
+        sessionToken:
+          type: string
+          description: Signed JWT the client passes to the Anam SDK to open a WebRTC connection.
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
+      type: object
+      description: Voice generation options for ElevenLabs V1 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0
+          minimum: 0
+          maximum: 1
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+    SessionAnalyticsToolCall:
+      type: object
+      description: Timing and outcome of a tool call made during the turn. Tool call arguments and results are never exposed by this endpoint.
+      properties:
+        toolCallId:
+          type:
+          - string
+          - 'null'
+          description: The engine's ID for this tool call, matching the ID surfaced in SDK tool events.
+        toolName:
+          type:
+          - string
+          - 'null'
+        toolType:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+          enum:
+          - started
+          - completed
+          - failed
+          - null
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        durationSeconds:
           type:
           - number
           - 'null'
-        p50:
+        errorMessage:
           type:
-          - number
-          - 'null'
-        p90:
-          type:
-          - number
-          - 'null'
-        p95:
-          type:
-          - number
-          - 'null'
-        p99:
-          type:
-          - number
-          - 'null'
-        max:
-          type:
-          - number
+          - string
           - 'null'
     VoiceDetectionOptions:
       type: object
@@ -1517,23 +1403,84 @@ components:
           example: 0.8
           minimum: 0
           maximum: 1
-    FishAudioVoiceGenerationOptions:
-      title: Fish Audio
+    LatencyStats:
       type: object
-      description: Voice generation options for Fish Audio models.
+      description: Percentile distribution of a per-turn latency metric, in seconds. Values are null when no turn produced a usable measurement.
       properties:
-        volume:
-          type: number
-          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
-          example: 1
-          minimum: 0.5
-          maximum: 2
+        count:
+          type: integer
+          description: Number of turns that produced a usable value.
+        avg:
+          type:
+          - number
+          - 'null'
+        p50:
+          type:
+          - number
+          - 'null'
+        p90:
+          type:
+          - number
+          - 'null'
+        p95:
+          type:
+          - number
+          - 'null'
+        p99:
+          type:
+          - number
+          - 'null'
+        max:
+          type:
+          - number
+          - 'null'
+    ConcurrencyStatus:
+      type: object
+      description: Advisory concurrency snapshot. The active count is approximate (it can briefly over-report, e.g. a crashed session before cleanup), so treat every field as an optimistic view rather than a guarantee.
+      properties:
+        limit:
+          type: integer
+          description: The organization's concurrent-session plan limit.
+          example: 10
+        active:
+          type: integer
+          description: Approximate number of sessions currently occupying a slot.
+          example: 7
+        canStartSession:
+          type: boolean
+          description: Advisory — whether a session can likely be started now.
+          example: true
+        estimatedWaitSeconds:
+          type: integer
+          nullable: true
+          description: Estimated seconds until the next slot frees while at capacity (derived from the org's rolling 30-day average session length and the elapsed time of the longest-running session); 0 when a slot is available or expected imminently; null when no estimate is possible.
+          example: 0
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
     SessionToolCallDetail:
       type: object
       description: One tool call made by the persona during the session.
@@ -1613,75 +1560,60 @@ components:
           items:
             type: string
           description: For knowledge (RAG) tools, the names of the documents the call read. Null under the same conditions as `arguments`.
+    ElevenLabsV2VoiceGenerationOptions:
+      title: ElevenLabs V2
+      type: object
+      description: Voice generation options for ElevenLabs V2 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
+          example: 0
+          minimum: 0
+          maximum: 1
+        useSpeakerBoost:
+          type: boolean
+          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
+          example: true
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+        model:
+          type: string
+          description: The ElevenLabs model ID to use for voice generation.
+    FishAudioVoiceGenerationOptions:
+      title: Fish Audio
+      type: object
+      description: Voice generation options for Fish Audio models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
+          example: 1
+          minimum: 0.5
+          maximum: 2
   examples:
-    SessionRecordingResponse:
-      summary: A short-lived URL for downloading the session recording
-      value:
-        recordingUrl: https://cdn.anam.ai/recordings/00000000-0000-0000-0000-000000000000.mp4?X-Amz-Signature=…
-    SessionListResponse:
-      summary: A paginated list of sessions
-      value:
-        data:
-        - id: 00000000-0000-0000-0000-000000000000
-          personaId: null
-          clientLabel: anam-lab-chat
-          startTime: '2026-04-20T09:00:00.000Z'
-          endTime: '2026-04-20T09:12:34.000Z'
-          sessionLengthMs: 754000
-          exitStatus: CLOSED_BY_ENGINE
-          engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
-          engineProtocol: https
-          engineVersion: v5.1.0
-          clientMetadata:
-            userAgent: Mozilla/5.0
-          personaConfig:
-            type: ephemeral
-            name: Cara
-            metadata:
-              client: js-sdk
-            llmConfig:
-              id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-              modelName: gpt-4o
-              format: openai
-              urls:
-              - url: https://api.openai.com/v1
-                region: default
-              maxTokens: 4096
-              temperature: 0.7
-              metadata: {}
-              secret_iv: '[REDACTED]'
-              encrypted_secret: '[REDACTED]'
-              createdByOrganizationId: null
-            systemPrompt: You are a helpful assistant.
-            personality: ''
-            languageCode: en
-            skipGreeting: false
-            zeroDataRetention: false
-            ttsProvider: ELEVENLABS
-            ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
-            ttsProviderModelId: eleven_flash_v2_5
-            ttsProviderOptions: {}
-            avatarEngineKey: cara_home
-            avatarVersion: cara-3
-            disableBrains: false
-            fillerPhrases: []
-            useFillerPhrases: false
-            enableAudioPassthrough: false
-            voiceDetectionOptions: {}
-            voiceGenerationOptions: {}
-            maxSessionLengthSeconds: 1000000
-            fps: 25
-          apiKeyId: 00000000-0000-0000-0000-000000000000
-          organizationId: 00000000-0000-0000-0000-000000000000
-          createdAt: '2026-04-20T09:00:00.000Z'
-          updatedAt: '2026-04-20T09:12:34.000Z'
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
     SessionAnalyticsResponse:
       summary: Per-turn latency analytics for a completed session
       value:
@@ -1780,85 +1712,15 @@ components:
             completedAt: '2026-04-20T09:00:13.100Z'
             durationSeconds: 0.7
             errorMessage: null
-    SessionResponse:
-      summary: A single session record
+    SessionTokenCreate:
+      summary: Mint a token for an ephemeral persona
       value:
-        id: 00000000-0000-0000-0000-000000000000
-        personaId: null
-        clientLabel: anam-lab-chat
-        startTime: '2026-04-20T09:00:00.000Z'
-        endTime: '2026-04-20T09:12:34.000Z'
-        sessionLengthMs: 754000
-        exitStatus: CLOSED_BY_ENGINE
-        engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
-        engineProtocol: https
-        engineVersion: v5.1.0
-        clientMetadata:
-          userAgent: Mozilla/5.0
         personaConfig:
-          type: ephemeral
           name: Cara
-          metadata:
-            client: js-sdk
-          llmConfig:
-            id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-            modelName: gpt-4o
-            format: openai
-            urls:
-            - url: https://api.openai.com/v1
-              region: default
-            maxTokens: 4096
-            temperature: 0.7
-            metadata: {}
-            secret_iv: '[REDACTED]'
-            encrypted_secret: '[REDACTED]'
-            createdByOrganizationId: null
+          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
+          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
+          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
           systemPrompt: You are a helpful assistant.
-          personality: ''
-          languageCode: en
-          skipGreeting: false
-          zeroDataRetention: false
-          ttsProvider: ELEVENLABS
-          ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
-          ttsProviderModelId: eleven_flash_v2_5
-          ttsProviderOptions: {}
-          avatarEngineKey: cara_home
-          avatarVersion: cara-3
-          disableBrains: false
-          fillerPhrases: []
-          useFillerPhrases: false
-          enableAudioPassthrough: false
-          voiceDetectionOptions: {}
-          voiceGenerationOptions: {}
-          maxSessionLengthSeconds: 1000000
-          fps: 25
-        apiKeyId: 00000000-0000-0000-0000-000000000000
-        organizationId: 00000000-0000-0000-0000-000000000000
-        createdAt: '2026-04-20T09:00:00.000Z'
-        updatedAt: '2026-04-20T09:12:34.000Z'
-        toolCalls:
-        - turnIndex: 3
-          correlationId: 0d9f6c04-3f2b-4f6e-9d4e-6a8f6f2a1b3c
-          toolCallId: fc_f98c6f4e-6441-4061-8c5f-04d6f3e4a726
-          toolName: knowledge_base
-          toolType: server
-          toolSubtype: rag
-          status: completed
-          startedAt: '2026-04-20T09:03:12.412Z'
-          completedAt: '2026-04-20T09:03:13.058Z'
-          durationSeconds: 0.646
-          errorMessage: null
-          arguments:
-            query: opening hours
-          result: '[Source 1 from "FAQs.docx", Relevance: 82%]
-
-            We are open Monday to Friday, 9am to 5pm.'
-          documentsAccessed:
-          - FAQs.docx
-    SessionTokenResponse:
-      summary: A freshly minted session token
-      value:
-        sessionToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAifQ.signature
     SessionAnalyticsAggregateResponse:
       summary: Aggregated latency percentiles across sessions
       value:
@@ -1973,15 +1835,149 @@ components:
           sessionStartTime: '2026-04-20T07:02:44.000Z'
           personaId: null
           clientLabel: js-sdk-api-key
-    SessionTokenCreate:
-      summary: Mint a token for an ephemeral persona
+    SessionRecordingResponse:
+      summary: A short-lived URL for downloading the session recording
       value:
+        recordingUrl: https://cdn.anam.ai/recordings/00000000-0000-0000-0000-000000000000.mp4?X-Amz-Signature=…
+    SessionListResponse:
+      summary: A paginated list of sessions
+      value:
+        data:
+        - id: 00000000-0000-0000-0000-000000000000
+          personaId: null
+          clientLabel: anam-lab-chat
+          startTime: '2026-04-20T09:00:00.000Z'
+          endTime: '2026-04-20T09:12:34.000Z'
+          sessionLengthMs: 754000
+          exitStatus: CLOSED_BY_ENGINE
+          engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
+          engineProtocol: https
+          engineVersion: v5.1.0
+          clientMetadata:
+            userAgent: Mozilla/5.0
+          personaConfig:
+            type: ephemeral
+            name: Cara
+            metadata:
+              client: js-sdk
+            llmConfig:
+              id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+              modelName: gpt-4o
+              format: openai
+              urls:
+              - url: https://api.openai.com/v1
+                region: default
+              maxTokens: 4096
+              temperature: 0.7
+              metadata: {}
+              secret_iv: '[REDACTED]'
+              encrypted_secret: '[REDACTED]'
+              createdByOrganizationId: null
+            systemPrompt: You are a helpful assistant.
+            personality: ''
+            languageCode: en
+            skipGreeting: false
+            zeroDataRetention: false
+            ttsProvider: ELEVENLABS
+            ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
+            ttsProviderModelId: eleven_flash_v2_5
+            ttsProviderOptions: {}
+            avatarEngineKey: cara_home
+            avatarVersion: cara-3
+            disableBrains: false
+            fillerPhrases: []
+            useFillerPhrases: false
+            enableAudioPassthrough: false
+            voiceDetectionOptions: {}
+            voiceGenerationOptions: {}
+            maxSessionLengthSeconds: 1000000
+            fps: 25
+          apiKeyId: 00000000-0000-0000-0000-000000000000
+          organizationId: 00000000-0000-0000-0000-000000000000
+          createdAt: '2026-04-20T09:00:00.000Z'
+          updatedAt: '2026-04-20T09:12:34.000Z'
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    SessionResponse:
+      summary: A single session record
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        personaId: null
+        clientLabel: anam-lab-chat
+        startTime: '2026-04-20T09:00:00.000Z'
+        endTime: '2026-04-20T09:12:34.000Z'
+        sessionLengthMs: 754000
+        exitStatus: CLOSED_BY_ENGINE
+        engineHost: connect-eu.anam.ai/v1/webrtc/engines/anam-engine-7dddcb9ccd-db8v9
+        engineProtocol: https
+        engineVersion: v5.1.0
+        clientMetadata:
+          userAgent: Mozilla/5.0
         personaConfig:
+          type: ephemeral
           name: Cara
-          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
-          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
-          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+          metadata:
+            client: js-sdk
+          llmConfig:
+            id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+            modelName: gpt-4o
+            format: openai
+            urls:
+            - url: https://api.openai.com/v1
+              region: default
+            maxTokens: 4096
+            temperature: 0.7
+            metadata: {}
+            secret_iv: '[REDACTED]'
+            encrypted_secret: '[REDACTED]'
+            createdByOrganizationId: null
           systemPrompt: You are a helpful assistant.
+          personality: ''
+          languageCode: en
+          skipGreeting: false
+          zeroDataRetention: false
+          ttsProvider: ELEVENLABS
+          ttsProviderVoiceId: lcMyyd2HUfFzxdCaC4Ta
+          ttsProviderModelId: eleven_flash_v2_5
+          ttsProviderOptions: {}
+          avatarEngineKey: cara_home
+          avatarVersion: cara-3
+          disableBrains: false
+          fillerPhrases: []
+          useFillerPhrases: false
+          enableAudioPassthrough: false
+          voiceDetectionOptions: {}
+          voiceGenerationOptions: {}
+          maxSessionLengthSeconds: 1000000
+          fps: 25
+        apiKeyId: 00000000-0000-0000-0000-000000000000
+        organizationId: 00000000-0000-0000-0000-000000000000
+        createdAt: '2026-04-20T09:00:00.000Z'
+        updatedAt: '2026-04-20T09:12:34.000Z'
+        toolCalls:
+        - turnIndex: 3
+          correlationId: 0d9f6c04-3f2b-4f6e-9d4e-6a8f6f2a1b3c
+          toolCallId: fc_f98c6f4e-6441-4061-8c5f-04d6f3e4a726
+          toolName: knowledge_base
+          toolType: server
+          toolSubtype: rag
+          status: completed
+          startedAt: '2026-04-20T09:03:12.412Z'
+          completedAt: '2026-04-20T09:03:13.058Z'
+          durationSeconds: 0.646
+          errorMessage: null
+          arguments:
+            query: opening hours
+          result: '[Source 1 from "FAQs.docx", Relevance: 82%]
+
+            We are open Monday to Friday, 9am to 5pm.'
+          documentsAccessed:
+          - FAQs.docx
     SessionTranscriptResponse:
       summary: The message log of a completed session
       value:
@@ -2002,6 +1998,10 @@ components:
           message: Can you tell me a joke?
           timestamp: '2026-04-20T09:00:05.000Z'
           speakingDurationSeconds: 2.1
+    SessionTokenResponse:
+      summary: A freshly minted session token
+      value:
+        sessionToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uSWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAifQ.signature
   securitySchemes:
     BearerAuth:
       type: http

@@ -513,11 +513,6 @@ components:
           perPage: 10
           prev: null
           next: null
-    VoiceUpdate:
-      summary: Update a voice's display name and provider model
-      value:
-        displayName: My cloned voice
-        providerModelId: sonic-3.5
     VoiceResponse:
       summary: A single voice resource
       value:
@@ -537,6 +532,11 @@ components:
         createdByOrganizationId: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:00:00.000Z'
+    VoiceUpdate:
+      summary: Update a voice's display name and provider model
+      value:
+        displayName: My cloned voice
+        providerModelId: sonic-3.5
   securitySchemes:
     BearerAuth:
       type: http

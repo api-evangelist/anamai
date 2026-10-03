@@ -312,16 +312,6 @@ paths:
           description: Delete an LLM configuration. Use with caution as this action cannot be undone.
 components:
   examples:
-    LlmCreate:
-      summary: Register an OpenAI-format LLM
-      value:
-        displayName: My GPT-4o
-        urls:
-        - url: https://api.openai.com/v1/chat/completions
-        llmFormat: openai
-        modelName: gpt-4o
-        secret: sk-…
-        temperature: 0.7
     LlmListResponse:
       summary: A paginated list of LLMs
       value:
@@ -353,10 +343,6 @@ components:
           perPage: 10
           prev: null
           next: null
-    LlmUpdate:
-      summary: Adjust the temperature on an existing LLM
-      value:
-        temperature: 0.5
     LlmResponse:
       summary: A single LLM configuration
       value:
@@ -380,6 +366,20 @@ components:
         createdByOrganizationId: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: null
+    LlmCreate:
+      summary: Register an OpenAI-format LLM
+      value:
+        displayName: My GPT-4o
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        llmFormat: openai
+        modelName: gpt-4o
+        secret: sk-…
+        temperature: 0.7
+    LlmUpdate:
+      summary: Adjust the temperature on an existing LLM
+      value:
+        temperature: 0.5
   schemas:
     Pagination:
       type: object

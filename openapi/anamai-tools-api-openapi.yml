@@ -431,6 +431,19 @@ paths:
           description: Delete a tool. The tool will be soft-deleted and no longer available.. Use with caution as this action cannot be undone.
 components:
   examples:
+    ToolCreate:
+      summary: Register a client-side tool the persona can trigger
+      value:
+        name: open_calendar
+        description: Open the calendar UI in the client app.
+        type: CLIENT
+        config:
+          parameters:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Date to jump to, in YYYY-MM-DD format.
     ToolResponse:
       summary: A single tool definition
       value:
@@ -448,19 +461,10 @@ components:
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: null
         usageCount: 0
-    ToolCreate:
-      summary: Register a client-side tool the persona can trigger
+    ToolUpdate:
+      summary: Rename a tool
       value:
-        name: open_calendar
-        description: Open the calendar UI in the client app.
-        type: CLIENT
-        config:
-          parameters:
-            type: object
-            properties:
-              date:
-                type: string
-                description: Date to jump to, in YYYY-MM-DD format.
+        name: open_scheduler
     ToolListResponse:
       summary: A paginated list of tools
       value:
@@ -486,10 +490,6 @@ components:
           perPage: 10
           prev: null
           next: null
-    ToolUpdate:
-      summary: Rename a tool
-      value:
-        name: open_scheduler
   schemas:
     Pagination:
       type: object

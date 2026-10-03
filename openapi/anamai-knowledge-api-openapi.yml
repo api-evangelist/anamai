@@ -549,34 +549,10 @@ paths:
           description: Get a presigned download URL for a knowledge document
 components:
   examples:
-    KnowledgeGroupResponse:
-      summary: A single knowledge group
+    KnowledgeDocumentResponse:
+      summary: A single knowledge document
       value:
         id: 00000000-0000-0000-0000-000000000000
-        name: Product docs
-        description: Help-centre articles and API reference.
-        documentCount: 12
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeGroupCreate:
-      summary: Create an empty knowledge group
-      value:
-        name: Product docs
-        description: Help-centre articles and API reference.
-    KnowledgeSearchArrayResponse:
-      summary: Search results (bare array, ranked by score)
-      value:
-      - documentId: 00000000-0000-0000-0000-000000000000
-        filename: getting-started.pdf
-        content: To reset your password, visit the account settings page and click "Reset password".
-        score: 0.87
-        chunkIndex: 3
-        metadata:
-          section: Account
-    KnowledgeDocumentArrayResponse:
-      summary: All documents in a knowledge group (bare array)
-      value:
-      - id: 00000000-0000-0000-0000-000000000000
         knowledgeFolderId: 00000000-0000-0000-0000-000000000000
         filename: getting-started.pdf
         fileType: application/pdf
@@ -600,10 +576,33 @@ components:
         documentCount: 12
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeDocumentResponse:
-      summary: A single knowledge document
+    KnowledgeDocumentRename:
+      summary: Rename a document
       value:
-        id: 00000000-0000-0000-0000-000000000000
+        filename: updated-filename.pdf
+    KnowledgeGroupUpdate:
+      summary: Rename a knowledge group
+      value:
+        name: Customer support
+    KnowledgeSearchArrayResponse:
+      summary: Search results (bare array, ranked by score)
+      value:
+      - documentId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        content: To reset your password, visit the account settings page and click "Reset password".
+        score: 0.87
+        chunkIndex: 3
+        metadata:
+          section: Account
+    KnowledgeDocumentDownloadResponse:
+      summary: A short-lived URL for downloading a knowledge document
+      value:
+        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+        filename: getting-started.pdf
+    KnowledgeDocumentArrayResponse:
+      summary: All documents in a knowledge group (bare array)
+      value:
+      - id: 00000000-0000-0000-0000-000000000000
         knowledgeFolderId: 00000000-0000-0000-0000-000000000000
         filename: getting-started.pdf
         fileType: application/pdf
@@ -613,20 +612,44 @@ components:
         errorMessage: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:01:12.000Z'
-    KnowledgeGroupUpdate:
-      summary: Rename a knowledge group
+    KnowledgeGroupCreate:
+      summary: Create an empty knowledge group
       value:
-        name: Customer support
-    KnowledgeDocumentRename:
-      summary: Rename a document
+        name: Product docs
+        description: Help-centre articles and API reference.
+    KnowledgeGroupResponse:
+      summary: A single knowledge group
       value:
-        filename: updated-filename.pdf
-    KnowledgeDocumentDownloadResponse:
-      summary: A short-lived URL for downloading a knowledge document
-      value:
-        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
-        filename: getting-started.pdf
+        id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
   schemas:
+    KnowledgeSearchResult:
+      type: object
+      description: One matching chunk returned by a knowledge-group search.
+      properties:
+        documentId:
+          type: string
+          format: uuid
+          description: ID of the document the chunk was extracted from.
+        filename:
+          type: string
+          description: Filename of the source document.
+        content:
+          type: string
+          description: Text content of the matching chunk.
+        score:
+          type: number
+          description: Similarity score for this chunk against the query, higher is more similar.
+        chunkIndex:
+          type: integer
+          description: Zero-based index of the chunk within the source document.
+        metadata:
+          type: object
+          description: Free-form metadata attached to the chunk at ingest time.
     KnowledgeDocument:
       type: object
       description: A single file uploaded into a knowledge group. Retrieved chunks reference it by ID.
@@ -675,29 +698,6 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the document record was last updated.
-    KnowledgeSearchResult:
-      type: object
-      description: One matching chunk returned by a knowledge-group search.
-      properties:
-        documentId:
-          type: string
-          format: uuid
-          description: ID of the document the chunk was extracted from.
-        filename:
-          type: string
-          description: Filename of the source document.
-        content:
-          type: string
-          description: Text content of the matching chunk.
-        score:
-          type: number
-          description: Similarity score for this chunk against the query, higher is more similar.
-        chunkIndex:
-          type: integer
-          description: Zero-based index of the chunk within the source document.
-        metadata:
-          type: object
-          description: Free-form metadata attached to the chunk at ingest time.
     KnowledgeGroup:
       type: object
       description: A folder of documents that a persona can search via RAG tools.

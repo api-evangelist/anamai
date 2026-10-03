@@ -545,6 +545,200 @@ components:
             enableSessionReplay:
               type: boolean
               example: true
+    VoiceDetectionOptions:
+      type: object
+      description: Options for voice activity detection during user speech input.
+      properties:
+        endOfSpeechSensitivity:
+          type: number
+          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        silenceBeforeSkipTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the current user turn is skipped.
+          example: 5
+          minimum: 0
+          maximum: 900
+        silenceBeforeSessionEndSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the session is automatically ended.
+          example: 60
+          minimum: 0
+          maximum: 7200
+        silenceBeforeAutoEndTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the user turn is automatically ended.
+          example: 5
+          minimum: 0.5
+          maximum: 10
+        speechEnhancementLevel:
+          type: number
+          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
+          example: 0.8
+          minimum: 0
+          maximum: 1
+    ElevenLabsV2VoiceGenerationOptions:
+      title: ElevenLabs V2
+      type: object
+      description: Voice generation options for ElevenLabs V2 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
+          example: 0
+          minimum: 0
+          maximum: 1
+        useSpeakerBoost:
+          type: boolean
+          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
+          example: true
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+        model:
+          type: string
+          description: The ElevenLabs model ID to use for voice generation.
+    MeetingInvite:
+      type: object
+      description: A meeting invite created for a persona.
+      required:
+      - id
+      - provider
+      - meetingUrl
+      - displayName
+      - status
+      - createdAt
+      - joinAt
+      - groupCall
+      - sessionId
+      - region
+      - joinState
+      - statusReason
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the meeting invite.
+        provider:
+          type: string
+          enum:
+          - google_meet
+          - zoom
+          - microsoft_teams
+          description: Meeting provider inferred from the meeting URL.
+        meetingUrl:
+          type: string
+          format: uri
+          description: Normalized meeting URL.
+        displayName:
+          type: string
+          description: Display name used in the meeting.
+        status:
+          type: string
+          enum:
+          - pending
+          - active
+          - cancelled
+          - ended
+          - failed
+          description: Current invite status.
+        createdAt:
+          type: string
+          format: date-time
+          description: Time the invite was created.
+        joinAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Scheduled time the persona joins the meeting, or null when the persona was asked to join immediately.
+        groupCall:
+          type: boolean
+          description: Whether group-call turn-taking is enabled for this invite (respond only when addressed by name; silent join).
+        sessionId:
+          type:
+          - string
+          - 'null'
+          description: Engine session ID once the meeting session has started, otherwise null.
+        region:
+          type:
+          - string
+          - 'null'
+          enum:
+          - eu
+          - us-east
+          - us-west
+          - null
+          description: Region the persona joined the call from. May differ from the requested region when the invite was served by another region for availability. Additional region values may be introduced over time; treat unrecognized values as informational rather than an error.
+        joinState:
+          type:
+          - string
+          - 'null'
+          enum:
+          - joining
+          - waiting_room
+          - in_call
+          - media_denied
+          - media_granted
+          - media_active
+          - left
+          - done
+          - error
+          - null
+          description: Latest observed call-participation detail for the persona, updated asynchronously as the persona connects, waits for admission, joins, and leaves. Null until the first update arrives. Values may be added over time; treat unrecognized values as informational.
+        statusReason:
+          type:
+          - string
+          - 'null'
+          description: Reason attached to a terminal participation state — for example `removed_by_host`, `meeting_ended`, `not_admitted`, `join_denied`, `meeting_link_invalid`, `meeting_not_started`, `idle_timeout`, `left_call`, or `provider_error`. Null while the invite is in progress. Values may be added over time; treat unrecognized values as informational.
+    MeetingInviteError:
+      type: object
+      required:
+      - error
+      properties:
+        error:
+          type: string
+          description: Human-readable error message.
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
+      type: object
+      description: Voice generation options for ElevenLabs V1 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0
+          minimum: 0
+          maximum: 1
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
     CartesiaSonic3VoiceGenerationOptions:
       title: Cartesia Sonic-3
       type: object
@@ -667,6 +861,37 @@ components:
           - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
           - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
           - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
+    MeetingInviteValidationError:
+      type: object
+      required:
+      - error
+      - details
+      - summary
+      properties:
+        error:
+          type: string
+          example: Validation error
+        details:
+          type: array
+          items:
+            type: object
+            required:
+            - path
+            - message
+            - code
+            properties:
+              path:
+                type: string
+                example: personaId
+              message:
+                type: string
+                example: Provide exactly one of personaId or personaConfig
+              code:
+                type: string
+                example: custom
+        summary:
+          type: string
+          example: 'personaId: Provide exactly one of personaId or personaConfig'
     Pagination:
       type: object
       description: Pagination metadata returned alongside the `data` array of every list endpoint.
@@ -693,73 +918,6 @@ components:
           - integer
           - 'null'
           description: Number of the next page, or null if on the last page.
-    ElevenLabsV1VoiceGenerationOptions:
-      title: ElevenLabs V1
-      type: object
-      description: Voice generation options for ElevenLabs V1 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0
-          minimum: 0
-          maximum: 1
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
-    MeetingInviteError:
-      type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-          description: Human-readable error message.
-    ElevenLabsV2VoiceGenerationOptions:
-      title: ElevenLabs V2
-      type: object
-      description: Voice generation options for ElevenLabs V2 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0.75
-          minimum: 0
-          maximum: 1
-        style:
-          type: number
-          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
-          example: 0
-          minimum: 0
-          maximum: 1
-        useSpeakerBoost:
-          type: boolean
-          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
-          example: true
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
-        model:
-          type: string
-          description: The ElevenLabs model ID to use for voice generation.
     CreateMeetingInviteRequest:
       type: object
       description: Request body for inviting a persona to a meeting.
@@ -822,172 +980,7 @@ components:
           maxLength: 128
           description: Optional label attached to the created session for analytics and debugging.
           example: calendar-integration
-    MeetingInvite:
-      type: object
-      description: A meeting invite created for a persona.
-      required:
-      - id
-      - provider
-      - meetingUrl
-      - displayName
-      - status
-      - createdAt
-      - joinAt
-      - groupCall
-      - sessionId
-      - region
-      - joinState
-      - statusReason
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the meeting invite.
-        provider:
-          type: string
-          enum:
-          - google_meet
-          - zoom
-          - microsoft_teams
-          description: Meeting provider inferred from the meeting URL.
-        meetingUrl:
-          type: string
-          format: uri
-          description: Normalized meeting URL.
-        displayName:
-          type: string
-          description: Display name used in the meeting.
-        status:
-          type: string
-          enum:
-          - pending
-          - active
-          - cancelled
-          - ended
-          - failed
-          description: Current invite status.
-        createdAt:
-          type: string
-          format: date-time
-          description: Time the invite was created.
-        joinAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Scheduled time the persona joins the meeting, or null when the persona was asked to join immediately.
-        groupCall:
-          type: boolean
-          description: Whether group-call turn-taking is enabled for this invite (respond only when addressed by name; silent join).
-        sessionId:
-          type:
-          - string
-          - 'null'
-          description: Engine session ID once the meeting session has started, otherwise null.
-        region:
-          type:
-          - string
-          - 'null'
-          enum:
-          - eu
-          - us-east
-          - us-west
-          - null
-          description: Region the persona joined the call from. May differ from the requested region when the invite was served by another region for availability. Additional region values may be introduced over time; treat unrecognized values as informational rather than an error.
-        joinState:
-          type:
-          - string
-          - 'null'
-          enum:
-          - joining
-          - waiting_room
-          - in_call
-          - media_denied
-          - media_granted
-          - media_active
-          - left
-          - done
-          - error
-          - null
-          description: Latest observed call-participation detail for the persona, updated asynchronously as the persona connects, waits for admission, joins, and leaves. Null until the first update arrives. Values may be added over time; treat unrecognized values as informational.
-        statusReason:
-          type:
-          - string
-          - 'null'
-          description: Reason attached to a terminal participation state — for example `removed_by_host`, `meeting_ended`, `not_admitted`, `join_denied`, `meeting_link_invalid`, `meeting_not_started`, `idle_timeout`, `left_call`, or `provider_error`. Null while the invite is in progress. Values may be added over time; treat unrecognized values as informational.
-    MeetingInviteValidationError:
-      type: object
-      required:
-      - error
-      - details
-      - summary
-      properties:
-        error:
-          type: string
-          example: Validation error
-        details:
-          type: array
-          items:
-            type: object
-            required:
-            - path
-            - message
-            - code
-            properties:
-              path:
-                type: string
-                example: personaId
-              message:
-                type: string
-                example: Provide exactly one of personaId or personaConfig
-              code:
-                type: string
-                example: custom
-        summary:
-          type: string
-          example: 'personaId: Provide exactly one of personaId or personaConfig'
-    VoiceDetectionOptions:
-      type: object
-      description: Options for voice activity detection during user speech input.
-      properties:
-        endOfSpeechSensitivity:
-          type: number
-          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        silenceBeforeSkipTurnSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the current user turn is skipped.
-          example: 5
-          minimum: 0
-          maximum: 900
-        silenceBeforeSessionEndSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the session is automatically ended.
-          example: 60
-          minimum: 0
-          maximum: 7200
-        silenceBeforeAutoEndTurnSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the user turn is automatically ended.
-          example: 5
-          minimum: 0.5
-          maximum: 10
-        speechEnhancementLevel:
-          type: number
-          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
-          example: 0.8
-          minimum: 0
-          maximum: 1
   examples:
-    MeetingInviteCreateScheduled:
-      summary: Schedule a saved persona to join a Google Meet later
-      value:
-        meetingUrl: https://meet.google.com/abc-defg-hij
-        displayName: Cara
-        personaId: 00000000-0000-0000-0000-000000000000
-        joinAt: '2026-04-20T15:00:00Z'
     MeetingInviteResponse:
       summary: A meeting invite resource
       value:
@@ -1003,6 +996,20 @@ components:
         region: eu
         joinState: null
         statusReason: null
+    MeetingInviteCreateWithPersonaId:
+      summary: Invite a saved persona to a Google Meet
+      value:
+        meetingUrl: https://meet.google.com/abc-defg-hij
+        displayName: Cara
+        personaId: 00000000-0000-0000-0000-000000000000
+        region: eu
+    MeetingInviteCreateScheduled:
+      summary: Schedule a saved persona to join a Google Meet later
+      value:
+        meetingUrl: https://meet.google.com/abc-defg-hij
+        displayName: Cara
+        personaId: 00000000-0000-0000-0000-000000000000
+        joinAt: '2026-04-20T15:00:00Z'
     MeetingInviteCreateWithPersonaConfig:
       summary: Invite a runtime-configured persona to Zoom
       value:
@@ -1014,13 +1021,6 @@ components:
           voiceId: de23e340-1416-4dd8-977d-065a7ca11697
           llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
           systemPrompt: You are a helpful assistant.
-    MeetingInviteCreateWithPersonaId:
-      summary: Invite a saved persona to a Google Meet
-      value:
-        meetingUrl: https://meet.google.com/abc-defg-hij
-        displayName: Cara
-        personaId: 00000000-0000-0000-0000-000000000000
-        region: eu
   securitySchemes:
     BearerAuth:
       type: http
