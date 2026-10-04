@@ -311,113 +311,7 @@ paths:
           name: delete-llm
           description: Delete an LLM configuration. Use with caution as this action cannot be undone.
 components:
-  examples:
-    LlmListResponse:
-      summary: A paginated list of LLMs
-      value:
-        data:
-        - id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-          displayName: GPT-4o
-          description: OpenAI GPT-4o default configuration.
-          llmFormat: openai
-          urls:
-          - url: https://api.openai.com/v1/chat/completions
-          modelName: gpt-4o
-          temperature: 0.7
-          maxTokens: 1024
-          deploymentName: null
-          apiVersion: null
-          metadata: {}
-          displayTags:
-          - openai
-          isDefault: true
-          isGlobal: true
-          isZdr: false
-          createdByOrganizationId: null
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: null
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
-    LlmResponse:
-      summary: A single LLM configuration
-      value:
-        id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-        displayName: GPT-4o
-        description: OpenAI GPT-4o default configuration.
-        llmFormat: openai
-        urls:
-        - url: https://api.openai.com/v1/chat/completions
-        modelName: gpt-4o
-        temperature: 0.7
-        maxTokens: 1024
-        deploymentName: null
-        apiVersion: null
-        metadata: {}
-        displayTags:
-        - openai
-        isDefault: true
-        isGlobal: true
-        isZdr: false
-        createdByOrganizationId: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: null
-    LlmCreate:
-      summary: Register an OpenAI-format LLM
-      value:
-        displayName: My GPT-4o
-        urls:
-        - url: https://api.openai.com/v1/chat/completions
-        llmFormat: openai
-        modelName: gpt-4o
-        secret: sk-…
-        temperature: 0.7
-    LlmUpdate:
-      summary: Adjust the temperature on an existing LLM
-      value:
-        temperature: 0.5
   schemas:
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
-    LlmUrl:
-      type: object
-      description: One endpoint configured on an LLM. Multiple URLs can be specified to route different regions to different upstreams.
-      properties:
-        url:
-          type: string
-          format: uri
-          description: Upstream URL for the LLM endpoint.
-        region:
-          type: string
-          description: Region hint used to pick this URL when the persona is streamed from a specific region.
     LLM:
       type: object
       description: An LLM configuration a persona can use. Secrets are never returned.
@@ -521,6 +415,112 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the LLM was last updated.
+    LlmUrl:
+      type: object
+      description: One endpoint configured on an LLM. Multiple URLs can be specified to route different regions to different upstreams.
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Upstream URL for the LLM endpoint.
+        region:
+          type: string
+          description: Region hint used to pick this URL when the persona is streamed from a specific region.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+  examples:
+    LlmUpdate:
+      summary: Adjust the temperature on an existing LLM
+      value:
+        temperature: 0.5
+    LlmListResponse:
+      summary: A paginated list of LLMs
+      value:
+        data:
+        - id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+          displayName: GPT-4o
+          description: OpenAI GPT-4o default configuration.
+          llmFormat: openai
+          urls:
+          - url: https://api.openai.com/v1/chat/completions
+          modelName: gpt-4o
+          temperature: 0.7
+          maxTokens: 1024
+          deploymentName: null
+          apiVersion: null
+          metadata: {}
+          displayTags:
+          - openai
+          isDefault: true
+          isGlobal: true
+          isZdr: false
+          createdByOrganizationId: null
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: null
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    LlmResponse:
+      summary: A single LLM configuration
+      value:
+        id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+        displayName: GPT-4o
+        description: OpenAI GPT-4o default configuration.
+        llmFormat: openai
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        modelName: gpt-4o
+        temperature: 0.7
+        maxTokens: 1024
+        deploymentName: null
+        apiVersion: null
+        metadata: {}
+        displayTags:
+        - openai
+        isDefault: true
+        isGlobal: true
+        isZdr: false
+        createdByOrganizationId: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: null
+    LlmCreate:
+      summary: Register an OpenAI-format LLM
+      value:
+        displayName: My GPT-4o
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        llmFormat: openai
+        modelName: gpt-4o
+        secret: sk-…
+        temperature: 0.7
   securitySchemes:
     BearerAuth:
       type: http

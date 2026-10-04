@@ -534,17 +534,56 @@ paths:
 
             . Use with caution as this action cannot be undone.'
 components:
+  examples:
+    MeetingInviteCreateWithPersonaId:
+      summary: Invite a saved persona to a Google Meet
+      value:
+        meetingUrl: https://meet.google.com/abc-defg-hij
+        displayName: Cara
+        personaId: 00000000-0000-0000-0000-000000000000
+        region: eu
+    MeetingInviteResponse:
+      summary: A meeting invite resource
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        provider: google_meet
+        meetingUrl: https://meet.google.com/abc-defg-hij
+        displayName: Cara (AI)
+        status: pending
+        createdAt: '2026-04-20T10:00:00.000Z'
+        joinAt: null
+        groupCall: true
+        sessionId: null
+        region: eu
+        joinState: null
+        statusReason: null
+    MeetingInviteCreateScheduled:
+      summary: Schedule a saved persona to join a Google Meet later
+      value:
+        meetingUrl: https://meet.google.com/abc-defg-hij
+        displayName: Cara
+        personaId: 00000000-0000-0000-0000-000000000000
+        joinAt: '2026-04-20T15:00:00Z'
+    MeetingInviteCreateWithPersonaConfig:
+      summary: Invite a runtime-configured persona to Zoom
+      value:
+        meetingUrl: https://company.zoom.us/j/123456789?pwd=example
+        displayName: Cara
+        personaConfig:
+          name: Cara
+          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
+          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
+          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+          systemPrompt: You are a helpful assistant.
   schemas:
-    MeetingInviteSessionOptions:
+    MeetingInviteError:
       type: object
-      description: Optional session-level configuration for the meeting session.
+      required:
+      - error
       properties:
-        sessionReplay:
-          type: object
-          properties:
-            enableSessionReplay:
-              type: boolean
-              example: true
+        error:
+          type: string
+          description: Human-readable error message.
     VoiceDetectionOptions:
       type: object
       description: Options for voice activity detection during user speech input.
@@ -579,10 +618,102 @@ components:
           example: 0.8
           minimum: 0
           maximum: 1
-    ElevenLabsV2VoiceGenerationOptions:
-      title: ElevenLabs V2
+    MeetingInvitePersonaConfig:
       type: object
-      description: Voice generation options for ElevenLabs V2 models.
+      description: Runtime persona configuration. Include `voiceId` plus `llmId` for a conversational persona. This object cannot include `personaId`.
+      minProperties: 1
+      not:
+        required:
+        - personaId
+      additionalProperties: true
+      properties:
+        name:
+          type: string
+          example: Cara
+        personaPreset:
+          type: string
+          description: Optional preset used by the session persona.
+        avatarId:
+          type: string
+          format: uuid
+          example: 071b0286-4cce-4808-bee2-e642f1062de3
+        avatarModel:
+          type: string
+          enum:
+          - cara-2
+          - cara-3
+          - cara-4-latest
+          description: Public avatar model version.
+          example: cara-3
+        voiceId:
+          type: string
+          format: uuid
+          example: de23e340-1416-4dd8-977d-065a7ca11697
+        voiceSpeed:
+          type: number
+          description: Voice speed multiplier.
+          example: 1
+        llmId:
+          type: string
+          format: uuid
+          example: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+        systemPrompt:
+          type: string
+          example: You are a helpful assistant.
+        personality:
+          type: string
+          description: Optional personality instructions.
+        maxSessionLengthSeconds:
+          type: number
+          minimum: 1
+          description: Maximum session duration in seconds.
+        languageCode:
+          type: string
+          description: ISO 639-1 language code override for transcription.
+          example: en
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Developer-defined metadata attached to the session persona.
+        skipGreeting:
+          type: boolean
+          example: false
+        uninterruptibleGreeting:
+          type: boolean
+          description: When true, the greeting message cannot be interrupted by the user.
+          example: false
+        initialMessage:
+          type:
+          - string
+          - 'null'
+          description: Custom first message the persona speaks to open the conversation.
+        zeroDataRetention:
+          type: boolean
+          description: Requests zero data retention where supported by the configured voice and LLM resources.
+        tools:
+          type: array
+          description: Runtime tool definitions available to the persona. For client and webhook tools, the `parameters` (and webhook `queryParameters`) JSON Schema object the LLM fills at call time must serialize to 10,000 bytes or less (UTF-8), otherwise the request is rejected. Use `toolIds` to reference tools pre-created via `/v1/tools`, which are not subject to this inline size limit.
+          items:
+            type: object
+            additionalProperties: true
+        toolIds:
+          type: array
+          description: IDs of pre-created tools available to the persona.
+          items:
+            type: string
+            format: uuid
+        voiceDetectionOptions:
+          $ref: '#/components/schemas/VoiceDetectionOptions'
+        voiceGenerationOptions:
+          description: Configuration options for voice generation.
+          oneOf:
+          - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
+          - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
+      type: object
+      description: Voice generation options for ElevenLabs V1 models.
       properties:
         stability:
           type: number
@@ -593,28 +724,15 @@ components:
         similarityBoost:
           type: number
           description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0.75
-          minimum: 0
-          maximum: 1
-        style:
-          type: number
-          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
           example: 0
           minimum: 0
           maximum: 1
-        useSpeakerBoost:
-          type: boolean
-          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
-          example: true
         speed:
           type: number
           description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
           example: 1
           minimum: 0.7
           maximum: 1.2
-        model:
-          type: string
-          description: The ElevenLabs model ID to use for voice generation.
     MeetingInvite:
       type: object
       description: A meeting invite created for a persona.
@@ -708,18 +826,10 @@ components:
           - string
           - 'null'
           description: Reason attached to a terminal participation state — for example `removed_by_host`, `meeting_ended`, `not_admitted`, `join_denied`, `meeting_link_invalid`, `meeting_not_started`, `idle_timeout`, `left_call`, or `provider_error`. Null while the invite is in progress. Values may be added over time; treat unrecognized values as informational.
-    MeetingInviteError:
+    ElevenLabsV2VoiceGenerationOptions:
+      title: ElevenLabs V2
       type: object
-      required:
-      - error
-      properties:
-        error:
-          type: string
-          description: Human-readable error message.
-    ElevenLabsV1VoiceGenerationOptions:
-      title: ElevenLabs V1
-      type: object
-      description: Voice generation options for ElevenLabs V1 models.
+      description: Voice generation options for ElevenLabs V2 models.
       properties:
         stability:
           type: number
@@ -730,137 +840,28 @@ components:
         similarityBoost:
           type: number
           description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
           example: 0
           minimum: 0
           maximum: 1
+        useSpeakerBoost:
+          type: boolean
+          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
+          example: true
         speed:
           type: number
           description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
           example: 1
           minimum: 0.7
           maximum: 1.2
-    CartesiaSonic3VoiceGenerationOptions:
-      title: Cartesia Sonic-3
-      type: object
-      description: Voice generation options for Cartesia Sonic-3 models.
-      properties:
-        volume:
-          type: number
-          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
-          example: 1
-          minimum: 0.6
-          maximum: 1.5
-        emotion:
+        model:
           type: string
-          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
-          example: neutral
-          oneOf:
-          - type: string
-            enum:
-            - neutral
-            - calm
-            - angry
-            - content
-            - sad
-            - scared
-    MeetingInvitePersonaConfig:
-      type: object
-      description: Runtime persona configuration. Include `voiceId` plus `llmId` for a conversational persona. This object cannot include `personaId`.
-      minProperties: 1
-      not:
-        required:
-        - personaId
-      additionalProperties: true
-      properties:
-        name:
-          type: string
-          example: Cara
-        personaPreset:
-          type: string
-          description: Optional preset used by the session persona.
-        avatarId:
-          type: string
-          format: uuid
-          example: 071b0286-4cce-4808-bee2-e642f1062de3
-        avatarModel:
-          type: string
-          enum:
-          - cara-2
-          - cara-3
-          - cara-4-latest
-          description: Public avatar model version.
-          example: cara-3
-        voiceId:
-          type: string
-          format: uuid
-          example: de23e340-1416-4dd8-977d-065a7ca11697
-        voiceSpeed:
-          type: number
-          description: Voice speed multiplier.
-          example: 1
-        llmId:
-          type: string
-          format: uuid
-          example: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-        systemPrompt:
-          type: string
-          example: You are a helpful assistant.
-        personality:
-          type: string
-          description: Optional personality instructions.
-        maxSessionLengthSeconds:
-          type: number
-          minimum: 1
-          description: Maximum session duration in seconds.
-        languageCode:
-          type: string
-          description: ISO 639-1 language code override for transcription.
-          example: en
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Developer-defined metadata attached to the session persona.
-        skipGreeting:
-          type: boolean
-          example: false
-        uninterruptibleGreeting:
-          type: boolean
-          description: When true, the greeting message cannot be interrupted by the user.
-          example: false
-        initialMessage:
-          type:
-          - string
-          - 'null'
-          description: Custom first message the persona speaks to open the conversation.
-        zeroDataRetention:
-          type: boolean
-          description: Requests zero data retention where supported by the configured voice and LLM resources.
-        tools:
-          type: array
-          description: Runtime tool definitions available to the persona. For client and webhook tools, the `parameters` (and webhook `queryParameters`) JSON Schema object the LLM fills at call time must serialize to 10,000 bytes or less (UTF-8), otherwise the request is rejected. Use `toolIds` to reference tools pre-created via `/v1/tools`, which are not subject to this inline size limit.
-          items:
-            type: object
-            additionalProperties: true
-        toolIds:
-          type: array
-          description: IDs of pre-created tools available to the persona.
-          items:
-            type: string
-            format: uuid
-        voiceDetectionOptions:
-          $ref: '#/components/schemas/VoiceDetectionOptions'
-        voiceGenerationOptions:
-          description: Configuration options for voice generation.
-          oneOf:
-          - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
-          - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
-          - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
+          description: The ElevenLabs model ID to use for voice generation.
     MeetingInviteValidationError:
       type: object
       required:
@@ -892,32 +893,6 @@ components:
         summary:
           type: string
           example: 'personaId: Provide exactly one of personaId or personaConfig'
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
     CreateMeetingInviteRequest:
       type: object
       description: Request body for inviting a persona to a meeting.
@@ -980,47 +955,72 @@ components:
           maxLength: 128
           description: Optional label attached to the created session for analytics and debugging.
           example: calendar-integration
-  examples:
-    MeetingInviteResponse:
-      summary: A meeting invite resource
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        provider: google_meet
-        meetingUrl: https://meet.google.com/abc-defg-hij
-        displayName: Cara (AI)
-        status: pending
-        createdAt: '2026-04-20T10:00:00.000Z'
-        joinAt: null
-        groupCall: true
-        sessionId: null
-        region: eu
-        joinState: null
-        statusReason: null
-    MeetingInviteCreateWithPersonaId:
-      summary: Invite a saved persona to a Google Meet
-      value:
-        meetingUrl: https://meet.google.com/abc-defg-hij
-        displayName: Cara
-        personaId: 00000000-0000-0000-0000-000000000000
-        region: eu
-    MeetingInviteCreateScheduled:
-      summary: Schedule a saved persona to join a Google Meet later
-      value:
-        meetingUrl: https://meet.google.com/abc-defg-hij
-        displayName: Cara
-        personaId: 00000000-0000-0000-0000-000000000000
-        joinAt: '2026-04-20T15:00:00Z'
-    MeetingInviteCreateWithPersonaConfig:
-      summary: Invite a runtime-configured persona to Zoom
-      value:
-        meetingUrl: https://company.zoom.us/j/123456789?pwd=example
-        displayName: Cara
-        personaConfig:
-          name: Cara
-          avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
-          voiceId: de23e340-1416-4dd8-977d-065a7ca11697
-          llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-          systemPrompt: You are a helpful assistant.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    MeetingInviteSessionOptions:
+      type: object
+      description: Optional session-level configuration for the meeting session.
+      properties:
+        sessionReplay:
+          type: object
+          properties:
+            enableSessionReplay:
+              type: boolean
+              example: true
+    CartesiaSonic3VoiceGenerationOptions:
+      title: Cartesia Sonic-3
+      type: object
+      description: Voice generation options for Cartesia Sonic-3 models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
+          example: 1
+          minimum: 0.6
+          maximum: 1.5
+        emotion:
+          type: string
+          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
+          example: neutral
+          oneOf:
+          - type: string
+            enum:
+            - neutral
+            - calm
+            - angry
+            - content
+            - sad
+            - scared
   securitySchemes:
     BearerAuth:
       type: http

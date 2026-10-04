@@ -376,6 +376,58 @@ paths:
           name: delete-voice
           description: Delete a voice by ID. Use with caution as this action cannot be undone.
 components:
+  examples:
+    VoiceUpdate:
+      summary: Update a voice's display name and provider model
+      value:
+        displayName: My cloned voice
+        providerModelId: sonic-3.5
+    VoiceResponse:
+      summary: A single voice resource
+      value:
+        id: de23e340-1416-4dd8-977d-065a7ca11697
+        displayName: Lucy - Fresh & Casual
+        provider: ELEVENLABS
+        providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
+        providerModelId: eleven_flash_v2_5
+        sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+        previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+        gender: FEMALE
+        country: GB
+        description: Energetic and youthful British voice, perfect for narrations and conversational agents.
+        displayTags:
+        - fast
+        isZdr: true
+        createdByOrganizationId: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    VoiceListResponse:
+      summary: A paginated list of voices
+      value:
+        data:
+        - id: de23e340-1416-4dd8-977d-065a7ca11697
+          displayName: Lucy - Fresh & Casual
+          provider: ELEVENLABS
+          providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
+          providerModelId: eleven_flash_v2_5
+          sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+          previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+          gender: FEMALE
+          country: GB
+          description: Energetic and youthful British voice, perfect for narrations and conversational agents.
+          displayTags:
+          - fast
+          isZdr: true
+          createdByOrganizationId: null
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: '2026-04-20T10:00:00.000Z'
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
   schemas:
     Pagination:
       type: object
@@ -485,58 +537,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the voice was last updated.
-  examples:
-    VoiceListResponse:
-      summary: A paginated list of voices
-      value:
-        data:
-        - id: de23e340-1416-4dd8-977d-065a7ca11697
-          displayName: Lucy - Fresh & Casual
-          provider: ELEVENLABS
-          providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
-          providerModelId: eleven_flash_v2_5
-          sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-          previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-          gender: FEMALE
-          country: GB
-          description: Energetic and youthful British voice, perfect for narrations and conversational agents.
-          displayTags:
-          - fast
-          isZdr: true
-          createdByOrganizationId: null
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: '2026-04-20T10:00:00.000Z'
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
-    VoiceResponse:
-      summary: A single voice resource
-      value:
-        id: de23e340-1416-4dd8-977d-065a7ca11697
-        displayName: Lucy - Fresh & Casual
-        provider: ELEVENLABS
-        providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
-        providerModelId: eleven_flash_v2_5
-        sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-        previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-        gender: FEMALE
-        country: GB
-        description: Energetic and youthful British voice, perfect for narrations and conversational agents.
-        displayTags:
-        - fast
-        isZdr: true
-        createdByOrganizationId: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-    VoiceUpdate:
-      summary: Update a voice's display name and provider model
-      value:
-        displayName: My cloned voice
-        providerModelId: sonic-3.5
   securitySchemes:
     BearerAuth:
       type: http

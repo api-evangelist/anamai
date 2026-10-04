@@ -549,6 +549,24 @@ paths:
           description: Get a presigned download URL for a knowledge document
 components:
   examples:
+    KnowledgeDocumentRename:
+      summary: Rename a document
+      value:
+        filename: updated-filename.pdf
+    KnowledgeDocumentDownloadResponse:
+      summary: A short-lived URL for downloading a knowledge document
+      value:
+        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+        filename: getting-started.pdf
+    KnowledgeGroupResponse:
+      summary: A single knowledge group
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
     KnowledgeDocumentResponse:
       summary: A single knowledge document
       value:
@@ -562,11 +580,6 @@ components:
         errorMessage: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:01:12.000Z'
-    KnowledgeGroupSearch:
-      summary: Find the top 5 chunks matching a query
-      value:
-        query: How do I reset my password?
-        limit: 5
     KnowledgeGroupArrayResponse:
       summary: All knowledge groups for the organization (bare array)
       value:
@@ -576,29 +589,20 @@ components:
         documentCount: 12
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeDocumentRename:
-      summary: Rename a document
+    KnowledgeGroupSearch:
+      summary: Find the top 5 chunks matching a query
       value:
-        filename: updated-filename.pdf
+        query: How do I reset my password?
+        limit: 5
     KnowledgeGroupUpdate:
       summary: Rename a knowledge group
       value:
         name: Customer support
-    KnowledgeSearchArrayResponse:
-      summary: Search results (bare array, ranked by score)
+    KnowledgeGroupCreate:
+      summary: Create an empty knowledge group
       value:
-      - documentId: 00000000-0000-0000-0000-000000000000
-        filename: getting-started.pdf
-        content: To reset your password, visit the account settings page and click "Reset password".
-        score: 0.87
-        chunkIndex: 3
-        metadata:
-          section: Account
-    KnowledgeDocumentDownloadResponse:
-      summary: A short-lived URL for downloading a knowledge document
-      value:
-        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
-        filename: getting-started.pdf
+        name: Product docs
+        description: Help-centre articles and API reference.
     KnowledgeDocumentArrayResponse:
       summary: All documents in a knowledge group (bare array)
       value:
@@ -612,20 +616,16 @@ components:
         errorMessage: null
         createdAt: '2026-04-20T10:00:00.000Z'
         updatedAt: '2026-04-20T10:01:12.000Z'
-    KnowledgeGroupCreate:
-      summary: Create an empty knowledge group
+    KnowledgeSearchArrayResponse:
+      summary: Search results (bare array, ranked by score)
       value:
-        name: Product docs
-        description: Help-centre articles and API reference.
-    KnowledgeGroupResponse:
-      summary: A single knowledge group
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        name: Product docs
-        description: Help-centre articles and API reference.
-        documentCount: 12
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
+      - documentId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        content: To reset your password, visit the account settings page and click "Reset password".
+        score: 0.87
+        chunkIndex: 3
+        metadata:
+          section: Account
   schemas:
     KnowledgeSearchResult:
       type: object
@@ -650,6 +650,35 @@ components:
         metadata:
           type: object
           description: Free-form metadata attached to the chunk at ingest time.
+    KnowledgeGroup:
+      type: object
+      description: A folder of documents that a persona can search via RAG tools.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the knowledge group.
+        name:
+          type: string
+          description: Human-readable name for the group.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of what the group contains.
+        documentCount:
+          type: integer
+          description: Number of non-deleted documents currently in the group.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the group was created.
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the group was last updated.
     KnowledgeDocument:
       type: object
       description: A single file uploaded into a knowledge group. Retrieved chunks reference it by ID.
@@ -698,35 +727,6 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the document record was last updated.
-    KnowledgeGroup:
-      type: object
-      description: A folder of documents that a persona can search via RAG tools.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the knowledge group.
-        name:
-          type: string
-          description: Human-readable name for the group.
-        description:
-          type:
-          - string
-          - 'null'
-          description: Free-form description of what the group contains.
-        documentCount:
-          type: integer
-          description: Number of non-deleted documents currently in the group.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the group was created.
-        updatedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp when the group was last updated.
   securitySchemes:
     BearerAuth:
       type: http

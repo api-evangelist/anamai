@@ -324,6 +324,64 @@ paths:
           name: delete-avatar
           description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted.. Use with caution as this action cannot be undone.'
 components:
+  examples:
+    AvatarResponse:
+      summary: A single avatar resource
+      value:
+        id: 071b0286-4cce-4808-bee2-e642f1062de3
+        displayName: Liv
+        variantName: home
+        imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
+        videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+        createdByOrganizationId: null
+        availableVersions:
+        - cara-3
+        activeVersion: cara-3
+        description: A friendly professional in a modern office setting, warm expression, business casual attire.
+        displayTags:
+        - professional
+        - friendly
+        - office
+        renderStyle: realistic
+    AvatarListResponse:
+      summary: A paginated list of avatars
+      value:
+        data:
+        - id: 071b0286-4cce-4808-bee2-e642f1062de3
+          displayName: Liv
+          variantName: home
+          imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
+          videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: '2026-04-20T10:00:00.000Z'
+          createdByOrganizationId: null
+          availableVersions:
+          - cara-3
+          activeVersion: cara-3
+          description: A friendly professional in a modern office setting, warm expression, business casual attire.
+          displayTags:
+          - professional
+          - friendly
+          - office
+          renderStyle: realistic
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    AvatarUpdate:
+      summary: Rename an avatar
+      value:
+        displayName: Updated avatar name
+    AvatarCreate:
+      summary: Create a one-shot avatar from an image URL
+      value:
+        displayName: Alex
+        imageUrl: https://example.com/alex.jpg
   schemas:
     Pagination:
       type: object
@@ -434,64 +492,6 @@ components:
           - illustrated
           - unknown
           description: Render style of the avatar. `unknown` covers custom avatars and avatars whose metadata has not yet been generated.
-  examples:
-    AvatarUpdate:
-      summary: Rename an avatar
-      value:
-        displayName: Updated avatar name
-    AvatarResponse:
-      summary: A single avatar resource
-      value:
-        id: 071b0286-4cce-4808-bee2-e642f1062de3
-        displayName: Liv
-        variantName: home
-        imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
-        videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-        createdByOrganizationId: null
-        availableVersions:
-        - cara-3
-        activeVersion: cara-3
-        description: A friendly professional in a modern office setting, warm expression, business casual attire.
-        displayTags:
-        - professional
-        - friendly
-        - office
-        renderStyle: realistic
-    AvatarCreate:
-      summary: Create a one-shot avatar from an image URL
-      value:
-        displayName: Alex
-        imageUrl: https://example.com/alex.jpg
-    AvatarListResponse:
-      summary: A paginated list of avatars
-      value:
-        data:
-        - id: 071b0286-4cce-4808-bee2-e642f1062de3
-          displayName: Liv
-          variantName: home
-          imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
-          videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: '2026-04-20T10:00:00.000Z'
-          createdByOrganizationId: null
-          availableVersions:
-          - cara-3
-          activeVersion: cara-3
-          description: A friendly professional in a modern office setting, warm expression, business casual attire.
-          displayTags:
-          - professional
-          - friendly
-          - office
-          renderStyle: realistic
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
   securitySchemes:
     BearerAuth:
       type: http
