@@ -1,23 +1,318 @@
-generated: '2026-07-17'
+generated: '2026-09-23'
 method: generated
-source: openapi/anamai-openapi-original.json
+source: openapi/anamai-avatars-api-openapi.yml, openapi/anamai-engine-api-openapi.yml, openapi/anamai-knowledge-api-openapi.yml,
+  openapi/anamai-llms-api-openapi.yml, openapi/anamai-meetings-api-openapi.yml, openapi/anamai-personas-api-openapi.yml,
+  openapi/anamai-sessions-api-openapi.yml, openapi/anamai-share-links-api-openapi.yml, openapi/anamai-tools-api-openapi.yml,
+  openapi/anamai-voices-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 57
   by_action_class:
-    acting: 31
-    connected: 26
+    connected: 27
+    acting: 30
   by_consequence:
-    write: 30
-    read: 26
+    read: 27
+    write: 29
     safety-critical: 1
   human_in_the_loop_required: 1
 operations:
-- path: /v1/auth/session-token
+- path: /v1/avatars
+  method: get
+  operationId: listAvatars
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/avatars
   method: post
-  operationId: createSessionToken
+  operationId: createAvatar
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/avatars/{id}
+  method: get
+  operationId: getAvatar
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/avatars/{id}
+  method: put
+  operationId: updateAvatar
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/avatars/{id}
+  method: delete
+  operationId: deleteAvatar
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/engine/session
+  method: post
+  operationId: createEngineSession
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/groups
+  method: get
+  operationId: listKnowledgeGroups
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/knowledge/groups
+  method: post
+  operationId: createKnowledgeGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/groups/{id}
+  method: get
+  operationId: getKnowledgeGroup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/knowledge/groups/{id}
+  method: put
+  operationId: updateKnowledgeGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/groups/{id}
+  method: delete
+  operationId: deleteKnowledgeGroup
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/groups/{id}/search
+  method: post
+  operationId: searchKnowledgeGroup
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/knowledge/groups/{id}/documents
+  method: get
+  operationId: listKnowledgeGroupDocuments
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/knowledge/groups/{id}/documents
+  method: post
+  operationId: uploadKnowledgeGroupDocument
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/documents/{id}
+  method: get
+  operationId: getKnowledgeDocument
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/knowledge/documents/{id}
+  method: put
+  operationId: updateKnowledgeDocument
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/documents/{id}
+  method: delete
+  operationId: deleteKnowledgeDocument
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/knowledge/documents/{id}/download
+  method: get
+  operationId: getKnowledgeDocumentDownload
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/llms
+  method: get
+  operationId: listLlms
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/llms
+  method: post
+  operationId: createLlm
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/llms/{id}
+  method: get
+  operationId: getLlm
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/llms/{id}
+  method: put
+  operationId: updateLlm
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/llms/{id}
+  method: delete
+  operationId: deleteLlm
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -83,9 +378,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/voices
+- path: /v1/personas
   method: get
-  operationId: listVoices
+  operationId: listPersonas
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -93,9 +388,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/voices
+- path: /v1/personas
   method: post
-  operationId: createVoice
+  operationId: createPersona
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -109,25 +404,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/voices/presigned-upload
-  method: post
-  operationId: createVoicePresignedUpload
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/voices/{id}
+- path: /v1/personas/{id}
   method: get
-  operationId: getVoice
+  operationId: getPersona
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -135,9 +414,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/voices/{id}
+- path: /v1/personas/{id}
   method: put
-  operationId: updateVoice
+  operationId: updatePersona
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -151,9 +430,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/voices/{id}
+- path: /v1/personas/{id}
   method: delete
-  operationId: deleteVoice
+  operationId: deletePersona
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -167,129 +446,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/tools
-  method: get
-  operationId: listTools
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/tools
+- path: /v1/auth/session-token
   method: post
-  operationId: createTool
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/tools/{id}
-  method: get
-  operationId: getTool
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/tools/{id}
-  method: put
-  operationId: updateTool
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/tools/{id}
-  method: delete
-  operationId: deleteTool
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/share-links
-  method: get
-  operationId: listShareLinks
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/share-links
-  method: post
-  operationId: createShareLink
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/share-links/{id}
-  method: get
-  operationId: getShareLink
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/share-links/{id}
-  method: put
-  operationId: updateShareLink
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/share-links/{id}
-  method: delete
-  operationId: deleteShareLink
+  operationId: createSessionToken
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -389,9 +548,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/personas
+- path: /v1/share-links
   method: get
-  operationId: listPersonas
+  operationId: listShareLinks
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -399,9 +558,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/personas
+- path: /v1/share-links
   method: post
-  operationId: createPersona
+  operationId: createShareLink
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -415,9 +574,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/personas/{id}
+- path: /v1/share-links/{id}
   method: get
-  operationId: getPersona
+  operationId: getShareLink
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -425,9 +584,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/personas/{id}
+- path: /v1/share-links/{id}
   method: put
-  operationId: updatePersona
+  operationId: updateShareLink
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -441,9 +600,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/personas/{id}
+- path: /v1/share-links/{id}
   method: delete
-  operationId: deletePersona
+  operationId: deleteShareLink
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -457,9 +616,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/llms
+- path: /v1/tools
   method: get
-  operationId: listLlms
+  operationId: listTools
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -467,9 +626,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/llms
+- path: /v1/tools
   method: post
-  operationId: createLlm
+  operationId: createTool
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -483,9 +642,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/llms/{id}
+- path: /v1/tools/{id}
   method: get
-  operationId: getLlm
+  operationId: getTool
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -493,9 +652,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/llms/{id}
+- path: /v1/tools/{id}
   method: put
-  operationId: updateLlm
+  operationId: updateTool
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -509,9 +668,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/llms/{id}
+- path: /v1/tools/{id}
   method: delete
-  operationId: deleteLlm
+  operationId: deleteTool
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -525,9 +684,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/knowledge/groups
+- path: /v1/voices
   method: get
-  operationId: listKnowledgeGroups
+  operationId: listVoices
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -535,9 +694,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/knowledge/groups
+- path: /v1/voices
   method: post
-  operationId: createKnowledgeGroup
+  operationId: createVoice
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -551,9 +710,25 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/knowledge/groups/{id}
+- path: /v1/voices/presigned-upload
+  method: post
+  operationId: createVoicePresignedUpload
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/voices/{id}
   method: get
-  operationId: getKnowledgeGroup
+  operationId: getVoice
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -561,9 +736,9 @@ operations:
     token:
       max-ttl: 3600
     audit: none
-- path: /v1/knowledge/groups/{id}
+- path: /v1/voices/{id}
   method: put
-  operationId: updateKnowledgeGroup
+  operationId: updateVoice
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -577,187 +752,9 @@ operations:
       - abnormal
       - high-value
     audit: required
-- path: /v1/knowledge/groups/{id}
+- path: /v1/voices/{id}
   method: delete
-  operationId: deleteKnowledgeGroup
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/knowledge/groups/{id}/search
-  method: post
-  operationId: searchKnowledgeGroup
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/knowledge/groups/{id}/documents
-  method: get
-  operationId: listKnowledgeGroupDocuments
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/knowledge/groups/{id}/documents
-  method: post
-  operationId: uploadKnowledgeGroupDocument
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/knowledge/documents/{id}
-  method: get
-  operationId: getKnowledgeDocument
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/knowledge/documents/{id}
-  method: put
-  operationId: updateKnowledgeDocument
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/knowledge/documents/{id}
-  method: delete
-  operationId: deleteKnowledgeDocument
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/knowledge/documents/{id}/download
-  method: get
-  operationId: getKnowledgeDocumentDownload
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/engine/session
-  method: post
-  operationId: createEngineSession
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/avatars
-  method: get
-  operationId: listAvatars
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/avatars
-  method: post
-  operationId: createAvatar
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/avatars/{id}
-  method: get
-  operationId: getAvatar
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/avatars/{id}
-  method: put
-  operationId: updateAvatar
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /v1/avatars/{id}
-  method: delete
-  operationId: deleteAvatar
+  operationId: deleteVoice
   x-agentic-access:
     action-class: acting
     consequence: write
