@@ -311,6 +311,75 @@ paths:
           name: delete-llm
           description: Delete an LLM configuration. Use with caution as this action cannot be undone.
 components:
+  examples:
+    LlmResponse:
+      summary: A single LLM configuration
+      value:
+        id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+        displayName: GPT-4o
+        description: OpenAI GPT-4o default configuration.
+        llmFormat: openai
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        modelName: gpt-4o
+        temperature: 0.7
+        maxTokens: 1024
+        deploymentName: null
+        apiVersion: null
+        metadata: {}
+        displayTags:
+        - openai
+        isDefault: true
+        isGlobal: true
+        isZdr: false
+        createdByOrganizationId: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: null
+    LlmListResponse:
+      summary: A paginated list of LLMs
+      value:
+        data:
+        - id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+          displayName: GPT-4o
+          description: OpenAI GPT-4o default configuration.
+          llmFormat: openai
+          urls:
+          - url: https://api.openai.com/v1/chat/completions
+          modelName: gpt-4o
+          temperature: 0.7
+          maxTokens: 1024
+          deploymentName: null
+          apiVersion: null
+          metadata: {}
+          displayTags:
+          - openai
+          isDefault: true
+          isGlobal: true
+          isZdr: false
+          createdByOrganizationId: null
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: null
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    LlmCreate:
+      summary: Register an OpenAI-format LLM
+      value:
+        displayName: My GPT-4o
+        urls:
+        - url: https://api.openai.com/v1/chat/completions
+        llmFormat: openai
+        modelName: gpt-4o
+        secret: sk-…
+        temperature: 0.7
+    LlmUpdate:
+      summary: Adjust the temperature on an existing LLM
+      value:
+        temperature: 0.5
   schemas:
     LLM:
       type: object
@@ -452,75 +521,6 @@ components:
           - integer
           - 'null'
           description: Number of the next page, or null if on the last page.
-  examples:
-    LlmUpdate:
-      summary: Adjust the temperature on an existing LLM
-      value:
-        temperature: 0.5
-    LlmListResponse:
-      summary: A paginated list of LLMs
-      value:
-        data:
-        - id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-          displayName: GPT-4o
-          description: OpenAI GPT-4o default configuration.
-          llmFormat: openai
-          urls:
-          - url: https://api.openai.com/v1/chat/completions
-          modelName: gpt-4o
-          temperature: 0.7
-          maxTokens: 1024
-          deploymentName: null
-          apiVersion: null
-          metadata: {}
-          displayTags:
-          - openai
-          isDefault: true
-          isGlobal: true
-          isZdr: false
-          createdByOrganizationId: null
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: null
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
-    LlmResponse:
-      summary: A single LLM configuration
-      value:
-        id: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-        displayName: GPT-4o
-        description: OpenAI GPT-4o default configuration.
-        llmFormat: openai
-        urls:
-        - url: https://api.openai.com/v1/chat/completions
-        modelName: gpt-4o
-        temperature: 0.7
-        maxTokens: 1024
-        deploymentName: null
-        apiVersion: null
-        metadata: {}
-        displayTags:
-        - openai
-        isDefault: true
-        isGlobal: true
-        isZdr: false
-        createdByOrganizationId: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: null
-    LlmCreate:
-      summary: Register an OpenAI-format LLM
-      value:
-        displayName: My GPT-4o
-        urls:
-        - url: https://api.openai.com/v1/chat/completions
-        llmFormat: openai
-        modelName: gpt-4o
-        secret: sk-…
-        temperature: 0.7
   securitySchemes:
     BearerAuth:
       type: http
