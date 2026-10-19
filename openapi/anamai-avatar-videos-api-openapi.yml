@@ -1,0 +1,773 @@
+openapi: 3.2.0
+info:
+  title: Anam AI Avatar Videos API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Avatar Videos
+paths:
+  /v1/avatar-videos:
+    post:
+      summary: Create an avatar video
+      description: Creates an asynchronous avatar-video render backed by a normal recorded Anam session. A saved persona contributes only its snapshotted avatar, voice, language, model and director notes; its greeting, brain, prompt and tools never run. The request is rejected rather than queued when either concurrency limit is full.
+      parameters:
+      - in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 255
+        description: Stable caller-generated key. Reusing it with the same body returns the original resource; a different body returns 409.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAvatarVideoRequest'
+            examples:
+              savedPersona:
+                $ref: '#/components/examples/AvatarVideoCreateWithPersona'
+              direct:
+                $ref: '#/components/examples/AvatarVideoCreateDirect'
+      responses:
+        '202':
+          description: Accepted. Poll the returned resource.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Relative resource URL.
+            Idempotent-Replayed:
+              schema:
+                type: boolean
+              description: True when this key/body returned an existing job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideo'
+        '400':
+          description: Invalid request or avatar-video configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '403':
+          description: API key permission or avatar-model entitlement denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '404':
+          description: Persona, avatar or voice not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '409':
+          description: Idempotency key conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '410':
+          description: Referenced resource was deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '429':
+          description: Normal session or avatar-video concurrency limit reached.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: Conservative retry delay in seconds.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '502':
+          description: Worker or session dispatch failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '503':
+          description: Avatar-video generation is disabled or the worker is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+      tags:
+      - Avatar Videos
+      operationId: createAvatarVideo
+      x-mint:
+        metadata:
+          title: create avatar video
+        mcp:
+          enabled: true
+          name: create-avatar-video
+          description: Creates an asynchronous avatar-video render backed by a normal recorded Anam session. A saved persona contributes only its snapshotted avatar, voice, language, model and director notes; its greeting, brain, prompt and tools never run. The request is rejected rather than queued when either concurrency limit is full.
+    get:
+      summary: List avatar videos
+      parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - pending
+          - running
+          - finalizing
+          - completed
+          - failed
+          - cancelled
+      - in: query
+        name: createdAfter
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: createdBefore
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - in: query
+        name: cursor
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Newest-first page scoped to the API-key organization.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - data
+                - nextCursor
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AvatarVideo'
+                  nextCursor:
+                    type: string
+                    nullable: true
+        '400':
+          description: Invalid filters or cursor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '403':
+          description: API key lacks avatar-video read access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+      tags:
+      - Avatar Videos
+      operationId: listAvatarVideos
+      x-mint:
+        metadata:
+          title: list avatar videos
+        mcp:
+          enabled: true
+          name: list-avatar-videos
+          description: Get a list of all avatar videos with optional filtering
+  /v1/avatar-videos/{id}:
+    get:
+      summary: Get an avatar video
+      description: Returns authoritative job state and a fresh one-hour recording URL when the canonical replay is ready. A read also reconciles late recordings.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        example: avv_123
+      responses:
+        '200':
+          description: Avatar video resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideo'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '403':
+          description: API key lacks avatar-video read access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '404':
+          description: Avatar video not found in this organization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+      tags:
+      - Avatar Videos
+      operationId: getAvatarVideo
+      x-mint:
+        metadata:
+          title: get avatar video
+        mcp:
+          enabled: true
+          name: get-avatar-video
+          description: Returns authoritative job state and a fresh one-hour recording URL when the canonical replay is ready. A read also reconciles late recordings.
+  /v1/avatar-videos/{id}/cancel:
+    post:
+      summary: Cancel an avatar video
+      description: Requests a clean worker/session shutdown. Terminal cancellation is idempotent and any replay that finalizes later remains accessible.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current cancelled or already-terminal resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideo'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '403':
+          description: API key lacks avatar-video write access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '404':
+          description: Avatar video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+      tags:
+      - Avatar Videos
+      operationId: cancelAvatarVideo
+      x-mint:
+        metadata:
+          title: cancel avatar video
+        mcp:
+          enabled: true
+          name: cancel-avatar-video
+          description: Requests a clean worker/session shutdown. Terminal cancellation is idempotent and any replay that finalizes later remains accessible.
+  /v1/avatar-videos/{id}/retry:
+    post:
+      summary: Retry an avatar video
+      description: Creates a new job from the original immutable snapshot and links it through retryOf. Only terminal jobs can be retried.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - in: header
+        name: Idempotency-Key
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          maxLength: 255
+      responses:
+        '202':
+          description: New retry job accepted.
+          headers:
+            Location:
+              schema:
+                type: string
+            Idempotent-Replayed:
+              schema:
+                type: boolean
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideo'
+        '400':
+          description: Missing or invalid Idempotency-Key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '403':
+          description: API key lacks avatar-video write access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '404':
+          description: Original avatar video not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '409':
+          description: Original is non-terminal or idempotency key conflicts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '429':
+          description: Session duration unavailable or session/avatar-video concurrency exhausted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '502':
+          description: Worker or session dispatch failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+        '503':
+          description: Avatar-video generation is disabled or the worker is unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvatarVideoError'
+      tags:
+      - Avatar Videos
+      operationId: retryAvatarVideo
+      x-mint:
+        metadata:
+          title: retry avatar video
+        mcp:
+          enabled: true
+          name: retry-avatar-video
+          description: Creates a new job from the original immutable snapshot and links it through retryOf. Only terminal jobs can be retried.
+components:
+  examples:
+    AvatarVideoCreateDirect:
+      summary: Render with explicit avatar and voice configuration
+      value:
+        script: Welcome to the product tour.
+        avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
+        voiceId: de23e340-1416-4dd8-977d-065a7ca11697
+        avatarModel: cara-4-latest
+        directorNotes:
+          customStylePrompt: Warm and clear
+        languageCode: en
+        voiceSpeed: 0
+        videoWidth: 1152
+        videoHeight: 768
+        metadata:
+          customerJobId: onboarding-42
+    AvatarVideoCreateWithPersona:
+      summary: Render a script with a saved persona snapshot
+      value:
+        script: Welcome to the product tour.
+        personaId: 00000000-0000-0000-0000-000000000000
+        metadata:
+          customerJobId: onboarding-42
+  schemas:
+    ElevenLabsV2VoiceGenerationOptions:
+      title: ElevenLabs V2
+      type: object
+      description: Voice generation options for ElevenLabs V2 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
+          example: 0
+          minimum: 0
+          maximum: 1
+        useSpeakerBoost:
+          type: boolean
+          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
+          example: true
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+        model:
+          $ref: '#/components/schemas/ElevenLabsModelOverride'
+    CreateAvatarVideoRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - script
+      oneOf:
+      - required:
+        - personaId
+        not:
+          anyOf:
+          - required:
+            - avatarId
+          - required:
+            - voiceId
+          - required:
+            - avatarModel
+          - required:
+            - directorNotes
+          - required:
+            - languageCode
+          - required:
+            - voiceSpeed
+          - required:
+            - voiceGenerationOptions
+          - required:
+            - videoWidth
+          - required:
+            - videoHeight
+      - required:
+        - avatarId
+        - voiceId
+        not:
+          required:
+          - personaId
+      dependentRequired:
+        videoWidth:
+        - videoHeight
+        videoHeight:
+        - videoWidth
+      properties:
+        script:
+          type: string
+          minLength: 1
+          maxLength: 20000
+          description: Exact text spoken through TTS; the brain is never invoked.
+        personaId:
+          type: string
+          description: Saved persona to snapshot. Mutually exclusive with direct configuration fields.
+        avatarId:
+          type: string
+        voiceId:
+          type: string
+        avatarModel:
+          type: string
+          example: cara-4-latest
+        directorNotes:
+          type:
+          - object
+          - 'null'
+          properties:
+            expressivity:
+              type:
+              - number
+              - 'null'
+              minimum: 0
+              maximum: 1
+            customStylePrompt:
+              type:
+              - string
+              - 'null'
+            presetStyle:
+              type:
+              - string
+              - 'null'
+        languageCode:
+          type: string
+          example: en
+        voiceSpeed:
+          type: number
+          minimum: -1
+          maximum: 1
+        voiceGenerationOptions:
+          oneOf:
+          - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV3VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV4VoiceGenerationOptions'
+          - $ref: '#/components/schemas/FishAudioVoiceGenerationOptions'
+        videoWidth:
+          type: integer
+          minimum: 1
+        videoHeight:
+          type: integer
+          minimum: 1
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Caller metadata, up to 16 KB serialized.
+    ElevenLabsV3VoiceGenerationOptions:
+      title: ElevenLabs V3
+      type: object
+      additionalProperties: false
+      description: Voice generation options for an eleven_v3 or eleven_v3_conversational voice, or for any voice whose model override is one of them. Only stability is supported.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is, from 0 (more varied) to 1 (more stable).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        model:
+          $ref: '#/components/schemas/ElevenLabsModelOverride'
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
+      type: object
+      description: Voice generation options for ElevenLabs V1 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0
+          minimum: 0
+          maximum: 1
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+    AvatarVideoError:
+      type: object
+      required:
+      - code
+      - message
+      - requestId
+      - retryable
+      properties:
+        code:
+          type: string
+          description: Stable machine-readable failure code.
+        message:
+          type: string
+        requestId:
+          type: string
+        retryable:
+          type: boolean
+        details:
+          type: object
+          additionalProperties: true
+    CartesiaSonic3VoiceGenerationOptions:
+      title: Cartesia Sonic-3
+      type: object
+      description: Voice generation options for Cartesia Sonic-3 models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
+          example: 1
+          minimum: 0.6
+          maximum: 1.5
+        emotion:
+          type: string
+          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
+          example: neutral
+          oneOf:
+          - type: string
+            enum:
+            - neutral
+            - calm
+            - angry
+            - content
+            - sad
+            - scared
+    FishAudioVoiceGenerationOptions:
+      title: Fish Audio
+      type: object
+      description: Voice generation options for Fish Audio models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+    ElevenLabsModelOverride:
+      type: string
+      enum:
+      - eleven_v4_turbo
+      - eleven_v3_conversational
+      - eleven_v4
+      - eleven_v3
+      - eleven_flash_v2_5
+      - eleven_multilingual_v2
+      - eleven_flash_v2
+      - eleven_turbo_v2_5
+      description: 'Replaces the voice''s ElevenLabs model for generation. Must be an ElevenLabs model supported for voice imports. The other options must be valid for this model: for example, eleven_v4 accepts only stability and similarityBoost.'
+    ElevenLabsV4VoiceGenerationOptions:
+      title: ElevenLabs V4
+      type: object
+      additionalProperties: false
+      description: Voice generation options for an eleven_v4 or eleven_v4_turbo voice, or for any voice whose model override is one of them. Only stability and similarityBoost are supported.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is, from 0 (more varied) to 1 (more stable).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        model:
+          $ref: '#/components/schemas/ElevenLabsModelOverride'
+    AvatarVideo:
+      type: object
+      required:
+      - id
+      - status
+      - truncated
+      - effectiveMaxDurationSeconds
+      - content
+      - createdAt
+      - metadata
+      properties:
+        id:
+          type: string
+          example: avv_123
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - finalizing
+          - completed
+          - failed
+          - cancelled
+        completionReason:
+          type:
+          - string
+          - 'null'
+          enum:
+          - script_completed
+          - max_duration_reached
+          - cancelled
+          - null
+        truncated:
+          type: boolean
+        durationSeconds:
+          type:
+          - number
+          - 'null'
+        effectiveMaxDurationSeconds:
+          type: integer
+        sessionId:
+          type:
+          - string
+          - 'null'
+          description: Underlying normal EngineSession ID. Use its recording deletion endpoint for deletion.
+        content:
+          type: object
+          required:
+          - available
+          properties:
+            available:
+              type: boolean
+            url:
+              type: string
+              format: uri
+            expiresAt:
+              type: string
+              format: date-time
+        failure:
+          type:
+          - object
+          - 'null'
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            retryable:
+              type: boolean
+        retryOf:
+          type:
+          - string
+          - 'null'
+        createdAt:
+          type: string
+          format: date-time
+        startedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        metadata:
+          type: object
+          additionalProperties: true
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

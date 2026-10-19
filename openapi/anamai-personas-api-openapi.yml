@@ -71,7 +71,7 @@ paths:
     post:
       description: Create a new persona
       requestBody:
-        description: Configuration for the new persona. `avatarId`, `voiceId`, and `llmId` are references to existing resources in your organization. `systemPrompt`, if provided, is merged into the `brain` field server-side. Setting `zeroDataRetention` to true requires both the voice and LLM to be ZDR-compatible and an enterprise plan.
+        description: Configuration for the new persona. `avatarId`, `voiceId`, and `llmId` are references to existing resources in your organization. `systemPrompt`, if provided, is merged into the `brain` field server-side. Setting `zeroDataRetention` to true requires the voice, LLM and `voiceDetectionOptions.sttProvider` to be ZDR-compatible and an enterprise plan.
         required: true
         content:
           application/json:
@@ -98,7 +98,7 @@ paths:
                   - cara-3
                   - cara-4
                   - cara-4-latest
-                  description: Avatar model version. `cara-3` and `cara-4` are generally available; models with the '-latest' suffix are invite only and require organization-level access.
+                  description: Avatar model version. `cara-4` is pinned to a stable checkpoint; `cara-4-latest` tracks the newest Cara 4 checkpoint and may change between sessions.
                   example: cara-4
                 voiceId:
                   type: string
@@ -129,17 +129,27 @@ paths:
                   type: boolean
                   description: When true, session data is not stored after the conversation ends
                   example: false
+                maxSessionLengthSeconds:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 60
+                  maximum: 7200
+                  description: Maximum length in seconds of every session with this persona. It can only shorten the plan's session limit, never extend it. Omit or send `null` for no persona limit.
+                  example: 600
                 voiceDetectionOptions:
                   $ref: '#/components/schemas/VoiceDetectionOptions'
                 languageCode:
                   type: string
-                  description: ISO 639-1 formatted language code override for transcription, replaces organisation level settings and multilingual (default) mode.
+                  description: Supported ISO 639 language code override (including "yue" for Cantonese) for transcription, replaces organisation level settings and multilingual (default) mode.
                   example: en
                 voiceGenerationOptions:
                   description: Configuration options for voice generation.
                   oneOf:
                   - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
                   - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
+                  - $ref: '#/components/schemas/ElevenLabsV3VoiceGenerationOptions'
+                  - $ref: '#/components/schemas/ElevenLabsV4VoiceGenerationOptions'
                   - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
                   - $ref: '#/components/schemas/FishAudioVoiceGenerationOptions'
                 toolIds:
@@ -161,7 +171,27 @@ paths:
                 default:
                   $ref: '#/components/examples/PersonaResponse'
         '400':
-          description: Bad request - Invalid persona data or avatarModel not supported by avatar
+          description: Bad request - Invalid persona data, avatarModel not supported by avatar, or an `avatarId`, `voiceId`, `llmId` or `toolIds` entry that is missing, deleted or not available to your organization. `personaPreset` is no longer supported and is rejected.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                    description: Machine-readable reason, when one applies (for example `PERSONA_PRESET_UNSUPPORTED`).
+              examples:
+                presetUnsupported:
+                  summary: A persona preset was sent
+                  value:
+                    error: personaPreset is no longer supported. Set avatarId and voiceId instead.
+                    code: PERSONA_PRESET_UNSUPPORTED
+                voiceNotFound:
+                  summary: The voice was deleted or never existed
+                  value:
+                    error: Voice not found
         '401':
           description: Unauthorized - Invalid or missing API key
         '403':
@@ -228,7 +258,7 @@ paths:
         description: Persona id
         required: true
       requestBody:
-        description: Partial persona update. Only the fields you include are changed; omit a field to leave it unchanged. Changing `avatarId` may reset `avatarModel` if the new avatar doesn't support the previous model; changing `voiceId` resets any existing `voiceGenerationOptions` unless new ones are supplied.
+        description: Partial persona update. Only the fields you include are changed; omit a field to leave it unchanged. Changing `avatarId` may reset `avatarModel` if the new avatar doesn't support the previous model; changing `voiceId` resets any existing `voiceGenerationOptions` unless new ones are supplied. `voiceGenerationOptions` sent with the persona's current `voiceId` are merged into the saved options, so a key can't be removed that way; sent without `voiceId`, they replace the saved options; `null` clears them. The resulting options must suit the model the voice generates with, which is the `model` override when one is set.
         required: true
         content:
           application/json:
@@ -255,7 +285,7 @@ paths:
                   - cara-3
                   - cara-4
                   - cara-4-latest
-                  description: Avatar model version. `cara-3` and `cara-4` are generally available; models with the '-latest' suffix are invite only and require organization-level access.
+                  description: Avatar model version. `cara-4` is pinned to a stable checkpoint; `cara-4-latest` tracks the newest Cara 4 checkpoint and may change between sessions.
                   example: cara-4
                 voiceId:
                   type: string
@@ -286,19 +316,30 @@ paths:
                   type: boolean
                   description: When true, session data is not stored after the conversation ends
                   example: false
+                maxSessionLengthSeconds:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 60
+                  maximum: 7200
+                  description: Maximum length in seconds of every session with this persona. It can only shorten the plan's session limit, never extend it. Send `null` to remove it.
+                  example: 600
                 voiceDetectionOptions:
                   $ref: '#/components/schemas/VoiceDetectionOptions'
                 languageCode:
                   type: string
-                  description: ISO 639-1 formatted language code override for transcription, replaces organisation level settings and multilingual (default) mode.
+                  description: Supported ISO 639 language code override (including "yue" for Cantonese) for transcription, replaces organisation level settings and multilingual (default) mode.
                   example: en
                 voiceGenerationOptions:
-                  description: Configuration options for voice generation.
+                  description: Configuration options for voice generation. Send `null` to clear them.
                   oneOf:
                   - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
                   - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
+                  - $ref: '#/components/schemas/ElevenLabsV3VoiceGenerationOptions'
+                  - $ref: '#/components/schemas/ElevenLabsV4VoiceGenerationOptions'
                   - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
                   - $ref: '#/components/schemas/FishAudioVoiceGenerationOptions'
+                  - type: 'null'
                 toolIds:
                   type: array
                   items:
@@ -350,6 +391,9 @@ paths:
                     showTranscript:
                       type: boolean
                       description: Whether the widget shows an expandable conversation transcript during calls. Defaults to true when omitted.
+                    showPreviewVideo:
+                      type: boolean
+                      description: Whether the widget plays the avatar's looping idle video before a call. When false, it shows the avatar's still image instead. Defaults to true when omitted.
               additionalProperties: false
       responses:
         '200':
@@ -362,7 +406,31 @@ paths:
                 default:
                   $ref: '#/components/examples/PersonaResponse'
         '400':
-          description: Bad request - Invalid persona data or avatarModel not supported by avatar
+          description: Bad request - Invalid persona data, avatarModel not supported by avatar, or an `avatarId`, `voiceId`, `llmId` or `toolIds` entry that is missing, deleted or not available to your organization. Also returned when a change needs the persona's current voice and that voice has been deleted; send a new `voiceId` with the update. Setting a `personaPreset` other than the persona's current one is no longer supported.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                    description: Machine-readable reason, when one applies (for example `PERSONA_PRESET_UNSUPPORTED`).
+              examples:
+                presetUnsupported:
+                  summary: A persona preset was sent
+                  value:
+                    error: personaPreset is no longer supported. Set avatarId and voiceId instead.
+                    code: PERSONA_PRESET_UNSUPPORTED
+                voiceNotFound:
+                  summary: The requested voice was deleted or never existed
+                  value:
+                    error: Voice not found
+                currentVoiceDeleted:
+                  summary: The persona's current voice was deleted
+                  value:
+                    error: This persona's voice no longer exists. Set voiceId to an available voice.
         '401':
           description: Unauthorized - Invalid or missing API key
         '403':
@@ -383,7 +451,7 @@ paths:
           name: update-persona
           description: Update a persona by id
     delete:
-      description: Delete a persona by id
+      description: Soft-delete a persona owned by the authenticated organization. Missing, already deleted, and other organizations' personas return 404
       parameters:
       - in: path
         name: id
@@ -407,7 +475,17 @@ paths:
         '403':
           description: Forbidden - Account does not have access or API key lacks the required permission
         '404':
-          description: Not Found - Persona not found
+          description: Persona is missing, already deleted, or not owned by this organization
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                properties:
+                  error:
+                    type: string
+                    example: Persona not found
         '500':
           description: Server error
       tags:
@@ -420,9 +498,736 @@ paths:
         mcp:
           enabled: true
           name: delete-persona
-          description: Delete a persona by id. Use with caution as this action cannot be undone.
+          description: Soft-delete a persona owned by the authenticated organization. Missing, already deleted, and other organizations' personas return 404. Use with caution as this action cannot be undone.
+  /v1/personas/{id}/widget:
+    get:
+      summary: Get persona widget display configuration
+      description: Returns saved widget display configuration and avatar media. Origin access controls are omitted. Missing or temporarily unavailable idle previews are null; clients should show avatarImageUrl instead. Preview availability does not indicate whether the avatar can start a call.
+      tags:
+      - Personas
+      security: []
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Persona ID.
+      - in: header
+        name: Origin
+        schema:
+          type: string
+        description: Request origin, echoed in the CORS response.
+      responses:
+        '200':
+          description: Widget display configuration. Signed preview URLs expire after one hour.
+          headers:
+            Cache-Control:
+              schema:
+                type: string
+              description: public, max-age=60, stale-while-revalidate=300
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+              description: Request origin, or * when absent.
+            Vary:
+              schema:
+                type: string
+                example: Origin
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - widgetConfig
+                - persona
+                properties:
+                  widgetConfig:
+                    type: object
+                    additionalProperties: true
+                    description: Saved widget settings, excluding allowedOrigins and allowEverywhere.
+                  persona:
+                    type: object
+                    required:
+                    - name
+                    - avatarImageUrl
+                    - avatarVideoUrl
+                    properties:
+                      name:
+                        type: string
+                      avatarImageUrl:
+                        type:
+                        - string
+                        - 'null'
+                        description: Landscape still image cropped to match the call's video framing.
+                      avatarVideoUrl:
+                        type:
+                        - string
+                        - 'null'
+                        description: Verified idle-loop MP4 URL, or null when unavailable. Never a talking preview.
+              example:
+                widgetConfig: {}
+                persona:
+                  name: Assistant
+                  avatarImageUrl: https://lab.anam.ai/api/avatars/0f3b4c5e-1a2b-4c3d-9e8f-7a6b5c4d3e2f/image/landscape?v=3f2a1b0c9d8e7f6a
+                  avatarVideoUrl: null
+        '404':
+          description: Persona was not found or is deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Persona not found
+        '500':
+          description: Widget configuration could not be loaded.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Failed to fetch widget config
+      operationId: getPersonaWidget
+      x-mint:
+        metadata:
+          title: get persona widget
+        mcp:
+          enabled: true
+          name: get-persona-widget
+          description: Returns saved widget display configuration and avatar media. Origin access controls are omitted. Missing or temporarily unavailable idle previews are null; clients should show avatarImageUrl instead. Preview availability does not indicate whether the avatar can start a call.
 components:
+  schemas:
+    Avatar:
+      type: object
+      description: A face preset that a persona can use as its visual representation.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the avatar.
+        displayName:
+          type: string
+          description: Human-readable name shown in the Lab and share links.
+        variantName:
+          type: string
+          description: Name of the specific variant (e.g. lighting or pose) within the avatar family.
+        imageUrl:
+          type: string
+          format: uri
+          description: Still image of the avatar, framed exactly like `videoUrl`, `idleVideoUrl` and a landscape session (the default). Use it as the thumbnail, poster or loading image wherever a preview video or the live stream replaces it, and give the image and the video the same box, `object-fit` and `object-position` so the avatar doesn't move when they swap. For Cara 4 avatars this is the 1152x768 landscape crop (the same image as `landscapeImageUrl`). Cara 4 avatars used to return their square source image here; that image is now `sourceImageUrl`. Empty when the avatar has no image yet.
+        sourceImageUrl:
+          type: string
+          format: uri
+          description: The image the avatar was created from. For Cara 4 avatars it is square (1152x1152) and shows more of the scene than the 1152x768 crop that preview videos and sessions use, so the avatar appears to zoom in when a video or call replaces it. Don't use it as a thumbnail, poster or loading image next to `videoUrl` or a session; use `imageUrl`, `landscapeImageUrl` or `portraitImageUrl`. For legacy avatars it is the same landscape image as `imageUrl`.
+        landscapeImageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Still image cropped exactly as the engine frames landscape (1152x768) output, which is also the framing of `videoUrl` and `idleVideoUrl`. Use it with landscape sessions (the default) and preview videos. For avatars with legacy landscape source images this is the source image.
+        portraitImageUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Still image cropped exactly as the engine frames portrait (768x1152) output. Use it as the poster for a session started with portrait `videoWidth`/`videoHeight`. Preview videos are landscape, so don't swap this image for `videoUrl`. `null` when the avatar cannot render portrait output.
+        videoUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Signed URL for a verified muted MP4 preview of the avatar. Uses the idle loop if the talking preview is unavailable. Landscape (1152x768 for Cara 4 avatars, 720x480 for legacy avatars) and framed exactly like `imageUrl`, so pair it with `imageUrl` or `landscapeImageUrl`, not `sourceImageUrl`. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when the preview is unavailable or still generating.
+        idleVideoUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Signed URL for a muted idling-loop MP4 of the avatar, if one exists. Landscape and framed exactly like `imageUrl`, like `videoUrl`. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when unavailable or still generating.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the avatar was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the avatar was last updated.
+        createdByOrganizationId:
+          type:
+          - string
+          - 'null'
+          description: ID of the organization that created the avatar, or `null` for stock avatars. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        availableVersions:
+          type: array
+          items:
+            type: string
+          description: Avatar models this avatar can be used with. Pass one of these values as `avatarModel` when creating a persona or starting a session.
+        activeVersion:
+          type:
+          - string
+          - 'null'
+          description: Avatar model used by default when no explicit `avatarModel` is requested.
+        description:
+          type:
+          - string
+          - 'null'
+          description: AI-generated description of the avatar's appearance, setting, and style. `null` if metadata generation has not completed.
+        displayTags:
+          type: array
+          items:
+            type: string
+          description: Curated tags describing the avatar. Empty array if metadata generation has not completed.
+        renderStyle:
+          type: string
+          enum:
+          - realistic
+          - animated_3d
+          - illustrated
+          - unknown
+          description: Render style of the avatar. `unknown` covers custom avatars and avatars whose metadata has not yet been generated.
+    ElevenLabsV3VoiceGenerationOptions:
+      title: ElevenLabs V3
+      type: object
+      additionalProperties: false
+      description: Voice generation options for an eleven_v3 or eleven_v3_conversational voice, or for any voice whose model override is one of them. Only stability is supported.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is, from 0 (more varied) to 1 (more stable).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        model:
+          $ref: '#/components/schemas/ElevenLabsModelOverride'
+    Voice:
+      type: object
+      description: A voice preset a persona can use for text-to-speech.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the voice.
+        displayName:
+          type: string
+          description: Human-readable name shown in the Lab.
+        provider:
+          type: string
+          enum:
+          - CARTESIA
+          - ELEVENLABS
+          - FISH_AUDIO
+          description: Upstream TTS provider for this voice.
+        providerVoiceId:
+          type:
+          - string
+          - 'null'
+          description: The upstream provider's identifier for the voice.
+        providerModelId:
+          type:
+          - string
+          - 'null'
+          description: The upstream provider's model identifier used to generate speech.
+        sampleUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL of a short audio preview of the voice.
+        previewSampleUrl:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: Alias for `sampleUrl`, kept for backwards compatibility.
+        gender:
+          type:
+          - string
+          - 'null'
+          enum:
+          - MALE
+          - FEMALE
+          - NEUTRAL
+          - null
+          description: Perceived gender of the voice, if categorised.
+        country:
+          type:
+          - string
+          - 'null'
+          description: ISO 3166-1 alpha-2 country code representing the voice's accent.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of the voice's character.
+        displayTags:
+          type: array
+          items:
+            type: string
+          description: Tags used to categorise the voice in the Lab UI.
+        isZdr:
+          type: boolean
+          description: Whether this voice meets the Zero Data Retention requirements.
+        createdByOrganizationId:
+          type:
+          - string
+          - 'null'
+          description: ID of the organization that created the voice, or `null` for stock voices. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the voice was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the voice was last updated.
+    ElevenLabsV1VoiceGenerationOptions:
+      title: ElevenLabs V1
+      type: object
+      description: Voice generation options for ElevenLabs V1 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0
+          minimum: 0
+          maximum: 1
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+    VoiceDetectionOptions:
+      type: object
+      description: Options for voice activity detection during user speech input.
+      properties:
+        endOfSpeechSensitivity:
+          type: number
+          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        silenceBeforeSkipTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the current user turn is skipped.
+          example: 5
+          minimum: 0
+          maximum: 900
+        silenceBeforeSessionEndSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the session is automatically ended.
+          example: 60
+          minimum: 0
+          maximum: 7200
+        silenceBeforeAutoEndTurnSeconds:
+          type: number
+          description: Duration of silence (in seconds) before the user turn is automatically ended.
+          example: 5
+          minimum: 0.5
+          maximum: 10
+        speechEnhancementLevel:
+          type: number
+          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
+          example: 0.8
+          minimum: 0
+          maximum: 1
+        sttProvider:
+          type: string
+          enum:
+          - anam
+          - deepgram
+          - cartesia_ink_2
+          - inworld_stt_1
+          description: 'Speech-to-text provider to use. Defaults to the platform default when unset. The deepgram provider supports only these languageCode values: en, es, fr, de, hi, ru, pt, ja, it, nl. The cartesia_ink_2 provider supports only these languageCode values: en. The inworld_stt_1 provider supports only these languageCode values: ar, yue, zh, cs, da, nl, en, tl, fi, fr, de, el, hi, hu, id, it, ja, ko, mk, ms, fa, pl, pt, ro, ru, es, sv, th, tr, vi. The inworld_stt_1 provider cannot be used when zeroDataRetention is true. The inworld_stt_1 provider processes audio only in us, so it cannot be used when sessionOptions.regionPolicy is "strict" with any other region.'
+          example: anam
+    CartesiaSonic3VoiceGenerationOptions:
+      title: Cartesia Sonic-3
+      type: object
+      description: Voice generation options for Cartesia Sonic-3 models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
+          example: 1
+          minimum: 0.6
+          maximum: 1.5
+        emotion:
+          type: string
+          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
+          example: neutral
+          oneOf:
+          - type: string
+            enum:
+            - neutral
+            - calm
+            - angry
+            - content
+            - sad
+            - scared
+    FishAudioVoiceGenerationOptions:
+      title: Fish Audio
+      type: object
+      description: Voice generation options for Fish Audio models.
+      properties:
+        volume:
+          type: number
+          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
+          example: 1
+          minimum: 0.5
+          maximum: 2
+    ElevenLabsModelOverride:
+      type: string
+      enum:
+      - eleven_v4_turbo
+      - eleven_v3_conversational
+      - eleven_v4
+      - eleven_v3
+      - eleven_flash_v2_5
+      - eleven_multilingual_v2
+      - eleven_flash_v2
+      - eleven_turbo_v2_5
+      description: 'Replaces the voice''s ElevenLabs model for generation. Must be an ElevenLabs model supported for voice imports. The other options must be valid for this model: for example, eleven_v4 accepts only stability and similarityBoost.'
+    ElevenLabsV4VoiceGenerationOptions:
+      title: ElevenLabs V4
+      type: object
+      additionalProperties: false
+      description: Voice generation options for an eleven_v4 or eleven_v4_turbo voice, or for any voice whose model override is one of them. Only stability and similarityBoost are supported.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is, from 0 (more varied) to 1 (more stable).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        model:
+          $ref: '#/components/schemas/ElevenLabsModelOverride'
+    PersonaSummary:
+      type: object
+      description: Trimmed persona shape returned by the list endpoint. For the full shape use `GET /v1/personas/{id}`.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the persona.
+        name:
+          type: string
+          description: Human-readable name of the persona.
+        description:
+          type: string
+          description: Free-form description of the persona. Empty string if none was provided.
+        personaPreset:
+          type: string
+          deprecated: true
+          description: Deprecated. Name of the legacy preset an older persona was created from, or an empty string. Presets can no longer be set; use `avatarId` and `voiceId`.
+        avatar:
+          oneOf:
+          - $ref: '#/components/schemas/Avatar'
+          - type: 'null'
+          description: Avatar currently attached to the persona, or `null` if none.
+        voice:
+          oneOf:
+          - $ref: '#/components/schemas/Voice'
+          - type: 'null'
+          description: Voice currently attached to the persona, or `null` if none.
+        voiceSpeed:
+          type:
+          - number
+          - 'null'
+          description: Speech rate multiplier applied to the voice.
+        isDefaultPersona:
+          type: boolean
+          description: Whether this is a built-in default persona available to every organization.
+        languageCode:
+          type: string
+          description: Supported ISO 639 language code override (including "yue" for Cantonese) for transcription, or `inherit` to fall back to the organization default.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the persona was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the persona was last updated.
+    PersonaBrain:
+      type: object
+      description: Persona behaviour configuration applied on top of the raw LLM.
+      properties:
+        personality:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of the persona's personality, used to seed the system prompt.
+        systemPrompt:
+          type:
+          - string
+          - 'null'
+          description: System prompt sent to the LLM at the start of each session.
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    ElevenLabsV2VoiceGenerationOptions:
+      title: ElevenLabs V2
+      type: object
+      description: Voice generation options for ElevenLabs V2 models.
+      properties:
+        stability:
+          type: number
+          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
+          example: 0.5
+          minimum: 0
+          maximum: 1
+        similarityBoost:
+          type: number
+          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
+          example: 0.75
+          minimum: 0
+          maximum: 1
+        style:
+          type: number
+          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
+          example: 0
+          minimum: 0
+          maximum: 1
+        useSpeakerBoost:
+          type: boolean
+          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
+          example: true
+        speed:
+          type: number
+          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
+          example: 1
+          minimum: 0.7
+          maximum: 1.2
+        model:
+          $ref: '#/components/schemas/ElevenLabsModelOverride'
+    Persona:
+      type: object
+      description: Full persona shape returned by the create, get, and update endpoints.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the persona.
+        name:
+          type: string
+          description: Human-readable name of the persona.
+        description:
+          type:
+          - string
+          - 'null'
+          description: Free-form description of the persona.
+        personaPreset:
+          type: string
+          deprecated: true
+          description: Deprecated. Name of the legacy preset an older persona was created from, if any. Presets can no longer be set; use `avatarId` and `voiceId`.
+        avatar:
+          oneOf:
+          - $ref: '#/components/schemas/Avatar'
+          - type: 'null'
+          description: Avatar currently attached to the persona.
+        avatarModel:
+          type:
+          - string
+          - 'null'
+          description: Public model version (e.g. `cara-3`, `cara-4`) used when rendering the avatar.
+        voice:
+          oneOf:
+          - $ref: '#/components/schemas/Voice'
+          - type: 'null'
+          description: Voice currently attached to the persona.
+        voiceSpeed:
+          type:
+          - number
+          - 'null'
+          description: Speech rate multiplier applied to the voice.
+        llmId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+          description: ID of the LLM the persona uses, or `null` for presets that don't run an LLM.
+        brain:
+          $ref: '#/components/schemas/PersonaBrain'
+        tools:
+          type: array
+          items:
+            type: object
+          description: Tool configurations currently attached to the persona.
+        knowledge:
+          type: array
+          items:
+            type: object
+          description: Knowledge group attachments currently active on the persona.
+        shareLinks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ShareLink'
+          description: All share links ever issued for this persona.
+        primaryShareLink:
+          type:
+          - object
+          - 'null'
+          description: The primary share link attached to the persona, if one has been created.
+          properties:
+            token:
+              type: string
+            enabled:
+              type: boolean
+        enableAudioPassthrough:
+          type: boolean
+          description: Whether audio is passed through from the client instead of being generated server-side.
+        skipGreeting:
+          type: boolean
+          description: Whether the persona skips the greeting message at the start of a session.
+        zeroDataRetention:
+          type: boolean
+          description: Whether session data is discarded instead of stored after the conversation ends.
+        maxSessionLengthSeconds:
+          type:
+          - integer
+          - 'null'
+          description: Maximum length in seconds of every session with this persona, or `null` when only the plan's session limit applies.
+        voiceDetectionOptions:
+          oneOf:
+          - $ref: '#/components/schemas/VoiceDetectionOptions'
+          - type: 'null'
+          description: Voice activity detection tuning for user speech.
+        voiceGenerationOptions:
+          oneOf:
+          - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV3VoiceGenerationOptions'
+          - $ref: '#/components/schemas/ElevenLabsV4VoiceGenerationOptions'
+          - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
+          - $ref: '#/components/schemas/FishAudioVoiceGenerationOptions'
+          - type: 'null'
+          description: Provider-specific voice generation tuning.
+        widgetConfig:
+          type: object
+          description: Widget rendering overrides (e.g. removing the watermark).
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the persona was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the persona was last updated.
+    ShareLink:
+      type: object
+      description: A shareable link to a persona. Can be used as a direct URL or embedded via the widget.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the share link.
+        token:
+          type: string
+          description: Opaque token appended to the public URL.
+        type:
+          type: string
+          enum:
+          - LINK
+          - PLAYER_EMBED
+          - ORB_EMBED
+          description: Kind of share link — a direct URL, a player embed, or an orb embed.
+        expiresAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp after which the link no longer works, or `null` if the link does not expire.
+        usageLimit:
+          type:
+          - integer
+          - 'null'
+          description: Maximum number of times the link can be used, or `null` for unlimited.
+        usageCount:
+          type: integer
+          description: Number of times the link has been used.
+        allowedOrigins:
+          type: array
+          items:
+            type: string
+          description: Origins permitted to load the link when embedded. Ignored when `allowAllOrigins` is true.
+        allowAllOrigins:
+          type: boolean
+          description: Whether the link can be embedded on any origin.
+        removeWatermark:
+          type: boolean
+          description: Whether the persona renders without the Anam watermark. Requires a plan that permits watermark removal.
+        enabled:
+          type: boolean
+          description: Whether the link currently accepts connections.
+        isPrimary:
+          type: boolean
+          description: Whether this is the persona's primary share link (at most one per persona).
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the share link was created.
   examples:
+    PersonaCreate:
+      summary: Create a persona with the default Cara configuration
+      value:
+        name: Cara
+        description: A helpful assistant
+        avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
+        voiceId: de23e340-1416-4dd8-977d-065a7ca11697
+        llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
+        systemPrompt: You are a helpful assistant.
     PersonaListResponse:
       summary: A paginated list of personas (trimmed shape)
       value:
@@ -542,567 +1347,6 @@ components:
       summary: Update the persona's system prompt
       value:
         systemPrompt: You are a helpful assistant who speaks concisely.
-    PersonaCreate:
-      summary: Create a persona with the default Cara configuration
-      value:
-        name: Cara
-        description: A helpful assistant
-        avatarId: 071b0286-4cce-4808-bee2-e642f1062de3
-        voiceId: de23e340-1416-4dd8-977d-065a7ca11697
-        llmId: a7cf662c-2ace-4de1-a21e-ef0fbf144bb7
-        systemPrompt: You are a helpful assistant.
-  schemas:
-    PersonaSummary:
-      type: object
-      description: Trimmed persona shape returned by the list endpoint. For the full shape use `GET /v1/personas/{id}`.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the persona.
-        name:
-          type: string
-          description: Human-readable name of the persona.
-        description:
-          type: string
-          description: Free-form description of the persona. Empty string if none was provided.
-        personaPreset:
-          type: string
-          description: Name of the preset the persona was cloned from, or empty string if it was built from scratch.
-        avatar:
-          oneOf:
-          - $ref: '#/components/schemas/Avatar'
-          - type: 'null'
-          description: Avatar currently attached to the persona, or `null` if none.
-        voice:
-          oneOf:
-          - $ref: '#/components/schemas/Voice'
-          - type: 'null'
-          description: Voice currently attached to the persona, or `null` if none.
-        voiceSpeed:
-          type:
-          - number
-          - 'null'
-          description: Speech rate multiplier applied to the voice.
-        isDefaultPersona:
-          type: boolean
-          description: Whether this is a built-in default persona available to every organization.
-        languageCode:
-          type: string
-          description: ISO 639-1 language override for transcription, or `inherit` to fall back to the organization default.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the persona was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the persona was last updated.
-    VoiceDetectionOptions:
-      type: object
-      description: Options for voice activity detection during user speech input.
-      properties:
-        endOfSpeechSensitivity:
-          type: number
-          description: Sensitivity for detecting end of speech, between 0 (least sensitive) and 1 (most sensitive).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        silenceBeforeSkipTurnSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the current user turn is skipped.
-          example: 5
-          minimum: 0
-          maximum: 900
-        silenceBeforeSessionEndSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the session is automatically ended.
-          example: 60
-          minimum: 0
-          maximum: 7200
-        silenceBeforeAutoEndTurnSeconds:
-          type: number
-          description: Duration of silence (in seconds) before the user turn is automatically ended.
-          example: 5
-          minimum: 0.5
-          maximum: 10
-        speechEnhancementLevel:
-          type: number
-          description: Level of speech enhancement to apply, 0 (no speech enhancement) 1 (max speech enhancement)
-          example: 0.8
-          minimum: 0
-          maximum: 1
-    FishAudioVoiceGenerationOptions:
-      title: Fish Audio
-      type: object
-      description: Voice generation options for Fish Audio models.
-      properties:
-        volume:
-          type: number
-          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.5 (slower) and 2.0 (faster).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-    PersonaBrain:
-      type: object
-      description: Persona behaviour configuration applied on top of the raw LLM.
-      properties:
-        personality:
-          type:
-          - string
-          - 'null'
-          description: Free-form description of the persona's personality, used to seed the system prompt.
-        systemPrompt:
-          type:
-          - string
-          - 'null'
-          description: System prompt sent to the LLM at the start of each session.
-    Voice:
-      type: object
-      description: A voice preset a persona can use for text-to-speech.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the voice.
-        displayName:
-          type: string
-          description: Human-readable name shown in the Lab.
-        provider:
-          type: string
-          enum:
-          - CARTESIA
-          - ELEVENLABS
-          - OPENAI_ADVANCED_VOICE
-          - FISH_AUDIO
-          description: Upstream TTS provider for this voice.
-        providerVoiceId:
-          type:
-          - string
-          - 'null'
-          description: The upstream provider's identifier for the voice.
-        providerModelId:
-          type:
-          - string
-          - 'null'
-          description: The upstream provider's model identifier used to generate speech.
-        sampleUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: URL of a short audio preview of the voice.
-        previewSampleUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Alias for `sampleUrl`, kept for backwards compatibility.
-        gender:
-          type:
-          - string
-          - 'null'
-          enum:
-          - MALE
-          - FEMALE
-          - NEUTRAL
-          - null
-          description: Perceived gender of the voice, if categorised.
-        country:
-          type:
-          - string
-          - 'null'
-          description: ISO 3166-1 alpha-2 country code representing the voice's accent.
-        description:
-          type:
-          - string
-          - 'null'
-          description: Free-form description of the voice's character.
-        displayTags:
-          type: array
-          items:
-            type: string
-          description: Tags used to categorise the voice in the Lab UI.
-        isZdr:
-          type: boolean
-          description: Whether this voice meets the Zero Data Retention requirements.
-        createdByOrganizationId:
-          type:
-          - string
-          - 'null'
-          description: ID of the organization that created the voice, or `null` for stock voices. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the voice was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the voice was last updated.
-    Avatar:
-      type: object
-      description: A face preset that a persona can use as its visual representation.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the avatar.
-        displayName:
-          type: string
-          description: Human-readable name shown in the Lab and share links.
-        variantName:
-          type: string
-          description: Name of the specific variant (e.g. lighting or pose) within the avatar family.
-        imageUrl:
-          type: string
-          format: uri
-          description: URL of the still image used as a preview of the avatar.
-        landscapeImageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Preview image cropped exactly as the engine frames landscape (1152x768) output. Use this when displaying the avatar at a landscape aspect ratio. For avatars with legacy landscape source images this is the same as `imageUrl`.
-        portraitImageUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Preview image cropped exactly as the engine frames portrait (768x1152) output. Use this when starting a session with portrait `videoWidth`/`videoHeight`. `null` when the avatar cannot render portrait output.
-        videoUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Signed URL for a muted MP4 preview of the avatar, if one exists. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when the preview is unavailable or still generating.
-        idleVideoUrl:
-          type:
-          - string
-          - 'null'
-          format: uri
-          description: Signed URL for a muted idling-loop MP4 of the avatar, if one exists. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when unavailable or still generating.
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the avatar was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the avatar was last updated.
-        createdByOrganizationId:
-          type:
-          - string
-          - 'null'
-          description: ID of the organization that created the avatar, or `null` for stock avatars. IDs may be either UUIDs or nanoid-style strings depending on when the organization was created.
-        availableVersions:
-          type: array
-          items:
-            type: string
-          description: Avatar models this avatar can be used with. Pass one of these values as `avatarModel` when creating a persona or starting a session.
-        activeVersion:
-          type:
-          - string
-          - 'null'
-          description: Avatar model used by default when no explicit `avatarModel` is requested.
-        description:
-          type:
-          - string
-          - 'null'
-          description: AI-generated description of the avatar's appearance, setting, and style. `null` if metadata generation has not completed.
-        displayTags:
-          type: array
-          items:
-            type: string
-          description: Curated tags describing the avatar. Empty array if metadata generation has not completed.
-        renderStyle:
-          type: string
-          enum:
-          - realistic
-          - animated_3d
-          - illustrated
-          - unknown
-          description: Render style of the avatar. `unknown` covers custom avatars and avatars whose metadata has not yet been generated.
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
-    CartesiaSonic3VoiceGenerationOptions:
-      title: Cartesia Sonic-3
-      type: object
-      description: Voice generation options for Cartesia Sonic-3 models.
-      properties:
-        volume:
-          type: number
-          description: Controls the volume level of the generated voice as a multiplier, between 0.5 (quieter) and 2.0 (louder).
-          example: 1
-          minimum: 0.5
-          maximum: 2
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.6 (slower) and 1.5 (faster).
-          example: 1
-          minimum: 0.6
-          maximum: 1.5
-        emotion:
-          type: string
-          description: 'Sets the emotional tone of the generated voice. Supported emotions are: neutral, calm, angry, content, sad, scared.'
-          example: neutral
-          oneOf:
-          - type: string
-            enum:
-            - neutral
-            - calm
-            - angry
-            - content
-            - sad
-            - scared
-    Persona:
-      type: object
-      description: Full persona shape returned by the create, get, and update endpoints.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the persona.
-        name:
-          type: string
-          description: Human-readable name of the persona.
-        description:
-          type:
-          - string
-          - 'null'
-          description: Free-form description of the persona.
-        personaPreset:
-          type: string
-          description: Name of the preset the persona was cloned from, if any.
-        avatar:
-          oneOf:
-          - $ref: '#/components/schemas/Avatar'
-          - type: 'null'
-          description: Avatar currently attached to the persona.
-        avatarModel:
-          type:
-          - string
-          - 'null'
-          description: Public model version (e.g. `cara-3`, `cara-4`) used when rendering the avatar.
-        voice:
-          oneOf:
-          - $ref: '#/components/schemas/Voice'
-          - type: 'null'
-          description: Voice currently attached to the persona.
-        voiceSpeed:
-          type:
-          - number
-          - 'null'
-          description: Speech rate multiplier applied to the voice.
-        llmId:
-          type:
-          - string
-          - 'null'
-          format: uuid
-          description: ID of the LLM the persona uses, or `null` for presets that don't run an LLM.
-        brain:
-          $ref: '#/components/schemas/PersonaBrain'
-        tools:
-          type: array
-          items:
-            type: object
-          description: Tool configurations currently attached to the persona.
-        knowledge:
-          type: array
-          items:
-            type: object
-          description: Knowledge group attachments currently active on the persona.
-        shareLinks:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ShareLink'
-          description: All share links ever issued for this persona.
-        primaryShareLink:
-          type:
-          - object
-          - 'null'
-          description: The primary share link attached to the persona, if one has been created.
-          properties:
-            token:
-              type: string
-            enabled:
-              type: boolean
-        enableAudioPassthrough:
-          type: boolean
-          description: Whether audio is passed through from the client instead of being generated server-side.
-        skipGreeting:
-          type: boolean
-          description: Whether the persona skips the greeting message at the start of a session.
-        zeroDataRetention:
-          type: boolean
-          description: Whether session data is discarded instead of stored after the conversation ends.
-        voiceDetectionOptions:
-          oneOf:
-          - $ref: '#/components/schemas/VoiceDetectionOptions'
-          - type: 'null'
-          description: Voice activity detection tuning for user speech.
-        voiceGenerationOptions:
-          oneOf:
-          - $ref: '#/components/schemas/ElevenLabsV1VoiceGenerationOptions'
-          - $ref: '#/components/schemas/ElevenLabsV2VoiceGenerationOptions'
-          - $ref: '#/components/schemas/CartesiaSonic3VoiceGenerationOptions'
-          - $ref: '#/components/schemas/FishAudioVoiceGenerationOptions'
-          - type: 'null'
-          description: Provider-specific voice generation tuning.
-        widgetConfig:
-          type: object
-          description: Widget rendering overrides (e.g. removing the watermark).
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the persona was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: Timestamp when the persona was last updated.
-    ElevenLabsV2VoiceGenerationOptions:
-      title: ElevenLabs V2
-      type: object
-      description: Voice generation options for ElevenLabs V2 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0.75
-          minimum: 0
-          maximum: 1
-        style:
-          type: number
-          description: Amplifies the style of the original speaker, between 0 and 1, it is recommended to keep this value low (0) to reduce latency.
-          example: 0
-          minimum: 0
-          maximum: 1
-        useSpeakerBoost:
-          type: boolean
-          description: Whether to use speaker boost for the generated voice, enhancing the similarity to the original speaker.
-          example: true
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
-        model:
-          type: string
-          description: The ElevenLabs model ID to use for voice generation.
-    ShareLink:
-      type: object
-      description: A shareable link to a persona. Can be used as a direct URL or embedded via the widget.
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the share link.
-        token:
-          type: string
-          description: Opaque token appended to the public URL.
-        type:
-          type: string
-          enum:
-          - LINK
-          - PLAYER_EMBED
-          - ORB_EMBED
-          description: Kind of share link — a direct URL, a player embed, or an orb embed.
-        expiresAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: Timestamp after which the link no longer works, or `null` if the link does not expire.
-        usageLimit:
-          type:
-          - integer
-          - 'null'
-          description: Maximum number of times the link can be used, or `null` for unlimited.
-        usageCount:
-          type: integer
-          description: Number of times the link has been used.
-        allowedOrigins:
-          type: array
-          items:
-            type: string
-          description: Origins permitted to load the link when embedded. Ignored when `allowAllOrigins` is true.
-        allowAllOrigins:
-          type: boolean
-          description: Whether the link can be embedded on any origin.
-        removeWatermark:
-          type: boolean
-          description: Whether the persona renders without the Anam watermark. Requires a plan that permits watermark removal.
-        enabled:
-          type: boolean
-          description: Whether the link currently accepts connections.
-        isPrimary:
-          type: boolean
-          description: Whether this is the persona's primary share link (at most one per persona).
-        createdAt:
-          type: string
-          format: date-time
-          description: Timestamp when the share link was created.
-    ElevenLabsV1VoiceGenerationOptions:
-      title: ElevenLabs V1
-      type: object
-      description: Voice generation options for ElevenLabs V1 models.
-      properties:
-        stability:
-          type: number
-          description: Controls how stable the generated voice is between each generation, between 0 (more varied/higher emotional range) and 1 (more stable/less emotional range).
-          example: 0.5
-          minimum: 0
-          maximum: 1
-        similarityBoost:
-          type: number
-          description: Controls how close the generated voice is to the original speaker, between 0 (more varied) and 1 (more similar).
-          example: 0
-          minimum: 0
-          maximum: 1
-        speed:
-          type: number
-          description: Controls the speed of the spoken voice as a multiplier, between 0.7 (slower) and 1.2 (faster).
-          example: 1
-          minimum: 0.7
-          maximum: 1.2
   securitySchemes:
     BearerAuth:
       type: http

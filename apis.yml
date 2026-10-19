@@ -160,6 +160,27 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/anamai-llms-api-openapi.yml
+- aid: anamai:anamai-avatar-videos-api
+  name: Anam.ai Avatar Videos API
+  description: The Avatar Videos API from Anam.ai — 4 operation(s) for avatar videos.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Avatar Videos
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-avatar-videos-api-openapi.yml
+- aid: anamai:anamai-pronunciation-dictionaries-api
+  name: Anam.ai Pronunciation Dictionaries API
+  description: >-
+    The Pronunciation Dictionaries API from Anam.ai — 3 operation(s) for pronunciation dictionaries.
+  humanURL: https://anam.ai/docs
+  baseURL: https://api.anam.ai/v1/
+  tags:
+  - Pronunciation Dictionaries
+  properties:
+  - type: OpenAPI
+    url: openapi/anamai-pronunciation-dictionaries-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com

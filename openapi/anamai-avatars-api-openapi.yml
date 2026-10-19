@@ -98,7 +98,7 @@ paths:
           name: list-avatars
           description: Returns a list of all avatars
     post:
-      description: Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL.
+      description: Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL. Every plan includes unlimited saved custom avatars. Image moderation quotas and creation capacity limits still apply.
       requestBody:
         description: Source image and display name for the new one-shot avatar. Provide either an uploaded file (`multipart/form-data` with `imageFile`) or a URL (`application/json` with `imageUrl`) — not both.
         required: true
@@ -122,7 +122,10 @@ paths:
                   description: URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). Either imageFile or imageUrl must be provided, but not both.
                 avatarModel:
                   type: string
-                  description: Avatar model to use (e.g. "cara-3", "cara-4", "cara-4-latest"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.
+                  description: Avatar model for creation. Defaults to cara-4. Cara 2 and Cara 3 creation are not supported.
+                  enum:
+                  - cara-4
+                  - cara-4-latest
           application/json:
             examples:
               default:
@@ -142,7 +145,10 @@ paths:
                   description: URL of the image to create the avatar from (JPEG, PNG, or WebP, max 4.5MB). The image will be downloaded, processed, and stored permanently.
                 avatarModel:
                   type: string
-                  description: Avatar model to use (e.g. "cara-3", "cara-4", "cara-4-latest"). `cara-3` and `cara-4` are generally available. Defaults to the server default model. Gated models (the '-latest' suffix) require organization-level access.
+                  description: Avatar model for creation. Defaults to cara-4. Cara 2 and Cara 3 creation are not supported.
+                  enum:
+                  - cara-4
+                  - cara-4-latest
       responses:
         '201':
           description: Successfully created avatar
@@ -154,17 +160,189 @@ paths:
                 default:
                   $ref: '#/components/examples/AvatarResponse'
         '400':
-          description: Bad request - Invalid avatar data, missing image file/URL, or both provided
+          description: Bad request - invalid avatar data, or a multipart body with neither or both of image file and image URL. JSON bodies must supply imageUrl. Legacy engineKey creation is no longer supported. details lists the offending field path.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  details:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        path:
+                          type: string
+                        message:
+                          type: string
+                        code:
+                          type: string
+                  summary:
+                    type: string
+              example:
+                error: Validation error
+                details:
+                - path: imageUrl
+                  message: imageUrl is required
+                  code: custom
+                summary: 'imageUrl: imageUrl is required'
         '401':
           description: Unauthorized - Invalid or missing API key
         '403':
-          description: Forbidden - Requires enterprise plan or API key lacks the required permission
+          description: Forbidden - API key lacks the required permission or custom avatar API access is disabled for this organization.
+        '409':
+          description: An identical image, name, model and crop request is already in progress for this organization. Code CREATION_IN_PROGRESS. Check the avatar list before submitting again; completed results are not replayed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                - code
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                    enum:
+                    - CREATION_IN_PROGRESS
         '422':
-          description: Unprocessable Entity - Image could not be processed, or was rejected by content moderation (e.g. inappropriate content, celebrity likeness, or the subject's age could not be verified)
+          description: Unprocessable Entity - Image could not be processed, or was rejected by Anam or the outpainting provider. Provider content rejections include code outpaint_content_blocked and should not be retried with the same image.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                    enum:
+                    - outpaint_content_blocked
+                    description: Present when the outpainting provider's content checker rejects the image.
+              example:
+                error: The image provider could not extend this photo because its content checker rejected the request. Try another photo, or contact support if you believe this is a mistake.
+                code: outpaint_content_blocked
         '429':
-          description: Too Many Requests - Content moderation rate limit reached; wait and retry
+          description: Creation capacity is full (code CREATION_BUSY, Retry-After 5 seconds, no job started) or organization-wide image moderation quota exhausted. Defaults are 5 checks per UTC minute and 100 per UTC day, subject to organization overrides. Checks count even if moderation rejects the image or avatar creation later fails; cached moderation does not consume another check. The daily reset takes precedence when both quotas are exhausted. Retry at resetAt or contact Anam support for a higher image moderation limit. Saved custom avatars are unlimited. Session concurrency is a separate limit.
+          headers:
+            Retry-After:
+              description: Seconds to wait before retrying. Creation capacity returns 5; moderation returns time until the exhausted quota resets, rounded up.
+              schema:
+                type: integer
+                minimum: 1
+              example: 12045
+            Access-Control-Expose-Headers:
+              description: Allows browser clients to read Retry-After.
+              schema:
+                type: string
+              example: Retry-After
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                - code
+                properties:
+                  error:
+                    type: string
+                    description: Human-readable quota, usage, UTC reset time, and recovery advice.
+                  code:
+                    type: string
+                    enum:
+                    - moderation_rate_limited
+                    - CREATION_BUSY
+                  rateLimit:
+                    type: object
+                    required:
+                    - scope
+                    - window
+                    - limit
+                    - used
+                    - remaining
+                    - resetAt
+                    - retryAfterSeconds
+                    properties:
+                      scope:
+                        type: string
+                        enum:
+                        - organization
+                      window:
+                        type: string
+                        enum:
+                        - minute
+                        - day
+                        description: The exhausted window that determines when requests can resume.
+                      limit:
+                        type: number
+                        description: Effective quota for this organization and window.
+                      used:
+                        type: integer
+                        description: Checks already counted in this window.
+                      remaining:
+                        type: integer
+                        enum:
+                        - 0
+                      resetAt:
+                        type: string
+                        format: date-time
+                        description: Absolute reset time in UTC, at the next minute boundary or midnight.
+                      retryAfterSeconds:
+                        type: integer
+                        minimum: 1
+                        description: Same delay as the Retry-After response header.
+              examples:
+                creationBusy:
+                  value:
+                    error: Avatar creation is busy. Waiting for an available slot.
+                    message: Avatar creation is busy. Waiting for an available slot.
+                    code: CREATION_BUSY
+                    retryable: true
+                dailyLimit:
+                  $ref: '#/components/examples/AvatarModerationDailyLimit'
+                minuteLimit:
+                  $ref: '#/components/examples/AvatarModerationMinuteLimit'
         '500':
           description: Server error
+        '502':
+          description: The avatar worker or an upstream generation provider failed. This is a service failure, not an invalid image. The request is not automatically replayed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                properties:
+                  error:
+                    type: string
+                    example: 'Failed to crop source image: 500 - Failed to crop and encode source image'
+                  code:
+                    type: string
+                    enum:
+                    - outpaint_provider_failed
+                    - outpaint_download_failed
+                    description: Present for a recognized, completed outpainting provider or output-download failure.
+        '503':
+          description: Creation admission is unavailable. Code CREATION_UNAVAILABLE. No avatar job has started; retry later.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                - code
+                properties:
+                  error:
+                    type: string
+                  code:
+                    type: string
+                    enum:
+                    - CREATION_UNAVAILABLE
       tags:
       - Avatars
       operationId: createAvatar
@@ -175,7 +353,7 @@ paths:
         mcp:
           enabled: true
           name: create-avatar
-          description: Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL.
+          description: Create a new one-shot avatar from an image file or image URL. You can use either multipart/form-data with an image file, or JSON with an image URL. Every plan includes unlimited saved custom avatars. Image moderation quotas and creation capacity limits still apply.
   /v1/avatars/{id}:
     get:
       description: Returns an avatar by ID
@@ -276,7 +454,7 @@ paths:
           name: update-avatar
           description: Update an avatar by ID (only display name can be updated)
     delete:
-      description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted.'
+      description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted. A hard delete never deletes personas: when active personas (or their drafts) still use the avatar the request fails with `409 Conflict` and the impacted persona IDs. Move those personas to another avatar (e.g. `PUT /v1/personas/{id}` with a new `avatarId`) and retry.'
       parameters:
       - in: path
         name: id
@@ -310,6 +488,21 @@ paths:
           description: Forbidden - API key lacks the required permission
         '404':
           description: Not Found - Avatar not found
+        '409':
+          description: Conflict - the avatar is still used by active personas (hard delete only). Reassign those personas to another avatar, then retry.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Avatar is used by active personas. Move them to another avatar before hard-deleting it.
+                  impactedPersonaIds:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
         '500':
           description: Server error
       tags:
@@ -322,66 +515,8 @@ paths:
         mcp:
           enabled: true
           name: delete-avatar
-          description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted.. Use with caution as this action cannot be undone.'
+          description: 'Delete an avatar by ID. By default this is a soft delete: the avatar is hidden and can be restored. Pass `hard=true` to permanently purge the avatar and its stored assets (source image and generated versions). A hard delete cannot be undone and is intended for data-erasure requests; it also purges avatars that were previously soft-deleted. A hard delete never deletes personas: when active personas (or their drafts) still use the avatar the request fails with `409 Conflict` and the impacted persona IDs. Move those personas to another avatar (e.g. `PUT /v1/personas/{id}` with a new `avatarId`) and retry.. Use with caution as this action cannot be undone.'
 components:
-  examples:
-    AvatarListResponse:
-      summary: A paginated list of avatars
-      value:
-        data:
-        - id: 071b0286-4cce-4808-bee2-e642f1062de3
-          displayName: Liv
-          variantName: home
-          imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
-          videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: '2026-04-20T10:00:00.000Z'
-          createdByOrganizationId: null
-          availableVersions:
-          - cara-3
-          activeVersion: cara-3
-          description: A friendly professional in a modern office setting, warm expression, business casual attire.
-          displayTags:
-          - professional
-          - friendly
-          - office
-          renderStyle: realistic
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
-    AvatarCreate:
-      summary: Create a one-shot avatar from an image URL
-      value:
-        displayName: Alex
-        imageUrl: https://example.com/alex.jpg
-    AvatarUpdate:
-      summary: Rename an avatar
-      value:
-        displayName: Updated avatar name
-    AvatarResponse:
-      summary: A single avatar resource
-      value:
-        id: 071b0286-4cce-4808-bee2-e642f1062de3
-        displayName: Liv
-        variantName: home
-        imageUrl: https://lab.anam.ai/persona_thumbnails/liv_home.png
-        videoUrl: https://example.com/avatar-preview.mp4?X-Amz-Signature=...
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-        createdByOrganizationId: null
-        availableVersions:
-        - cara-3
-        activeVersion: cara-3
-        description: A friendly professional in a modern office setting, warm expression, business casual attire.
-        displayTags:
-        - professional
-        - friendly
-        - office
-        renderStyle: realistic
   schemas:
     Avatar:
       type: object
@@ -400,31 +535,35 @@ components:
         imageUrl:
           type: string
           format: uri
-          description: URL of the still image used as a preview of the avatar.
+          description: Still image of the avatar, framed exactly like `videoUrl`, `idleVideoUrl` and a landscape session (the default). Use it as the thumbnail, poster or loading image wherever a preview video or the live stream replaces it, and give the image and the video the same box, `object-fit` and `object-position` so the avatar doesn't move when they swap. For Cara 4 avatars this is the 1152x768 landscape crop (the same image as `landscapeImageUrl`). Cara 4 avatars used to return their square source image here; that image is now `sourceImageUrl`. Empty when the avatar has no image yet.
+        sourceImageUrl:
+          type: string
+          format: uri
+          description: The image the avatar was created from. For Cara 4 avatars it is square (1152x1152) and shows more of the scene than the 1152x768 crop that preview videos and sessions use, so the avatar appears to zoom in when a video or call replaces it. Don't use it as a thumbnail, poster or loading image next to `videoUrl` or a session; use `imageUrl`, `landscapeImageUrl` or `portraitImageUrl`. For legacy avatars it is the same landscape image as `imageUrl`.
         landscapeImageUrl:
           type:
           - string
           - 'null'
           format: uri
-          description: Preview image cropped exactly as the engine frames landscape (1152x768) output. Use this when displaying the avatar at a landscape aspect ratio. For avatars with legacy landscape source images this is the same as `imageUrl`.
+          description: Still image cropped exactly as the engine frames landscape (1152x768) output, which is also the framing of `videoUrl` and `idleVideoUrl`. Use it with landscape sessions (the default) and preview videos. For avatars with legacy landscape source images this is the source image.
         portraitImageUrl:
           type:
           - string
           - 'null'
           format: uri
-          description: Preview image cropped exactly as the engine frames portrait (768x1152) output. Use this when starting a session with portrait `videoWidth`/`videoHeight`. `null` when the avatar cannot render portrait output.
+          description: Still image cropped exactly as the engine frames portrait (768x1152) output. Use it as the poster for a session started with portrait `videoWidth`/`videoHeight`. Preview videos are landscape, so don't swap this image for `videoUrl`. `null` when the avatar cannot render portrait output.
         videoUrl:
           type:
           - string
           - 'null'
           format: uri
-          description: Signed URL for a muted MP4 preview of the avatar, if one exists. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when the preview is unavailable or still generating.
+          description: Signed URL for a verified muted MP4 preview of the avatar. Uses the idle loop if the talking preview is unavailable. Landscape (1152x768 for Cara 4 avatars, 720x480 for legacy avatars) and framed exactly like `imageUrl`, so pair it with `imageUrl` or `landscapeImageUrl`, not `sourceImageUrl`. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when the preview is unavailable or still generating.
         idleVideoUrl:
           type:
           - string
           - 'null'
           format: uri
-          description: Signed URL for a muted idling-loop MP4 of the avatar, if one exists. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when unavailable or still generating.
+          description: Signed URL for a muted idling-loop MP4 of the avatar, if one exists. Landscape and framed exactly like `imageUrl`, like `videoUrl`. The URL expires after 1 hour; re-fetch the avatar to get a fresh URL. `null` when unavailable or still generating.
         createdAt:
           type: string
           format: date-time
@@ -492,6 +631,98 @@ components:
           - integer
           - 'null'
           description: Number of the next page, or null if on the last page.
+  examples:
+    AvatarModerationMinuteLimit:
+      summary: Minute organization image moderation quota exhausted
+      value:
+        error: Your organization has used 5 of 5 per-minute image moderation checks. This quota is shared across your organization and counts checks even when an image is rejected or avatar creation fails. Retry after 2026-09-09 20:40:00 UTC, in 45 seconds, or contact Anam support to request a higher image moderation limit.
+        code: moderation_rate_limited
+        rateLimit:
+          scope: organization
+          window: minute
+          limit: 5
+          used: 5
+          remaining: 0
+          resetAt: '2026-09-09T20:40:00.000Z'
+          retryAfterSeconds: 45
+    AvatarUpdate:
+      summary: Rename an avatar
+      value:
+        displayName: Updated avatar name
+    AvatarListResponse:
+      summary: A paginated list of avatars
+      value:
+        data:
+        - id: 071b0286-4cce-4808-bee2-e642f1062de3
+          displayName: Liv
+          variantName: home
+          imageUrl: https://lab.anam.ai/api/avatars/071b0286-4cce-4808-bee2-e642f1062de3/image/landscape?v=3f2a1b0c9d8e7f6a
+          sourceImageUrl: https://example.public.blob.vercel-storage.com/avatar-previews/liv_home.webp
+          landscapeImageUrl: https://lab.anam.ai/api/avatars/071b0286-4cce-4808-bee2-e642f1062de3/image/landscape?v=3f2a1b0c9d8e7f6a
+          portraitImageUrl: https://lab.anam.ai/api/avatars/071b0286-4cce-4808-bee2-e642f1062de3/image/portrait?v=3f2a1b0c9d8e7f6a
+          videoUrl: https://example.com/avatars/cara-4/stock/liv_home/talking_preview_video.mp4?X-Amz-Signature=...
+          idleVideoUrl: https://example.com/avatars/cara-4/stock/liv_home/idling_video.mp4?X-Amz-Signature=...
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: '2026-04-20T10:00:00.000Z'
+          createdByOrganizationId: null
+          availableVersions:
+          - cara-4
+          activeVersion: cara-4
+          description: A friendly professional in a modern office setting, warm expression, business casual attire.
+          displayTags:
+          - professional
+          - friendly
+          - office
+          renderStyle: realistic
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    AvatarModerationDailyLimit:
+      summary: Daily organization image moderation quota exhausted
+      value:
+        error: Your organization has used 100 of 100 daily image moderation checks. This quota is shared across your organization and counts checks even when an image is rejected or avatar creation fails. Retry after 2026-09-10 00:00:00 UTC, in 12045 seconds, or contact Anam support to request a higher image moderation limit.
+        code: moderation_rate_limited
+        rateLimit:
+          scope: organization
+          window: day
+          limit: 100
+          used: 100
+          remaining: 0
+          resetAt: '2026-09-10T00:00:00.000Z'
+          retryAfterSeconds: 12045
+    AvatarResponse:
+      summary: A single avatar resource
+      value:
+        id: 071b0286-4cce-4808-bee2-e642f1062de3
+        displayName: Liv
+        variantName: home
+        imageUrl: https://lab.anam.ai/api/avatars/071b0286-4cce-4808-bee2-e642f1062de3/image/landscape?v=3f2a1b0c9d8e7f6a
+        sourceImageUrl: https://example.public.blob.vercel-storage.com/avatar-previews/liv_home.webp
+        landscapeImageUrl: https://lab.anam.ai/api/avatars/071b0286-4cce-4808-bee2-e642f1062de3/image/landscape?v=3f2a1b0c9d8e7f6a
+        portraitImageUrl: https://lab.anam.ai/api/avatars/071b0286-4cce-4808-bee2-e642f1062de3/image/portrait?v=3f2a1b0c9d8e7f6a
+        videoUrl: https://example.com/avatars/cara-4/stock/liv_home/talking_preview_video.mp4?X-Amz-Signature=...
+        idleVideoUrl: https://example.com/avatars/cara-4/stock/liv_home/idling_video.mp4?X-Amz-Signature=...
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+        createdByOrganizationId: null
+        availableVersions:
+        - cara-4
+        activeVersion: cara-4
+        description: A friendly professional in a modern office setting, warm expression, business casual attire.
+        displayTags:
+        - professional
+        - friendly
+        - office
+        renderStyle: realistic
+    AvatarCreate:
+      summary: Create a one-shot avatar from an image URL
+      value:
+        displayName: Alex
+        imageUrl: https://example.com/alex.jpg
   securitySchemes:
     BearerAuth:
       type: http

@@ -1,0 +1,814 @@
+openapi: 3.2.0
+info:
+  title: Anam AI Pronunciation Dictionaries API
+  version: '1.0'
+servers:
+- url: https://api.anam.ai
+  description: Anam API
+security:
+- BearerAuth: []
+tags:
+- name: Pronunciation Dictionaries
+paths:
+  /v1/pronunciation-dictionaries:
+    get:
+      description: Lists your organization's pronunciation dictionaries, newest first. Archived dictionaries are not listed. Entries are omitted; read a dictionary to get them.
+      parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        description: Number of items per page
+      responses:
+        '200':
+          description: Successfully retrieved pronunciation dictionaries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PronunciationDictionarySummary'
+                  meta:
+                    $ref: '#/components/schemas/Pagination'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryListResponse'
+        '400':
+          description: Bad request - Invalid pagination parameters
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks read access to pronunciation dictionaries
+        '500':
+          description: Server error
+      tags:
+      - Pronunciation Dictionaries
+      operationId: listPronunciationDictionaries
+      summary: list pronunciation dictionaries
+      x-mint:
+        metadata:
+          title: list pronunciation dictionaries
+        mcp:
+          enabled: true
+          name: list-pronunciation-dictionaries
+          description: 'Lists your organization''s pronunciation dictionaries, newest first. Archived dictionaries are not listed. Entries are omitted; read a dictionary to get them.
+
+            '
+    post:
+      description: 'Creates a pronunciation dictionary. Select it for a session with `voiceGenerationOptions.pronunciationDictionaryId`.
+
+
+        Entries are validated as a whole: if any entry is invalid, nothing is saved and the response lists every error by one-based row.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - name
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 200
+                  description: Display name. Names don't have to be unique; leading and trailing spaces are removed.
+                  example: Brand names
+                entries:
+                  type: array
+                  maxItems: 500
+                  default: []
+                  description: Dictionary entries. Omit to create an empty dictionary.
+                  items:
+                    $ref: '#/components/schemas/PronunciationEntry'
+            examples:
+              default:
+                $ref: '#/components/examples/PronunciationDictionaryCreate'
+      responses:
+        '201':
+          description: Successfully created pronunciation dictionary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionary'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryResponse'
+        '400':
+          description: Bad request - The body is not valid JSON
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks write access to pronunciation dictionaries
+        '422':
+          description: Unprocessable - The name or one or more entries are invalid. Nothing was saved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryValidationError'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryValidationError'
+        '429':
+          description: Too many requests - Your organization made more than 60 pronunciation dictionary writes (creates, imports, updates and archives) this minute. Rejected writes count too.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: Seconds until the limit resets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '500':
+          description: Server error
+      tags:
+      - Pronunciation Dictionaries
+      operationId: createPronunciationDictionary
+      summary: create pronunciation dictionary
+      x-mint:
+        metadata:
+          title: create pronunciation dictionary
+        mcp:
+          enabled: true
+          name: create-pronunciation-dictionary
+          description: 'Creates a pronunciation dictionary. Select it for a session with `voiceGenerationOptions.pronunciationDictionaryId`.
+
+
+            Entries are validated as a whole: if any entry is invalid, nothing is saved and the response lists every error by one-based row.
+
+            '
+  /v1/pronunciation-dictionaries/import:
+    post:
+      description: 'Creates a pronunciation dictionary from a Cartesia pronunciation dictionary file: an array of `{ text, pronunciation, case_sensitive? }` rows, with an optional Anam `sounds_like` fallback. A pronunciation containing `>` is imported as an IPA entry; anything else is a sounds-like entry.
+
+
+        The file is validated as a whole: it must hold 1 to 500 rows and at most 1 MiB of UTF-8 JSON. When `json` is an array, the limit applies to the array serialized without whitespace. If any row is invalid, nothing is saved and the response lists every error by one-based row and file field name.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required:
+              - name
+              - json
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 200
+                  description: Display name for the new dictionary
+                  example: Brand names
+                json:
+                  description: The file's rows, either as an array or as the file's contents in a string.
+                  oneOf:
+                  - type: array
+                    minItems: 1
+                    maxItems: 500
+                    items:
+                      type: object
+                      additionalProperties: false
+                      required:
+                      - text
+                      - pronunciation
+                      properties:
+                        text:
+                          type: string
+                          maxLength: 100
+                        pronunciation:
+                          type: string
+                          maxLength: 200
+                          description: Respelling, or Cartesia IPA markup between `<<` and `>>`
+                        sounds_like:
+                          type: string
+                          maxLength: 200
+                          description: IPA rows only. Respelling spoken by voices whose model can't read IPA.
+                        case_sensitive:
+                          type: boolean
+                          default: false
+                  - type: string
+                    description: The file's contents
+            examples:
+              default:
+                $ref: '#/components/examples/PronunciationDictionaryImport'
+      responses:
+        '201':
+          description: Successfully imported pronunciation dictionary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionary'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryImportedResponse'
+        '400':
+          description: Bad request - The body is not valid JSON
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks write access to pronunciation dictionaries
+        '422':
+          description: Unprocessable - The name or file is invalid. `field` uses the file's names, such as `case_sensitive`. Nothing was saved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryValidationError'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryImportValidationError'
+        '429':
+          description: Too many requests - Your organization made more than 60 pronunciation dictionary writes (creates, imports, updates and archives) this minute. Rejected writes count too.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: Seconds until the limit resets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '500':
+          description: Server error
+      tags:
+      - Pronunciation Dictionaries
+      operationId: importPronunciationDictionary
+      summary: import pronunciation dictionary
+      x-mint:
+        metadata:
+          title: import pronunciation dictionary
+        mcp:
+          enabled: true
+          name: import-pronunciation-dictionary
+          description: 'Creates a pronunciation dictionary from a Cartesia pronunciation dictionary file: an array of `{ text, pronunciation, case_sensitive? }` rows, with an optional Anam `sounds_like` fallback. A pronunciation containing `<<` or `>>` is imported as an IPA entry; anything else is a sounds-like entry.
+
+
+            The file is validated as a whole: it must hold 1 to 500 rows and at most 1 MiB of UTF-8 JSON. When `json` is an array, the limit applies to the array serialized without whitespace. If any row is invalid, nothing is saved and the response lists every error by one-based row and file field name.
+
+            '
+  /v1/pronunciation-dictionaries/{id}:
+    get:
+      description: Returns a pronunciation dictionary with its entries and current revision.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Pronunciation dictionary ID
+      responses:
+        '200':
+          description: Successfully retrieved pronunciation dictionary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionary'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks read access to pronunciation dictionaries
+        '404':
+          description: Not Found - No pronunciation dictionary with this ID in your organization, or it was archived
+        '500':
+          description: Server error
+      tags:
+      - Pronunciation Dictionaries
+      operationId: getPronunciationDictionary
+      summary: get pronunciation dictionary
+      x-mint:
+        metadata:
+          title: get pronunciation dictionary
+        mcp:
+          enabled: true
+          name: get-pronunciation-dictionary
+          description: Returns a pronunciation dictionary with its entries and current revision.
+    put:
+      description: 'Updates a pronunciation dictionary''s name, entries or both. `entries` replaces the whole list. The save is live: sessions that start afterwards use the new entries, and running sessions keep the entries they started with.
+
+
+        Without `expectedRevision`, the update applies to the current revision and the last write wins. With it, the update is rejected with 409 `REVISION_CONFLICT` if the dictionary has been saved since that revision.
+
+
+        Entries are validated as a whole: if any entry is invalid, nothing is saved and the response lists every error by one-based row.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Pronunciation dictionary ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              anyOf:
+              - required:
+                - name
+              - required:
+                - entries
+              description: Provide `name`, `entries` or both.
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 200
+                  description: New display name
+                  example: Brand names
+                entries:
+                  type: array
+                  maxItems: 500
+                  description: The complete new list of entries. An empty array removes every entry.
+                  items:
+                    $ref: '#/components/schemas/PronunciationEntry'
+                expectedRevision:
+                  type: integer
+                  minimum: 1
+                  description: The revision you last read. Optional.
+                  example: 1
+            examples:
+              default:
+                $ref: '#/components/examples/PronunciationDictionaryUpdate'
+      responses:
+        '200':
+          description: Successfully updated pronunciation dictionary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionary'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryUpdatedResponse'
+        '400':
+          description: Bad request - The body is not valid JSON
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks write access to pronunciation dictionaries
+        '404':
+          description: Not Found - No pronunciation dictionary with this ID in your organization, or it was archived
+        '409':
+          description: Conflict - `REVISION_CONFLICT`, the dictionary was saved since `expectedRevision`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryRevisionConflict'
+        '422':
+          description: Unprocessable - The name or one or more entries are invalid, or neither was provided. Nothing was saved. Without `entries`, the saved entries are re-saved; if they fail rules added since they were saved, `code` is `DICTIONARY_OUTDATED` and `details` lists the rows to fix and send.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryValidationError'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryValidationError'
+        '429':
+          description: Too many requests - Your organization made more than 60 pronunciation dictionary writes (creates, imports, updates and archives) this minute. Rejected writes count too.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: Seconds until the limit resets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '500':
+          description: Server error
+      tags:
+      - Pronunciation Dictionaries
+      operationId: updatePronunciationDictionary
+      summary: update pronunciation dictionary
+      x-mint:
+        metadata:
+          title: update pronunciation dictionary
+        mcp:
+          enabled: true
+          name: update-pronunciation-dictionary
+          description: 'Updates a pronunciation dictionary''s name, entries or both. `entries` replaces the whole list. The save is live: sessions that start afterwards use the new entries, and running sessions keep the entries they started with.
+
+
+            Without `expectedRevision`, the update applies to the current revision and the last write wins. With it, the update is rejected with 409 `REVISION_CONFLICT` if the dictionary has been saved since that revision.
+
+
+            Entries are validated as a whole: if any entry is invalid, nothing is saved and the response lists every error by one-based row.
+
+            '
+    delete:
+      description: 'Archives a pronunciation dictionary. It disappears from the API and Lab, and sessions can no longer select it. Archiving is permanent: there is no way to unarchive a dictionary. Its entries and history are kept until your organization is deleted.
+
+
+        A dictionary that a persona uses can''t be archived: the response is 409 `DICTIONARY_ATTACHED` with the persona IDs. Remove the dictionary from those personas in Lab first.'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        required: true
+        description: Pronunciation dictionary ID
+      - in: query
+        name: expectedRevision
+        schema:
+          type: integer
+          minimum: 1
+        required: false
+        description: The revision you last read. When set, archive is rejected with 409 `REVISION_CONFLICT` if the dictionary has been saved since.
+      responses:
+        '204':
+          description: Successfully archived pronunciation dictionary
+        '400':
+          description: Bad request - `expectedRevision` is not a positive integer
+        '401':
+          description: Unauthorized - Invalid or missing API key
+        '403':
+          description: Forbidden - API key lacks write access to pronunciation dictionaries
+        '404':
+          description: Not Found - No pronunciation dictionary with this ID in your organization, or it was already archived
+        '409':
+          description: Conflict - `DICTIONARY_ATTACHED`, personas use the dictionary; or `REVISION_CONFLICT`, it was saved since `expectedRevision`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+              examples:
+                default:
+                  $ref: '#/components/examples/PronunciationDictionaryAttached'
+        '429':
+          description: Too many requests - Your organization made more than 60 pronunciation dictionary writes (creates, imports, updates and archives) this minute. Rejected writes count too.
+          headers:
+            Retry-After:
+              schema:
+                type: integer
+              description: Seconds until the limit resets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PronunciationDictionaryError'
+        '500':
+          description: Server error
+      tags:
+      - Pronunciation Dictionaries
+      operationId: deletePronunciationDictionary
+      summary: delete pronunciation dictionary
+      x-mint:
+        metadata:
+          title: delete pronunciation dictionary
+        mcp:
+          enabled: true
+          name: delete-pronunciation-dictionary
+          description: 'Archives a pronunciation dictionary. It disappears from the API and Lab, and sessions can no longer select it. Archiving is permanent: there is no way to unarchive a dictionary. Its entries and history are kept until your organization is deleted.
+
+
+            A dictionary that a persona uses can''t be archived: the response is 409 `DICTIONARY_ATTACHED` with the persona IDs. Remove the dictionary from those personas in Lab first.
+
+            . Use with caution as this action cannot be undone.'
+components:
+  examples:
+    PronunciationDictionaryImportValidationError:
+      summary: Invalid file rows; nothing was saved
+      value:
+        error: Invalid dictionary import
+        details:
+        - row: 2
+          field: case_sensitive
+          message: Expected boolean, received string
+    PronunciationDictionaryCreate:
+      summary: Create a dictionary with sounds-like and IPA entries
+      value:
+        name: Brand names
+        entries:
+        - text: Anam
+          pronunciation: annum
+        - text: SQL
+          pronunciation: sequel
+          caseSensitive: true
+        - text: Zorvex
+          kind: ipa
+          pronunciation: <<ˈ|z|ɔ|ɹ|v|ɛ|k|s>>
+          soundsLike: zor vex
+    PronunciationDictionaryUpdatedResponse:
+      summary: The dictionary after an update
+      value:
+        id: 4f600129-13cf-4bfa-909a-2f4c31467f43
+        name: Brand names
+        revision: 2
+        createdAt: '2026-10-11T09:00:00.000Z'
+        updatedAt: '2026-10-11T09:30:00.000Z'
+        entries:
+        - text: Anam
+          kind: sounds_like
+          pronunciation: annum
+          caseSensitive: false
+        - text: Lab
+          kind: sounds_like
+          pronunciation: lab
+          caseSensitive: false
+    PronunciationDictionaryImportedResponse:
+      summary: The imported dictionary
+      value:
+        id: 4f600129-13cf-4bfa-909a-2f4c31467f43
+        name: Brand names
+        revision: 1
+        createdAt: '2026-10-11T09:00:00.000Z'
+        updatedAt: '2026-10-11T09:00:00.000Z'
+        entries:
+        - text: Anam
+          kind: sounds_like
+          pronunciation: annum
+          caseSensitive: false
+        - text: SQL
+          kind: sounds_like
+          pronunciation: sequel
+          caseSensitive: true
+        - text: Zorvex
+          kind: ipa
+          pronunciation: <<ˈ|z|ɔ|ɹ|v|ɛ|k|s>>
+          soundsLike: zor vex
+          caseSensitive: false
+    PronunciationDictionaryImport:
+      summary: Import Cartesia-format rows
+      value:
+        name: Brand names
+        json:
+        - text: Anam
+          pronunciation: annum
+        - text: SQL
+          pronunciation: sequel
+          case_sensitive: true
+        - text: Zorvex
+          pronunciation: <<ˈ|z|ɔ|ɹ|v|ɛ|k|s>>
+          sounds_like: zor vex
+    PronunciationDictionaryUpdate:
+      summary: Replace the entries, rejecting the write if the dictionary changed since revision 1
+      value:
+        expectedRevision: 1
+        entries:
+        - text: Anam
+          pronunciation: annum
+        - text: Lab
+          pronunciation: lab
+    PronunciationDictionaryValidationError:
+      summary: Invalid entries; nothing was saved
+      value:
+        error: Invalid pronunciation dictionary
+        details:
+        - row: 2
+          field: pronunciation
+          message: Must not contain [ or ]
+        - row: 3
+          field: text
+          message: Same word or phrase as row 1. Remove one, or turn on Match case for both if they differ only in case.
+    PronunciationDictionaryListResponse:
+      summary: One page of pronunciation dictionaries
+      value:
+        data:
+        - id: 4f600129-13cf-4bfa-909a-2f4c31467f43
+          name: Brand names
+          revision: 2
+          createdAt: '2026-10-11T09:00:00.000Z'
+          updatedAt: '2026-10-11T09:30:00.000Z'
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    PronunciationDictionaryResponse:
+      summary: A pronunciation dictionary
+      value:
+        id: 4f600129-13cf-4bfa-909a-2f4c31467f43
+        name: Brand names
+        revision: 1
+        createdAt: '2026-10-11T09:00:00.000Z'
+        updatedAt: '2026-10-11T09:00:00.000Z'
+        entries:
+        - text: Anam
+          kind: sounds_like
+          pronunciation: annum
+          caseSensitive: false
+        - text: SQL
+          kind: sounds_like
+          pronunciation: sequel
+          caseSensitive: true
+        - text: Zorvex
+          kind: ipa
+          pronunciation: <<ˈ|z|ɔ|ɹ|v|ɛ|k|s>>
+          soundsLike: zor vex
+          caseSensitive: false
+    PronunciationDictionaryAttached:
+      summary: Personas still use the dictionary
+      value:
+        error: Pronunciation dictionary is used by personas. Remove it from these personas in Lab, then archive it.
+        code: DICTIONARY_ATTACHED
+        personaIds:
+        - 00000000-0000-0000-0000-000000000000
+    PronunciationDictionaryRevisionConflict:
+      summary: The dictionary was saved since expectedRevision
+      value:
+        error: Pronunciation dictionary has changed since expectedRevision. Read it again, then retry.
+        code: REVISION_CONFLICT
+  schemas:
+    PronunciationDictionary:
+      description: 'A pronunciation dictionary and its entries. Saves are live: sessions that start after a save use the saved entries, and running sessions keep the entries they started with.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/PronunciationDictionarySummary'
+      - type: object
+        properties:
+          entries:
+            type: array
+            items:
+              $ref: '#/components/schemas/PronunciationEntry'
+    PronunciationDictionaryError:
+      type: object
+      properties:
+        error:
+          type: string
+          description: What went wrong
+        code:
+          type: string
+          enum:
+          - REVISION_CONFLICT
+          - DICTIONARY_ATTACHED
+          - RATE_LIMITED
+          description: Why a 409 or 429 happened
+        personaIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: With `DICTIONARY_ATTACHED`, the personas that use the dictionary
+    PronunciationDictionaryValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Invalid pronunciation dictionary
+        code:
+          type: string
+          enum:
+          - DICTIONARY_OUTDATED
+          description: Set when the saved entries, not the request, fail the current rules
+        details:
+          type: array
+          description: Every validation error
+          items:
+            type: object
+            properties:
+              row:
+                type:
+                - integer
+                - 'null'
+                minimum: 1
+                description: One-based entry number, or null for an error outside an entry
+              field:
+                type:
+                - string
+                - 'null'
+                description: Field with the error, or null for the whole entry or request
+              message:
+                type: string
+                description: What to fix
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+    PronunciationDictionarySummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Pronunciation dictionary ID. Pass it as `voiceGenerationOptions.pronunciationDictionaryId` when creating a session token.
+          example: 4f600129-13cf-4bfa-909a-2f4c31467f43
+        name:
+          type: string
+          description: Display name
+          example: Brand names
+        revision:
+          type: integer
+          minimum: 1
+          description: Starts at 1 and increases with every save. Send it as `expectedRevision` to reject a write if someone else saved first.
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+          description: When the dictionary was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the dictionary was last saved
+    PronunciationEntry:
+      type: object
+      additionalProperties: false
+      required:
+      - text
+      - pronunciation
+      description: 'One word or phrase and how to say it. The persona speaks the pronunciation in place of the text; captions and transcripts keep the original text.
+
+
+        Text and pronunciation must not be blank or contain `[` or `]`. Two entries can''t have the same text (ignoring case and spacing) unless both set `caseSensitive` and differ only in case.
+
+        '
+      properties:
+        text:
+          type: string
+          maxLength: 100
+          description: Word or phrase to replace, at most 100 Unicode characters.
+          example: Anam
+        kind:
+          type: string
+          enum:
+          - sounds_like
+          - ipa
+          default: sounds_like
+          description: '- `sounds_like`: `pronunciation` is a respelling, such as `annum`. Works with every voice.
+
+            - `ipa`: `pronunciation` is Cartesia IPA markup, such as `<<ˈ|ɑ|n|ə|m>>`. Voices whose model reads IPA (Cartesia Sonic 3, ElevenLabs v3 and v4) speak it; other voices speak `soundsLike`, or leave the text unchanged without it.
+
+            '
+          example: sounds_like
+        pronunciation:
+          type: string
+          maxLength: 200
+          description: How to say the text, at most 200 Unicode characters. A sounds-like respelling can't contain `<<` or `>>`.
+          example: annum
+        soundsLike:
+          type: string
+          maxLength: 200
+          description: IPA entries only. Respelling spoken by voices whose model can't read IPA.
+          example: annum
+        caseSensitive:
+          type: boolean
+          default: false
+          description: Match the text only with the same capitalization.
+          example: false
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+x-mint:
+  mcp:
+    enabled: true

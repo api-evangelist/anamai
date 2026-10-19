@@ -144,6 +144,38 @@ paths:
                     required:
                     - documentFolderIds
                     properties:
+                      topK:
+                        type:
+                        - integer
+                        - 'null'
+                        minimum: 1
+                        maximum: 100
+                        description: Maximum matching chunks to retrieve. Overrides the engine default. Omit or set null to use the default. Fixed tool configuration, not an LLM argument.
+                        example: 5
+                      minScore:
+                        type:
+                        - number
+                        - 'null'
+                        minimum: 0
+                        maximum: 1
+                        description: Minimum relevance score for retrieved chunks. Zero is valid. Omit or set null to use the default. Fixed tool configuration, not an LLM argument.
+                        example: 0.5
+                      maxContextTokens:
+                        type:
+                        - integer
+                        - 'null'
+                        minimum: 1
+                        maximum: 200000
+                        description: Retrieved content token budget, excluding metadata and prompt formatting. Omit or set null to use the default. Fixed tool configuration, not an LLM argument.
+                        example: 4000
+                      neighborChunks:
+                        type:
+                        - integer
+                        - 'null'
+                        minimum: 0
+                        maximum: 10
+                        description: Chunks to add after each match, plus the chunk before it, for surrounding context. 0 returns matches only. Defaults to 0 when omitted or null. Fixed tool configuration, not an LLM argument.
+                        example: 0
                       documentFolderIds:
                         type: array
                         items:
@@ -330,6 +362,38 @@ paths:
                   - title: ServerRagToolConfig
                     type: object
                     properties:
+                      topK:
+                        type:
+                        - integer
+                        - 'null'
+                        minimum: 1
+                        maximum: 100
+                        description: Maximum matching chunks to retrieve. Overrides the engine default. Omit or set null to use the default. Fixed tool configuration, not an LLM argument.
+                        example: 5
+                      minScore:
+                        type:
+                        - number
+                        - 'null'
+                        minimum: 0
+                        maximum: 1
+                        description: Minimum relevance score for retrieved chunks. Zero is valid. Omit or set null to use the default. Fixed tool configuration, not an LLM argument.
+                        example: 0.5
+                      maxContextTokens:
+                        type:
+                        - integer
+                        - 'null'
+                        minimum: 1
+                        maximum: 200000
+                        description: Retrieved content token budget, excluding metadata and prompt formatting. Omit or set null to use the default. Fixed tool configuration, not an LLM argument.
+                        example: 4000
+                      neighborChunks:
+                        type:
+                        - integer
+                        - 'null'
+                        minimum: 0
+                        maximum: 10
+                        description: Chunks to add after each match, plus the chunk before it, for surrounding context. 0 returns matches only. Unlike other config fields, omitting it keeps the stored value. Set null to clear it back to the default (0). Fixed tool configuration, not an LLM argument.
+                        example: 0
                       documentFolderIds:
                         type: array
                         items:
@@ -430,93 +494,7 @@ paths:
           name: delete-tool
           description: Delete a tool. The tool will be soft-deleted and no longer available.. Use with caution as this action cannot be undone.
 components:
-  examples:
-    ToolListResponse:
-      summary: A paginated list of tools
-      value:
-        data:
-        - id: 00000000-0000-0000-0000-000000000000
-          name: open_calendar
-          description: Open the calendar UI in the client app.
-          type: CLIENT
-          config:
-            parameters:
-              type: object
-              properties:
-                date:
-                  type: string
-                  description: Date to jump to, in YYYY-MM-DD format.
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: null
-          usageCount: 0
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
-    ToolResponse:
-      summary: A single tool definition
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        name: open_calendar
-        description: Open the calendar UI in the client app.
-        type: CLIENT
-        config:
-          parameters:
-            type: object
-            properties:
-              date:
-                type: string
-                description: Date to jump to, in YYYY-MM-DD format.
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: null
-        usageCount: 0
-    ToolUpdate:
-      summary: Rename a tool
-      value:
-        name: open_scheduler
-    ToolCreate:
-      summary: Register a client-side tool the persona can trigger
-      value:
-        name: open_calendar
-        description: Open the calendar UI in the client app.
-        type: CLIENT
-        config:
-          parameters:
-            type: object
-            properties:
-              date:
-                type: string
-                description: Date to jump to, in YYYY-MM-DD format.
   schemas:
-    Pagination:
-      type: object
-      description: Pagination metadata returned alongside the `data` array of every list endpoint.
-      properties:
-        total:
-          type: integer
-          description: Total number of items across all pages.
-        lastPage:
-          type: integer
-          description: Number of the last page.
-        currentPage:
-          type: integer
-          description: Number of the current page.
-        perPage:
-          type: integer
-          description: Number of items per page.
-        prev:
-          type:
-          - integer
-          - 'null'
-          description: Number of the previous page, or null if on the first page.
-        next:
-          type:
-          - integer
-          - 'null'
-          description: Number of the next page, or null if on the last page.
     Tool:
       type: object
       properties:
@@ -560,7 +538,93 @@ components:
           description: When the tool was last updated
         usageCount:
           type: integer
-          description: Number of personas using this tool
+          description: Number of the organization's live personas using this tool
+    Pagination:
+      type: object
+      description: Pagination metadata returned alongside the `data` array of every list endpoint.
+      properties:
+        total:
+          type: integer
+          description: Total number of items across all pages.
+        lastPage:
+          type: integer
+          description: Number of the last page.
+        currentPage:
+          type: integer
+          description: Number of the current page.
+        perPage:
+          type: integer
+          description: Number of items per page.
+        prev:
+          type:
+          - integer
+          - 'null'
+          description: Number of the previous page, or null if on the first page.
+        next:
+          type:
+          - integer
+          - 'null'
+          description: Number of the next page, or null if on the last page.
+  examples:
+    ToolCreate:
+      summary: Register a client-side tool the persona can trigger
+      value:
+        name: open_calendar
+        description: Open the calendar UI in the client app.
+        type: CLIENT
+        config:
+          parameters:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Date to jump to, in YYYY-MM-DD format.
+    ToolResponse:
+      summary: A single tool definition
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        name: open_calendar
+        description: Open the calendar UI in the client app.
+        type: CLIENT
+        config:
+          parameters:
+            type: object
+            properties:
+              date:
+                type: string
+                description: Date to jump to, in YYYY-MM-DD format.
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: null
+        usageCount: 0
+    ToolListResponse:
+      summary: A paginated list of tools
+      value:
+        data:
+        - id: 00000000-0000-0000-0000-000000000000
+          name: open_calendar
+          description: Open the calendar UI in the client app.
+          type: CLIENT
+          config:
+            parameters:
+              type: object
+              properties:
+                date:
+                  type: string
+                  description: Date to jump to, in YYYY-MM-DD format.
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: null
+          usageCount: 0
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    ToolUpdate:
+      summary: Rename a tool
+      value:
+        name: open_scheduler
   securitySchemes:
     BearerAuth:
       type: http

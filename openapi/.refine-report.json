@@ -1,15 +1,17 @@
 {
   "provider": "anamai",
   "sources": [
-    "_original/anamai-openapi-original.json"
+    "_original/anamai-openapi.json"
   ],
   "outputs": [
+    "anamai-avatar-videos-api-openapi.yml",
     "anamai-avatars-api-openapi.yml",
     "anamai-engine-api-openapi.yml",
     "anamai-knowledge-api-openapi.yml",
     "anamai-llms-api-openapi.yml",
     "anamai-meetings-api-openapi.yml",
     "anamai-personas-api-openapi.yml",
+    "anamai-pronunciation-dictionaries-api-openapi.yml",
     "anamai-sessions-api-openapi.yml",
     "anamai-share-links-api-openapi.yml",
     "anamai-tools-api-openapi.yml",
@@ -20,19 +22,8 @@
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "anamai-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "anamai-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: written (+2 apis, 12 total)"
   ],
-  "skipped": [
-    "anamai-avatars-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-engine-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-knowledge-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-llms-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-meetings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-personas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-share-links-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anamai-voices-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

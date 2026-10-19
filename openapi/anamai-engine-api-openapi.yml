@@ -53,17 +53,143 @@ paths:
 
                     created, or `avatarId`/`voiceId`/`llmId`/`systemPrompt` for an ephemeral persona.
 
+                    An avatar-only config (avatarId without voiceId and without
+
+                    enableAudioPassthrough: true) is only accepted together with a LiveKit,
+
+                    Agora or ElevenLabs Agent integration `environment`; on the default Anam
+
+                    WebRTC transport send an ephemeral config with voiceId and llmId (llmId
+
+                    "CUSTOMER_CLIENT_V1" for a client-side LLM) or set
+
+                    enableAudioPassthrough to true. Otherwise the request fails
+
+                    with 400 `avatar_only_requires_integration`.
+
+                    Knowledge tools accept optional fixed `topK` (integer 1–100), `minScore`
+
+                    (number 0–1), `maxContextTokens` (integer 1–200,000; content only) and
+
+                    `neighborChunks` (integer 0–10, default 0) on each tool. Omit or set null to retain defaults. Invalid values return 400.
+
                     Inline `tools` are supported; each client/webhook tool''s `parameters` (and webhook
 
                     `queryParameters`) JSON Schema must serialize to 10,000 bytes or less (UTF-8).
+
+                    `voiceGenerationOptions.pronunciationDictionaryId` selects a pronunciation
+
+                    dictionary for the session (see `SessionPronunciationDictionary`); its latest
+
+                    saved entries are applied when the session starts.
 
                     '
                 environment:
                   type: object
                   description: Optional environment configuration (e.g. LiveKit settings). API-key auth only.
+                  properties:
+                    livekitUrl:
+                      type: string
+                      description: Must be reachable from the public internet; loopback, private, link-local, reserved, documentation, cluster-internal, and single-label targets are rejected with HTTP 400. Use an absolute URL with an ASCII hostname (punycode for international names), canonical dotted-decimal IPv4, and a port from 1 to 65535 if specified. Hostnames must resolve only to public addresses; DNS is checked when the session starts. Temporary DNS failures are service errors (5xx), not invalid URL errors.
                 sessionOptions:
                   type: object
-                  description: Optional session options (session replay, video quality/dimensions, egress). API-key auth only.
+                  description: Optional session options for API-key-authenticated session creation, including data retention (recording and transcripts), video quality/dimensions, AI avatar disclosure, egress, and engine-region routing. For session-token authentication, configure these options when creating the token.
+                  properties:
+                    sessionReplay:
+                      type: object
+                      deprecated: true
+                      description: 'Legacy control for both the recording and the transcript. Use dataRetention instead. It can be sent alongside dataRetention: enableSessionReplay false turns both off, and so does an empty sessionReplay object; enableSessionReplay true leaves each to dataRetention.'
+                      properties:
+                        enableSessionReplay:
+                          type: boolean
+                          deprecated: true
+                          description: Record the session and store its transcript. false turns off both, the same as dataRetention with recording and transcripts set to false. Under Zero Data Retention, sending true without dataRetention returns HTTP 400; with dataRetention sent, omitted settings are off and only a dataRetention setting of true that this flag (false, or an empty sessionReplay) does not turn off is rejected.
+                          example: true
+                          default: true
+                    dataRetention:
+                      type: object
+                      additionalProperties: false
+                      description: 'Choose what Anam keeps after the session. Each setting is independent, so you can turn off the recording and keep the transcript, or the other way round. A sessionReplay sent alongside it with enableSessionReplay false, or with no value, turns both off. Zero Data Retention sessions keep neither: an omitted setting is off, and a setting of true returns HTTP 400 unless sessionReplay turns both off. Not supported for LiveKit or Agora sessions (HTTP 400).'
+                      properties:
+                        recording:
+                          type: boolean
+                          description: 'Record the session video. When false, GET /v1/sessions/{id}/recording returns 404. With sessionOptions.egress mode daily the recording must resolve to off: set this to false, or set enableSessionReplay to false or send an empty sessionReplay.'
+                          default: true
+                          example: false
+                        transcripts:
+                          type: boolean
+                          description: Store the conversation transcript. When false, GET /v1/sessions/{id}/transcript returns transcriptsEnabled false and each message reads TRANSCRIPTS_DISABLED.
+                          default: true
+                          example: true
+                    videoQuality:
+                      type: string
+                      enum:
+                      - high
+                      - auto
+                      description: '''high'' pins highest bitrate, ''auto'' enables adaptive bitrate.'
+                      example: high
+                    showAIAvatarDisclosure:
+                      type: boolean
+                      description: Show the AI avatar disclosure during the session. Defaults to false; set true to opt in. Agora sessions ignore this field.
+                      example: true
+                    region:
+                      type: string
+                      enum:
+                      - eu
+                      - us
+                      description: Requested engine region. Explicit selection works even when automatic geographic routing is disabled.
+                    regionPolicy:
+                      type: string
+                      enum:
+                      - preferred
+                      - strict
+                      default: preferred
+                      description: '`preferred` allows cross-region capacity failover. `strict` requires `region` and never serves the session from another region.'
+                    videoWidth:
+                      type: integer
+                      description: 'Output video frame width in pixels. Supply together with `videoHeight` (both or neither). Omit to use the avatar model''s default. Supported pairs depend on the avatar model — cara-3: `720x480`; cara-4: `1152x768`. Unsupported pairs are rejected (the session is not silently downgraded).'
+                      example: 1152
+                    videoHeight:
+                      type: integer
+                      description: Output video frame height in pixels. Supply together with `videoWidth` (both or neither). See `videoWidth`.
+                      example: 768
+                    egress:
+                      type: object
+                      description: 'Set egress to an alternative egress transport mode. The avatar''s audio/video are published to
+
+                        a 3rd party transport and not delivered over the native webRTC channel.
+
+                        The WebRTC peer connection still exists for signalling and the data channel (interrupts, status).
+
+                        Requires `personaConfig.enableAudioPassthrough=true`. Discriminated on `mode`.
+
+                        '
+                      required:
+                      - mode
+                      properties:
+                        mode:
+                          type: string
+                          enum:
+                          - daily
+                          description: Egress provider. Only `daily` is supported today.
+                          example: daily
+                        daily:
+                          type: object
+                          description: Required when `mode` is `daily`.
+                          required:
+                          - roomUrl
+                          properties:
+                            roomUrl:
+                              type: string
+                              format: uri
+                              description: Daily room URL the avatar should join as a publisher.
+                              example: https://your-domain.daily.co/avatar-room
+                            token:
+                              type: string
+                              description: Optional Daily meeting token. Omit for public rooms.
+                            userName:
+                              type: string
+                              description: Optional display name for the avatar participant. Defaults to "anam-avatar".
                 clientMetadata:
                   type: object
                   description: Optional client metadata forwarded to the engine (e.g. supportsPubSubSignalling).
@@ -87,16 +213,101 @@ paths:
                     type: string
                   clientConfig:
                     type: object
+                  region:
+                    type: string
+                    enum:
+                    - eu
+                    - us
+                    description: Actual region that served the session. Omitted when the serving session-service does not report it.
         '400':
-          description: Invalid request body or persona configuration
+          description: 'Invalid request body or persona configuration, including a ZDR request whose selected voice or LLM is incompatible, whose compatibility cannot be verified, that sets dataRetention.recording or dataRetention.transcripts to true without a sessionReplay that turns both off, or that sets sessionReplay.enableSessionReplay to true without dataRetention. Omitted dataRetention settings are off for ZDR sessions. Region values must be `eu` or `us`, and `regionPolicy: strict` requires an explicit `region`. Avatar-only persona configs (avatarId without voiceId and without enableAudioPassthrough: true) are rejected with `avatar_only_requires_integration` unless a LiveKit, Agora or ElevenLabs Agent integration `environment` is supplied. An avatar with no engine key (one created without an image) is rejected with `avatar_unusable`. Deleting that avatar is not enough on its own: deletion is a soft delete, a replacement created with `imageUrl` gets a new `avatarId`, and saved personas keep referencing the old one. Point the session config or saved persona at a usable `avatarId` instead. If the engine rejects the session configuration, the error is `invalid_session_config`, with the rejected field names in `invalid_fields` when the engine reports them.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                  avatarId:
+                    type: string
+                    description: ID of the unusable avatar, when error is avatar_unusable.
+                  invalid_fields:
+                    type: array
+                    items:
+                      type: string
+                    description: Rejected field names, when error is invalid_session_config and the engine reports them.
+              example:
+                error: avatar_unusable
+                message: Avatar avatar-1 has no engine key and cannot be used in a session. Choose a usable avatar, or create a replacement with imageUrl, then update your session configuration or saved persona to use its avatarId. The unusable avatar can be deleted once nothing references it.
+                avatarId: avatar-1
         '401':
-          description: Unauthorized - invalid API key, or invalid/expired session token
+          description: Unauthorized - invalid API key, invalid/expired session token, or a session token whose API key has since been deactivated or deleted
+        '402':
+          description: The organization has an overdue payment and paid access is temporarily restricted
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                - message
+                - recovery_url
+                properties:
+                  error:
+                    type: string
+                    enum:
+                    - billing_payment_required
+                  message:
+                    type: string
+                  recovery_url:
+                    type: string
+                    format: uri
+              example:
+                error: billing_payment_required
+                message: Your organization has an overdue payment. An owner can restore access from Billing.
+                recovery_url: https://lab.anam.ai/subscription?billing=overdue
         '403':
-          description: Forbidden - the API key lacks the required permission, or the organization is not entitled to a requested feature (e.g. gated avatar model, devSettings)
+          description: Forbidden - the API key lacks the required permission, or the organization is not entitled to a requested feature (e.g. Zero Data Retention, session region selection, gated avatar model, devSettings)
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                - error
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                sessionRegionNotAvailable:
+                  value:
+                    error: session_region_not_available
+                    message: Session region selection is not available for this organization
+        '404':
+          description: A referenced resource does not exist in your organization, for example an unknown, archived or other-organization `voiceGenerationOptions.pronunciationDictionaryId`.
+        '409':
+          description: 'The pronunciation dictionary can''t be used. `DICTIONARY_UNAVAILABLE`: the saved persona''s dictionary was removed; choose another for the persona and publish it. `DICTIONARY_OUTDATED`: the dictionary''s saved entries no longer meet the current entry rules; fix and save it in Lab.'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  message:
+                    type: string
+                  code:
+                    type: string
+                    enum:
+                    - DICTIONARY_UNAVAILABLE
+                    - DICTIONARY_OUTDATED
         '429':
           description: Concurrent session limit or spend cap reached
         '503':
-          description: No engines available
+          description: 'No engines available. For `regionPolicy: strict`, this also means the requested region is unavailable or has no remaining capacity; the session is not retried in another region.'
       tags:
       - Engine
       operationId: createEngineSession

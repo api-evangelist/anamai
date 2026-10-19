@@ -10,6 +10,86 @@ security:
 tags:
 - name: Voices
 paths:
+  /v1/voice-imports:
+    post:
+      summary: Validate and import a provider voice
+      description: Synchronously validates the provider voice/model and persists the Voice only after a real TTS preview succeeds. A provider validation may take up to 90 seconds, after a best-effort metadata lookup of up to 5 seconds; the first import of an ElevenLabs Voice Library voice typically takes about a minute while ElevenLabs adds it to Anam's account. Only provider and providerVoiceId are required. Omitted displayName and description use provider metadata; supplied values take precedence. If unavailable, the name is Imported and the description is null. This endpoint does not accept voice-clone audio; use POST /v1/voices for cloning. No Idempotency-Key is required. Every successful request creates a new Voice, even when the same provider voice ID and model already exist in the organization. Omitted models resolve to the provider default. Repeating a request does not reuse an existing Voice.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateVoiceImportRequest'
+            examples:
+              default:
+                $ref: '#/components/examples/VoiceImportRequest'
+      responses:
+        '201':
+          description: The validated Voice was created.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: Relative URL of the created Voice resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Voice'
+              examples:
+                default:
+                  $ref: '#/components/examples/VoiceResponse'
+        '400':
+          description: Invalid request or unsupported provider/model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+        '403':
+          description: API key lacks voice write access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+        '429':
+          description: Voice provider rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+        '500':
+          description: Voice import service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+        '502':
+          description: Voice provider or preview storage unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+        '504':
+          description: Voice validation timed out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VoiceImportApiError'
+      tags:
+      - Voices
+      operationId: createVoiceImport
+      x-mint:
+        metadata:
+          title: create voice import
+        mcp:
+          enabled: true
+          name: create-voice-import
+          description: Synchronously validates the provider voice/model and persists the Voice only after a real TTS preview succeeds. A provider validation may take up to 90 seconds, after a best-effort metadata lookup of up to 5 seconds; the first import of an ElevenLabs Voice Library voice typically takes about a minute while ElevenLabs adds it to Anam's account. Only provider and providerVoiceId are required. Omitted displayName and description use provider metadata; supplied values take precedence. If unavailable, the name is Imported <providerVoiceId> and the description is null. This endpoint does not accept voice-clone audio; use POST /v1/voices for cloning. No Idempotency-Key is required. Every successful request creates a new Voice, even when the same provider voice ID and model already exist in the organization. Omitted models resolve to the provider default. Repeating a request does not reuse an existing Voice.
   /v1/voices:
     get:
       description: Returns a list of all voices
@@ -71,9 +151,9 @@ paths:
           name: list-voices
           description: Returns a list of all voices
     post:
-      description: Create a new voice by cloning from an audio file. Send the audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or, for larger clips, first upload via `POST /v1/voices/presigned-upload` and send a JSON body referencing the returned `audioKey`.
+      description: Create a voice by cloning from audio or importing an existing provider voice. Send clone audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or first upload a larger clip via `POST /v1/voices/presigned-upload` and reference its `audioKey`. Provider imports are checked against Anam's supported model registry. Cartesia, ElevenLabs, and Fish Audio imports must successfully generate a sample before the voice is persisted; the first import of an ElevenLabs Voice Library voice typically takes about a minute while ElevenLabs adds it to Anam's account. New integrations should prefer POST /v1/voice-imports for synchronous validation and preview generation.
       requestBody:
-        description: Audio sample and metadata used to clone a new voice.
+        description: Audio clone data or an existing provider voice to import.
         required: true
         content:
           multipart/form-data:
@@ -100,34 +180,116 @@ paths:
                 enhance:
                   type: boolean
                   default: true
-                  description: Whether to enhance the voice quality
+                  deprecated: true
+                  description: Accepted for compatibility; no longer forwarded to the current Cartesia cloning API.
           application/json:
             schema:
-              type: object
-              required:
-              - name
-              - audioKey
-              properties:
-                name:
-                  type: string
-                  description: Display name for the cloned voice
-                audioKey:
-                  type: string
-                  description: Storage key returned by POST /v1/voices/presigned-upload, after the audio has been uploaded to the presigned URL. Use this for clips larger than ~4.5MB.
-                description:
-                  type: string
-                  description: Optional description of the voice
-                language:
-                  type: string
-                  default: en
-                  description: Language code for the voice
-                enhance:
-                  type: boolean
-                  default: true
-                  description: Whether to enhance the voice quality
+              oneOf:
+              - type: object
+                title: Clone from uploaded audio
+                required:
+                - name
+                - audioKey
+                properties:
+                  name:
+                    type: string
+                    description: Display name for the cloned voice
+                  audioKey:
+                    type: string
+                    description: Storage key returned by POST /v1/voices/presigned-upload, after the audio has been uploaded to the presigned URL. Use this for clips larger than ~4.5MB.
+                  description:
+                    type: string
+                    description: Optional description of the voice
+                  language:
+                    type: string
+                    default: en
+                    description: Language code for the voice
+                  enhance:
+                    type: boolean
+                    default: true
+                    deprecated: true
+                    description: Accepted for compatibility; no longer forwarded to the current Cartesia cloning API.
+              - type: object
+                title: Import provider voice
+                required:
+                - displayName
+                - provider
+                - providerVoiceId
+                properties:
+                  displayName:
+                    type: string
+                    description: Display name for the imported voice
+                  provider:
+                    type: string
+                    enum:
+                    - CARTESIA
+                    - ELEVENLABS
+                    - FISH_AUDIO
+                  providerVoiceId:
+                    type: string
+                    description: Voice ID in the selected provider
+                  providerModelId:
+                    type: string
+                    enum:
+                    - sonic-3.6
+                    - sonic-3.6-2026-08-27
+                    - sonic-3.5
+                    - sonic-3.5-2026-05-04
+                    - sonic-3
+                    - sonic-3-2026-01-12
+                    - sonic-2
+                    - sonic-latest
+                    - eleven_v4_turbo
+                    - eleven_v3_conversational
+                    - eleven_v4
+                    - eleven_v3
+                    - eleven_flash_v2_5
+                    - eleven_multilingual_v2
+                    - eleven_flash_v2
+                    - eleven_turbo_v2_5
+                    - s2.1-pro
+                    - s2-pro
+                    - s1
+                    description: Supported model for the selected provider. Omit to use that provider's default.
+                  providerConfig:
+                    type: object
+                    additionalProperties: true
+                  sampleUrl:
+                    type: string
+                    format: uri
+                    description: Optional provider-hosted sample URL retained as metadata
+                  isClone:
+                    type: boolean
+                    description: Legacy compatibility flag
+                  gender:
+                    type: string
+                    enum:
+                    - MALE
+                    - FEMALE
+                    - NEUTRAL
+                  country:
+                    type: string
+                    minLength: 2
+                    maxLength: 2
+                    description: ISO 3166-1 alpha-2 country code
+                  description:
+                    type: string
+            examples:
+              cloneFromUpload:
+                value:
+                  name: My cloned voice
+                  audioKey: voice-clones/org_123/sample.wav
+                  language: en
+                  enhance: true
+              importProviderVoice:
+                value:
+                  displayName: My Cartesia voice
+                  provider: CARTESIA
+                  providerVoiceId: voice_abc123
+                  providerModelId: sonic-3.6
       responses:
         '201':
-          description: Successfully created voice clone
+          description: Successfully cloned or imported a voice
           content:
             application/json:
               schema:
@@ -136,13 +298,19 @@ paths:
                 default:
                   $ref: '#/components/examples/VoiceResponse'
         '400':
-          description: Bad request - Invalid voice data
+          description: Bad request - Invalid voice data, unsupported model, or provider validation failed
         '401':
           description: Unauthorized - Invalid or missing API key
         '403':
           description: Forbidden - Requires enterprise plan or API key lacks the required permission
+        '429':
+          description: Voice provider rate limited the validation request - retry later
         '500':
           description: Server error
+        '502':
+          description: Voice provider or preview storage is temporarily unavailable
+        '504':
+          description: Voice provider validation timed out
       tags:
       - Voices
       operationId: createVoice
@@ -153,7 +321,7 @@ paths:
         mcp:
           enabled: true
           name: create-voice
-          description: Create a new voice by cloning from an audio file. Send the audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or, for larger clips, first upload via `POST /v1/voices/presigned-upload` and send a JSON body referencing the returned `audioKey`.
+          description: Create a voice by cloning from audio or importing an existing provider voice. Send clone audio inline as multipart/form-data (the whole request must stay under ~4.5MB), or first upload a larger clip via `POST /v1/voices/presigned-upload` and reference its `audioKey`. Provider imports are checked against Anam's supported model registry. Cartesia, ElevenLabs, and Fish Audio imports must successfully generate a sample before the voice is persisted; the first import of an ElevenLabs Voice Library voice typically takes about a minute while ElevenLabs adds it to Anam's account. New integrations should prefer POST /v1/voice-imports for synchronous validation and preview generation.
   /v1/voices/presigned-upload:
     post:
       description: 'Request a presigned URL for uploading a voice-clone audio clip directly to storage. Use this for clips larger than the ~4.5MB request-body limit of the multipart `POST /v1/voices` endpoint. Flow: (1) call this endpoint to get an `uploadUrl` and `audioKey`; (2) `PUT` the raw audio bytes to `uploadUrl` with the same `Content-Type`; (3) call `POST /v1/voices` with a JSON body referencing the `audioKey` to perform the clone.'
@@ -280,7 +448,27 @@ paths:
                   description: New display name for the voice
                 providerModelId:
                   type: string
-                  description: New provider model ID for the voice (e.g. sonic-3.5 for Cartesia, eleven_flash_v2_5 for ElevenLabs)
+                  enum:
+                  - sonic-3.6
+                  - sonic-3.6-2026-08-27
+                  - sonic-3.5
+                  - sonic-3.5-2026-05-04
+                  - sonic-3
+                  - sonic-3-2026-01-12
+                  - sonic-2
+                  - sonic-latest
+                  - eleven_v4_turbo
+                  - eleven_v3_conversational
+                  - eleven_v4
+                  - eleven_v3
+                  - eleven_flash_v2_5
+                  - eleven_multilingual_v2
+                  - eleven_flash_v2
+                  - eleven_turbo_v2_5
+                  - s2.1-pro
+                  - s2-pro
+                  - s1
+                  description: An Anam-supported model ID for the voice's existing provider. The voice/model pair is validated with the provider before it is saved.
                   example: sonic-3.5
                 gender:
                   type:
@@ -313,15 +501,21 @@ paths:
                 default:
                   $ref: '#/components/examples/VoiceResponse'
         '400':
-          description: Bad request - Invalid voice data
+          description: Bad request - Invalid voice data, unsupported model, or provider validation failed
         '401':
           description: Unauthorized - Invalid or missing API key
         '403':
           description: Forbidden - API key lacks the required permission
         '404':
           description: Not Found - Voice not found
+        '429':
+          description: Voice provider rate limited the validation request - retry later
         '500':
           description: Server error
+        '502':
+          description: Voice provider or preview storage is temporarily unavailable
+        '504':
+          description: Voice provider validation timed out
       tags:
       - Voices
       operationId: updateVoice
@@ -334,7 +528,7 @@ paths:
           name: update-voice
           description: Update a voice by ID (display name and provider model ID can be updated)
     delete:
-      description: Delete a voice by ID
+      description: Delete a voice by ID. The voice is soft-deleted locally and then removed at the TTS provider. When active personas (or their working drafts) still use the voice, the request is refused with 409 because deleting the voice would silence those personas' sessions. Move the impacted personas to another voice (PUT /v1/personas/{id}), then retry.
       parameters:
       - in: path
         name: id
@@ -362,6 +556,21 @@ paths:
           description: Forbidden - API key lacks the required permission
         '404':
           description: Not Found - Voice not found
+        '409':
+          description: Conflict - the voice is still used by active personas. Move those personas to another voice, then retry.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Voice is used by active personas. Move them to another voice before deleting it.
+                  impactedPersonaIds:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
         '500':
           description: Server error
       tags:
@@ -374,60 +583,8 @@ paths:
         mcp:
           enabled: true
           name: delete-voice
-          description: Delete a voice by ID. Use with caution as this action cannot be undone.
+          description: Delete a voice by ID. The voice is soft-deleted locally and then removed at the TTS provider. When active personas (or their working drafts) still use the voice, the request is refused with 409 because deleting the voice would silence those personas' sessions. Move the impacted personas to another voice (PUT /v1/personas/{id}), then retry.. Use with caution as this action cannot be undone.
 components:
-  examples:
-    VoiceListResponse:
-      summary: A paginated list of voices
-      value:
-        data:
-        - id: de23e340-1416-4dd8-977d-065a7ca11697
-          displayName: Lucy - Fresh & Casual
-          provider: ELEVENLABS
-          providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
-          providerModelId: eleven_flash_v2_5
-          sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-          previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-          gender: FEMALE
-          country: GB
-          description: Energetic and youthful British voice, perfect for narrations and conversational agents.
-          displayTags:
-          - fast
-          isZdr: true
-          createdByOrganizationId: null
-          createdAt: '2026-04-20T10:00:00.000Z'
-          updatedAt: '2026-04-20T10:00:00.000Z'
-        meta:
-          total: 1
-          lastPage: 1
-          currentPage: 1
-          perPage: 10
-          prev: null
-          next: null
-    VoiceUpdate:
-      summary: Update a voice's display name and provider model
-      value:
-        displayName: My cloned voice
-        providerModelId: sonic-3.5
-    VoiceResponse:
-      summary: A single voice resource
-      value:
-        id: de23e340-1416-4dd8-977d-065a7ca11697
-        displayName: Lucy - Fresh & Casual
-        provider: ELEVENLABS
-        providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
-        providerModelId: eleven_flash_v2_5
-        sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-        previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
-        gender: FEMALE
-        country: GB
-        description: Energetic and youthful British voice, perfect for narrations and conversational agents.
-        displayTags:
-        - fast
-        isZdr: true
-        createdByOrganizationId: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
   schemas:
     Voice:
       type: object
@@ -445,7 +602,6 @@ components:
           enum:
           - CARTESIA
           - ELEVENLABS
-          - OPENAI_ADVANCED_VOICE
           - FISH_AUDIO
           description: Upstream TTS provider for this voice.
         providerVoiceId:
@@ -511,6 +667,26 @@ components:
           type: string
           format: date-time
           description: Timestamp when the voice was last updated.
+    VoiceImportApiError:
+      type: object
+      required:
+      - code
+      - message
+      - requestId
+      - retryable
+      properties:
+        code:
+          type: string
+          description: Stable machine-readable failure code.
+        message:
+          type: string
+        requestId:
+          type: string
+        retryable:
+          type: boolean
+        details:
+          type: object
+          additionalProperties: true
     Pagination:
       type: object
       description: Pagination metadata returned alongside the `data` array of every list endpoint.
@@ -537,6 +713,132 @@ components:
           - integer
           - 'null'
           description: Number of the next page, or null if on the last page.
+    CreateVoiceImportRequest:
+      type: object
+      additionalProperties: false
+      required:
+      - provider
+      - providerVoiceId
+      properties:
+        displayName:
+          type: string
+          minLength: 1
+          maxLength: 191
+          description: Optional name override. Defaults to the provider name (trimmed and limited to 191 characters), or Imported <providerVoiceId> if unavailable.
+        provider:
+          type: string
+          enum:
+          - CARTESIA
+          - ELEVENLABS
+          - FISH_AUDIO
+        providerVoiceId:
+          type: string
+          minLength: 1
+          maxLength: 128
+          pattern: ^[A-Za-z0-9_-]+$
+          description: Voice identifier from the selected provider.
+        providerModelId:
+          type: string
+          enum:
+          - sonic-3.6
+          - sonic-3.6-2026-08-27
+          - sonic-3.5
+          - sonic-3.5-2026-05-04
+          - sonic-3
+          - sonic-3-2026-01-12
+          - sonic-2
+          - sonic-latest
+          - eleven_v4_turbo
+          - eleven_v3_conversational
+          - eleven_v4
+          - eleven_v3
+          - eleven_flash_v2_5
+          - eleven_multilingual_v2
+          - eleven_flash_v2
+          - eleven_turbo_v2_5
+          - s2.1-pro
+          - s2-pro
+          - s1
+          description: Supported model for the selected provider. Omit for the provider default.
+        providerConfig:
+          type: object
+          additionalProperties: true
+        sampleUrl:
+          type: string
+          format: uri
+        gender:
+          type: string
+          enum:
+          - MALE
+          - FEMALE
+          - NEUTRAL
+        country:
+          type: string
+          minLength: 2
+          maxLength: 2
+        description:
+          type: string
+          description: Optional description override. Defaults to provider metadata, or null if unavailable. An explicit empty string is preserved.
+  examples:
+    VoiceListResponse:
+      summary: A paginated list of voices
+      value:
+        data:
+        - id: de23e340-1416-4dd8-977d-065a7ca11697
+          displayName: Lucy - Fresh & Casual
+          provider: ELEVENLABS
+          providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
+          providerModelId: eleven_flash_v2_5
+          sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+          previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+          gender: FEMALE
+          country: GB
+          description: Energetic and youthful British voice, perfect for narrations and conversational agents.
+          displayTags:
+          - fast
+          isZdr: true
+          createdByOrganizationId: null
+          createdAt: '2026-04-20T10:00:00.000Z'
+          updatedAt: '2026-04-20T10:00:00.000Z'
+        meta:
+          total: 1
+          lastPage: 1
+          currentPage: 1
+          perPage: 10
+          prev: null
+          next: null
+    VoiceImportRequest:
+      summary: Validate and import an existing Cartesia voice
+      value:
+        displayName: Customer support voice
+        provider: CARTESIA
+        providerVoiceId: voice_abc123
+        providerModelId: sonic-3.6
+        country: GB
+    VoiceResponse:
+      summary: A single voice resource
+      value:
+        id: de23e340-1416-4dd8-977d-065a7ca11697
+        displayName: Lucy - Fresh & Casual
+        provider: ELEVENLABS
+        providerVoiceId: lcMyyd2HUfFzxdCaC4Ta
+        providerModelId: eleven_flash_v2_5
+        sampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+        previewSampleUrl: https://newgxnc1uqs0jnqm.public.blob.vercel-storage.com/voice-samples/de23e340-1416-4dd8-977d-065a7ca11697/1760617899390.mp3
+        gender: FEMALE
+        country: GB
+        description: Energetic and youthful British voice, perfect for narrations and conversational agents.
+        displayTags:
+        - fast
+        isZdr: true
+        createdByOrganizationId: null
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    VoiceUpdate:
+      summary: Update a voice's display name and provider model
+      value:
+        displayName: My cloned voice
+        providerModelId: sonic-3.5
   securitySchemes:
     BearerAuth:
       type: http

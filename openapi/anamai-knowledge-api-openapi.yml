@@ -61,6 +61,20 @@ paths:
                   type: string
                 description:
                   type: string
+                chunkSize:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 100
+                  maximum: 2000
+                  description: Default maximum tokens per chunk for documents processed in this group. When not set or null, the group stores the default of 350.
+                chunkOverlap:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 0
+                  maximum: 1000
+                  description: Default token overlap for documents processed in this group. Must be at most half of chunkSize, or at most 175 when chunkSize is not set. When not set or null, the group stores the default of 0.
       responses:
         '201':
           description: Successfully created knowledge group
@@ -153,6 +167,20 @@ paths:
                   type: string
                 description:
                   type: string
+                chunkSize:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 100
+                  maximum: 2000
+                  description: Default maximum tokens per chunk for documents processed in this group. Send null to reset it to the default of 350. Changing a default does not re-chunk existing documents; it applies the next time each document without its own override is processed or revectorised.
+                chunkOverlap:
+                  type:
+                  - integer
+                  - 'null'
+                  minimum: 0
+                  maximum: 1000
+                  description: Default token overlap for documents processed in this group. Must be at most half of chunkSize, or at most 175 when chunkSize is not set. Send null to reset it to the default of 0. Changing a default does not re-chunk existing documents; it applies the next time each document without its own override is processed or revectorised.
       responses:
         '200':
           description: Successfully updated RAG group
@@ -171,6 +199,8 @@ paths:
           description: Forbidden - API key lacks the required permission
         '404':
           description: RAG group not found
+        '409':
+          description: Conflict - the group's chunk settings changed while this update was being applied. Retry the request.
         '500':
           description: Server error
       tags:
@@ -320,7 +350,7 @@ paths:
           name: list-knowledge-group-documents
           description: Get all documents in a RAG group
     post:
-      description: Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header).
+      description: Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV, JSON up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header).
       parameters:
       - in: path
         name: id
@@ -329,7 +359,7 @@ paths:
           type: string
         description: Unique identifier of the knowledge group
       requestBody:
-        description: Document file to upload into the knowledge group. Supported formats are PDF, TXT, MD, DOCX, and CSV, up to 50MB. Must be sent as `multipart/form-data`. Documents are processed asynchronously — the returned record starts in `PROCESSING` state and becomes searchable once it reaches `READY`.
+        description: Document file to upload into the knowledge group. Supported formats are PDF, TXT, MD, DOCX, CSV, and JSON, up to 50MB. Must be sent as `multipart/form-data`. Documents are processed asynchronously — the returned record starts in `PROCESSING` state and becomes searchable once it reaches `READY`.
         required: true
         content:
           multipart/form-data:
@@ -341,13 +371,17 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: Document file (PDF, TXT, MD, DOCX, or CSV, max 50MB).
+                  description: Document file (PDF, TXT, MD, DOCX, CSV, or JSON, max 50MB).
                 chunkSize:
                   type: integer
-                  default: 1000
+                  minimum: 100
+                  maximum: 2000
+                  description: Maximum tokens per chunk for this document. Defaults to the group's chunkSize, or the default of 350 when the group has none. Setting chunkSize or chunkOverlap overrides the group's settings for this document. JSON files ignore chunk settings; they are kept whole up to 2000 tokens, and larger files are split at 1000 tokens with 50 overlap.
                 chunkOverlap:
                   type: integer
-                  default: 200
+                  minimum: 0
+                  maximum: 1000
+                  description: Token overlap between chunks for this document. Must be at most half of chunkSize, or at most 175 when chunkSize is not set. Defaults to the group's chunkOverlap, or the default of 0 when the group has none. If you set only chunkSize, overlap is the default of 0 rather than the group's value.
       responses:
         '201':
           description: Successfully uploaded document
@@ -378,7 +412,7 @@ paths:
         mcp:
           enabled: true
           name: upload-knowledge-group-document
-          description: Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header).
+          description: Upload a document to a RAG group (Supports PDF, TXT, MD, DOCX, CSV, JSON up to 50MB). Authentication can be via API key (Bearer token) OR upload token (X-Upload-Token header).
   /v1/knowledge/documents/{id}:
     get:
       description: Get a single document by ID
@@ -428,7 +462,7 @@ paths:
           type: string
         description: Unique identifier of the knowledge document
       requestBody:
-        description: Rename the document. Only `filename` is editable; the stored file and its extracted chunks are unchanged.
+        description: Rename the document. Only `filename` is editable; the stored file and its extracted chunks are unchanged. Chunk settings can only be set at upload, so a non-null `chunkSize` or `chunkOverlap` returns 400.
         required: true
         content:
           application/json:
@@ -548,6 +582,106 @@ paths:
           name: get-knowledge-document-download
           description: Get a presigned download URL for a knowledge document
 components:
+  examples:
+    KnowledgeDocumentArrayResponse:
+      summary: All documents in a knowledge group (bare array)
+      value:
+      - id: 00000000-0000-0000-0000-000000000000
+        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        fileType: application/pdf
+        fileSize: 248320
+        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
+        status: READY
+        errorMessage: null
+        chunkSize: null
+        chunkOverlap: null
+        appliedChunking:
+          strategy: paragraph
+          chunkSize: 800
+          chunkOverlap: 100
+          source: folder
+          appliedAt: '2026-04-20T10:01:12.000Z'
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:01:12.000Z'
+    KnowledgeSearchArrayResponse:
+      summary: Search results (bare array, ranked by score)
+      value:
+      - documentId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        content: To reset your password, visit the account settings page and click "Reset password".
+        score: 0.87
+        chunkIndex: 3
+        metadata:
+          section: Account
+    KnowledgeGroupSearch:
+      summary: Find the top 5 chunks matching a query
+      value:
+        query: How do I reset my password?
+        limit: 5
+    KnowledgeDocumentResponse:
+      summary: A single knowledge document
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
+        filename: getting-started.pdf
+        fileType: application/pdf
+        fileSize: 248320
+        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
+        status: READY
+        errorMessage: null
+        chunkSize: null
+        chunkOverlap: null
+        appliedChunking:
+          strategy: paragraph
+          chunkSize: 800
+          chunkOverlap: 100
+          source: folder
+          appliedAt: '2026-04-20T10:01:12.000Z'
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:01:12.000Z'
+    KnowledgeDocumentDownloadResponse:
+      summary: A short-lived URL for downloading a knowledge document
+      value:
+        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
+        filename: getting-started.pdf
+    KnowledgeGroupUpdate:
+      summary: Rename a knowledge group
+      value:
+        name: Customer support
+    KnowledgeGroupCreate:
+      summary: Create an empty knowledge group with default chunk settings
+      value:
+        name: Product docs
+        description: Help-centre articles and API reference.
+        chunkSize: 800
+        chunkOverlap: 100
+    KnowledgeGroupArrayResponse:
+      summary: All knowledge groups for the organization (bare array)
+      value:
+      - id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        chunkSize: 800
+        chunkOverlap: 100
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    KnowledgeGroupResponse:
+      summary: A single knowledge group
+      value:
+        id: 00000000-0000-0000-0000-000000000000
+        name: Product docs
+        description: Help-centre articles and API reference.
+        documentCount: 12
+        chunkSize: 800
+        chunkOverlap: 100
+        createdAt: '2026-04-20T10:00:00.000Z'
+        updatedAt: '2026-04-20T10:00:00.000Z'
+    KnowledgeDocumentRename:
+      summary: Rename a document
+      value:
+        filename: updated-filename.pdf
   schemas:
     KnowledgeDocument:
       type: object
@@ -587,6 +721,41 @@ components:
           - string
           - 'null'
           description: Failure reason when `status` is `FAILED`, otherwise `null`.
+        chunkSize:
+          type:
+          - integer
+          - 'null'
+          description: Chunk size override set at upload, in tokens; null when not overridden. When both chunkSize and chunkOverlap are null, the document uses its group's settings. When only chunkOverlap is set, a null chunkSize means the default of 350.
+        chunkOverlap:
+          type:
+          - integer
+          - 'null'
+          description: Chunk overlap override set at upload, in tokens; null when not overridden. When both chunkSize and chunkOverlap are null, the document uses its group's settings. When only chunkSize is set, a null chunkOverlap means the default of 0.
+        appliedChunking:
+          type:
+          - object
+          - 'null'
+          description: Settings the last successful processing used. Null until the document has been processed.
+          properties:
+            strategy:
+              type: string
+            chunkSize:
+              type:
+              - integer
+              - 'null'
+            chunkOverlap:
+              type:
+              - integer
+              - 'null'
+            source:
+              type: string
+              enum:
+              - document
+              - folder
+              - default
+            appliedAt:
+              type: string
+              format: date-time
         createdAt:
           type: string
           format: date-time
@@ -639,6 +808,16 @@ components:
         documentCount:
           type: integer
           description: Number of non-deleted documents currently in the group.
+        chunkSize:
+          type:
+          - integer
+          - 'null'
+          description: Default maximum tokens per chunk for documents in this group. Null means documents use the default of 350.
+        chunkOverlap:
+          type:
+          - integer
+          - 'null'
+          description: Default token overlap for documents in this group. Null means documents use the default of 0.
         createdAt:
           type: string
           format: date-time
@@ -649,84 +828,6 @@ components:
           - 'null'
           format: date-time
           description: Timestamp when the group was last updated.
-  examples:
-    KnowledgeDocumentDownloadResponse:
-      summary: A short-lived URL for downloading a knowledge document
-      value:
-        downloadUrl: https://cdn.anam.ai/knowledge/00000000-0000-0000-0000-000000000000.pdf?X-Amz-Signature=…
-        filename: getting-started.pdf
-    KnowledgeGroupCreate:
-      summary: Create an empty knowledge group
-      value:
-        name: Product docs
-        description: Help-centre articles and API reference.
-    KnowledgeGroupSearch:
-      summary: Find the top 5 chunks matching a query
-      value:
-        query: How do I reset my password?
-        limit: 5
-    KnowledgeDocumentRename:
-      summary: Rename a document
-      value:
-        filename: updated-filename.pdf
-    KnowledgeDocumentResponse:
-      summary: A single knowledge document
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
-        filename: getting-started.pdf
-        fileType: application/pdf
-        fileSize: 248320
-        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
-        status: READY
-        errorMessage: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:01:12.000Z'
-    KnowledgeGroupArrayResponse:
-      summary: All knowledge groups for the organization (bare array)
-      value:
-      - id: 00000000-0000-0000-0000-000000000000
-        name: Product docs
-        description: Help-centre articles and API reference.
-        documentCount: 12
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeDocumentArrayResponse:
-      summary: All documents in a knowledge group (bare array)
-      value:
-      - id: 00000000-0000-0000-0000-000000000000
-        knowledgeFolderId: 00000000-0000-0000-0000-000000000000
-        filename: getting-started.pdf
-        fileType: application/pdf
-        fileSize: 248320
-        fileUrl: https://cdn.anam.ai/knowledge/getting-started.pdf
-        status: READY
-        errorMessage: null
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:01:12.000Z'
-    KnowledgeSearchArrayResponse:
-      summary: Search results (bare array, ranked by score)
-      value:
-      - documentId: 00000000-0000-0000-0000-000000000000
-        filename: getting-started.pdf
-        content: To reset your password, visit the account settings page and click "Reset password".
-        score: 0.87
-        chunkIndex: 3
-        metadata:
-          section: Account
-    KnowledgeGroupResponse:
-      summary: A single knowledge group
-      value:
-        id: 00000000-0000-0000-0000-000000000000
-        name: Product docs
-        description: Help-centre articles and API reference.
-        documentCount: 12
-        createdAt: '2026-04-20T10:00:00.000Z'
-        updatedAt: '2026-04-20T10:00:00.000Z'
-    KnowledgeGroupUpdate:
-      summary: Rename a knowledge group
-      value:
-        name: Customer support
   securitySchemes:
     BearerAuth:
       type: http
